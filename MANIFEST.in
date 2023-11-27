@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include bbl_api *.css
+recursive-include bbl_api *.csv
+recursive-include bbl_api *.html
+recursive-include bbl_api *.ico
+recursive-include bbl_api *.js
+recursive-include bbl_api *.json
+recursive-include bbl_api *.md
+recursive-include bbl_api *.png
+recursive-include bbl_api *.py
+recursive-include bbl_api *.svg
+recursive-include bbl_api *.txt
+recursive-exclude bbl_api *.pyc
