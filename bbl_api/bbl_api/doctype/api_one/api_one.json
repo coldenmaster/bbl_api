@@ -33,7 +33,7 @@
   },
   {
    "fieldname": "api_value",
-   "fieldtype": "Data",
+   "fieldtype": "Int",
    "label": "Api Value"
   },
   {
@@ -44,7 +44,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-11-27 16:18:36.660461",
+ "modified": "2023-11-27 16:43:43.511475",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Api One",

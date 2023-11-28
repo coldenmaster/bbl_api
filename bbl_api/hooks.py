@@ -10,6 +10,18 @@ app_license = "MIT"
 # Includes in <head>
 # ------------------
 
+sounds = [
+	{"name": "email", "src": "/assets/frappe/sounds/email.mp3", "volume": 0.8},
+	{"name": "submit", "src": "/assets/frappe/sounds/submit.mp3", "volume": 0.8},
+	{"name": "cancel", "src": "/assets/frappe/sounds/cancel.mp3", "volume": 0.8},
+	{"name": "delete", "src": "/assets/frappe/sounds/delete.mp3", "volume": 0.75},
+	{"name": "click", "src": "/assets/frappe/sounds/click.mp3", "volume": 0.75},
+	{"name": "error", "src": "/assets/frappe/sounds/error.mp3", "volume": 0.8},
+	{"name": "alert", "src": "/assets/frappe/sounds/alert.mp3", "volume": 0.9},
+	# {"name": "chime", "src": "/assets/frappe/sounds/chime.mp3"},
+]
+
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/bbl_api/css/bbl_api.css"
 # app_include_js = "/assets/bbl_api/js/bbl_api.js"
