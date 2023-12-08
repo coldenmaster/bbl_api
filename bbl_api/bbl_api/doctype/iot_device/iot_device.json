@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{device_name}",
+ "creation": "2023-12-04 17:34:36.153661",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "device_info_section",
+  "iot_name",
+  "device_name",
+  "iot_id",
+  "device_id",
+  "column_break_vmvme",
+  "device_type",
+  "category_one",
+  "category_tow",
+  "value_one",
+  "value_tow",
+  "alarm_info_section",
+  "alarm_type",
+  "column_break_eikgw",
+  "alarm_val_one",
+  "alarm_val_tow",
+  "section_break_xrasn",
+  "ip_info"
+ ],
+ "fields": [
+  {
+   "fieldname": "device_info_section",
+   "fieldtype": "Section Break",
+   "label": "Device Info"
+  },
+  {
+   "fieldname": "iot_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Iot Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "device_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Device Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "iot_id",
+   "fieldtype": "Data",
+   "label": "Iot Id"
+  },
+  {
+   "fieldname": "device_id",
+   "fieldtype": "Data",
+   "label": "Device Id"
+  },
+  {
+   "fieldname": "column_break_vmvme",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "device_type",
+   "fieldtype": "Data",
+   "label": "Device Type"
+  },
+  {
+   "fieldname": "category_one",
+   "fieldtype": "Data",
+   "label": "Category One"
+  },
+  {
+   "fieldname": "category_tow",
+   "fieldtype": "Data",
+   "label": "Category Tow"
+  },
+  {
+   "fieldname": "value_one",
+   "fieldtype": "Data",
+   "label": "Value One"
+  },
+  {
+   "fieldname": "value_tow",
+   "fieldtype": "Data",
+   "label": "Value Tow"
+  },
+  {
+   "fieldname": "alarm_info_section",
+   "fieldtype": "Section Break",
+   "label": "Alarm Info"
+  },
+  {
+   "fieldname": "alarm_type",
+   "fieldtype": "Select",
+   "label": "Alarm Type",
+   "options": "\nno alarm\nup alarm\ndown alarm\nmiddle alarm"
+  },
+  {
+   "fieldname": "ip_info",
+   "fieldtype": "Link",
+   "label": "Ip Info",
+   "options": "IP Info"
+  },
+  {
+   "fieldname": "column_break_eikgw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "alarm_val_one",
+   "fieldtype": "Float",
+   "label": "Alarm Val One"
+  },
+  {
+   "fieldname": "alarm_val_tow",
+   "fieldtype": "Float",
+   "label": "Alarm Val Tow"
+  },
+  {
+   "fieldname": "section_break_xrasn",
+   "fieldtype": "Section Break",
+   "label": "IP Info"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-12-04 17:43:00.237539",
+ "modified_by": "Administrator",
+ "module": "Bbl Api",
+ "name": "Iot Device",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

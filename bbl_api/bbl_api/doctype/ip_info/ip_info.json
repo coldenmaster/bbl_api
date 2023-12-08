@@ -1,0 +1,142 @@
+{
+ "actions": [],
+ "allow_events_in_timeline": 1,
+ "allow_import": 1,
+ "autoname": "format:{iot_name}-{##}",
+ "creation": "2023-12-04 15:36:03.018351",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Other",
+ "engine": "InnoDB",
+ "field_order": [
+  "ip_details",
+  "mac_address",
+  "iot_name",
+  "dev_name",
+  "cn_name",
+  "modified2",
+  "online",
+  "column_break0",
+  "ap_name",
+  "ip_address",
+  "wifi_rssi",
+  "state",
+  "info_type",
+  "information"
+ ],
+ "fields": [
+  {
+   "fieldname": "ip_details",
+   "fieldtype": "Section Break",
+   "options": "fa fa-map-marker"
+  },
+  {
+   "fieldname": "mac_address",
+   "fieldtype": "Data",
+   "label": "Mac Address",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "iot_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Iot Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "dev_name",
+   "fieldtype": "Data",
+   "label": "Dev Name"
+  },
+  {
+   "fieldname": "cn_name",
+   "fieldtype": "Data",
+   "label": "Cn Name"
+  },
+  {
+   "fieldname": "ap_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Ap Name",
+   "search_index": 1
+  },
+  {
+   "fieldname": "ip_address",
+   "fieldtype": "Data",
+   "label": "Ip address"
+  },
+  {
+   "fieldname": "column_break0",
+   "fieldtype": "Column Break",
+   "width": "50%"
+  },
+  {
+   "fieldname": "wifi_rssi",
+   "fieldtype": "Data",
+   "label": "Wifi Rssi"
+  },
+  {
+   "default": "0",
+   "fieldname": "online",
+   "fieldtype": "Check",
+   "in_global_search": 1,
+   "in_standard_filter": 1,
+   "label": "Online",
+   "options": "On\nOff",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "info_type",
+   "fieldtype": "Data",
+   "label": "Info Type"
+  },
+  {
+   "fieldname": "information",
+   "fieldtype": "Data",
+   "label": "Information"
+  },
+  {
+   "fieldname": "modified2",
+   "fieldtype": "Datetime",
+   "is_virtual": 1,
+   "label": "Modified",
+   "options": "f\"{doc.modified}\""
+  }
+ ],
+ "icon": "fa fa-map-marker",
+ "links": [],
+ "modified": "2023-12-04 16:56:54.907848",
+ "modified_by": "Administrator",
+ "module": "Bbl Api",
+ "name": "IP Info",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "set_user_permissions": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

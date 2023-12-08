@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:em_name",
+ "creation": "2023-11-29 09:01:18.336652",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "em_name",
+  "em_time",
+  "em_string",
+  "em_value",
+  "em_comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "em_name",
+   "fieldtype": "Data",
+   "label": "EM Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "em_time",
+   "fieldtype": "Datetime",
+   "label": "EM Time"
+  },
+  {
+   "fieldname": "em_string",
+   "fieldtype": "Data",
+   "label": "EM String"
+  },
+  {
+   "fieldname": "em_value",
+   "fieldtype": "Int",
+   "label": "EM Value"
+  },
+  {
+   "fieldname": "em_comment",
+   "fieldtype": "Data",
+   "label": "EM comment"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-11-29 09:01:18.336652",
+ "modified_by": "Administrator",
+ "module": "Bbl Api",
+ "name": "Elec Meter RT",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
