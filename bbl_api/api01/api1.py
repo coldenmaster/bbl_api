@@ -23,26 +23,39 @@ def action1(*args, **kwargs):
     
 
 
-# endpoint: http://127.0.0.1:8000/api/method/bbl_api.bbl_api.custom_api.api1.api1
+# endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.api1.api1
 @frappe.whitelist(allow_guest=True)
 def api1(*args, **kwargs):
     print("")
-    print("------------ api1(args)")
+    print("------------api01 阿皮 api1(args)")
     print(args)
     print("------------ api1(kwargs)")
     print(kwargs)
     print("------------ end -------- ")
     print("")
-    return "help me API" + str(kwargs)
+    return "api01 help me API" + str(kwargs)
 
-# endpoint: http://127.0.0.1:8000/api/method/bbl_api.bbl_api.custom_api.api1.api2
+# endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.api1.api2
 @frappe.whitelist(allow_guest=True)
 def api2(*args, **kwargs):
     print("")
-    print("------------api2 阿皮 api1(args)")
+    print("------------api02 阿皮 api1(args)")
     print(args)
     print("------------ api1(kwargs)")
     print(kwargs)
     print("------------ end -------- ")
     print("")
-    return "api2 help me API" + str(kwargs)
+    return "api02 help me API" + str(kwargs)
+
+
+# endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.api1.espxx
+@frappe.whitelist(allow_guest=True)
+def espxx(*args, **kwargs):
+    print("")
+    print("------------I'm espxx (args) is")
+    print(args)
+    print("------------ (kwargs) is")
+    print(kwargs)
+    print("------------ end -------- ")
+    print("")
+    return "esp API rcv: " + str(kwargs)

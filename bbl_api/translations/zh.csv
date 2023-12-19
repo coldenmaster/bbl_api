@@ -1,3 +1,62 @@
-EM Name, 电表名称
-EM Value,采集值
-EM String,电表ID
+About,关于,
+Alarm Info,报警信息,
+Alarm Type,报警类型,
+Alarm Val One,报警值1,
+Category One,设备分类1,
+Category Tow,设备分类2,
+Device Id,设备ID,
+Device Info,设备信息,
+Device Name,设备名称,
+Device Type,设备类型,
+Documentation,在线文档,
+EM Name,电表名称,
+EM String,电表ID,
+EM Value,采集值,
+Elec Meter RT,电表实时数据,
+Frappe Support,Frappe支持,
+IP Info,IP 信息,
+Iot Device,物联网设备,
+Iot Id,物联网ID,
+Iot Name,物联网名称,
+Ip Info,IP信息,
+Is Group,是组,
+Keyboard Shortcuts,键盘快捷键,
+Left,左,
+Log out,退出系统,
+Modified,修改,
+My Profile,我的,
+My Settings,个人设置,
+Old Parent,旧上级,
+Online,在线,
+Position,位置,
+Reload,重新加载,
+Report an Issue,反馈问题,
+Right,右,
+Session Defaults,会话默认值,
+State,状态,
+System Manager,系统管理员,
+Toggle Full Width,切换全宽,
+Toggle Theme,切换界面样式,
+User Forum,用户论坛,
+Value One,设备值1,
+Value Tow,设备值2,
+View Website,查看网站,
+
+Mac Address,网卡MAC
+Dev Name,设备名称
+Cn Name,中文名称
+Info Type,信息类型
+Ip address,IP地址
+Ap Name,路由器
+Information,信息
+Wifi Rssi,信号强度
+
+Rcl Water Temp,调质水温
+Temperature,温度
+Dev Type,设备类型
+Esp Name,EspID
+Query Count,采集次数
+Query Failed,采集失败
+Update Count,上传次数
+Update Failed,上传失败
+Start Long,上电时长

@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "creation": "2023-12-19 11:34:39.347346",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "base_info_section",
+  "esp_name",
+  "dev_name",
+  "dev_type",
+  "column_break_piyd",
+  "temperature",
+  "query_count",
+  "query_failed",
+  "update_count",
+  "update_failed",
+  "start_long"
+ ],
+ "fields": [
+  {
+   "fieldname": "base_info_section",
+   "fieldtype": "Section Break",
+   "label": "Base Info"
+  },
+  {
+   "fieldname": "esp_name",
+   "fieldtype": "Data",
+   "label": "Esp Name"
+  },
+  {
+   "fieldname": "dev_name",
+   "fieldtype": "Data",
+   "label": "Dev Name"
+  },
+  {
+   "fieldname": "dev_type",
+   "fieldtype": "Data",
+   "label": "Dev Type"
+  },
+  {
+   "fieldname": "column_break_piyd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "temperature",
+   "fieldtype": "Float",
+   "label": "Temperature"
+  },
+  {
+   "fieldname": "query_count",
+   "fieldtype": "Int",
+   "label": "Query Count"
+  },
+  {
+   "fieldname": "update_count",
+   "fieldtype": "Int",
+   "label": "Update Count"
+  },
+  {
+   "fieldname": "update_failed",
+   "fieldtype": "Int",
+   "label": "Update Failed"
+  },
+  {
+   "fieldname": "start_long",
+   "fieldtype": "Duration",
+   "label": "Start Long"
+  },
+  {
+   "fieldname": "query_failed",
+   "fieldtype": "Int",
+   "label": "Query Failed"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-12-19 16:52:37.158309",
+ "modified_by": "Administrator",
+ "module": "Bbl Api",
+ "name": "Rcl Water Temp",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
