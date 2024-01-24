@@ -1,11 +1,74 @@
-import frappe
-import os
 import json
+import frappe
+from frappe.utils import today, add_to_date
+from frappe.utils.data import now
+import requests
 
+from wechat_work.utils import send_str_to_admin
+from bbl_api.utils import *
+
+from mqtt.mqtt_rt import mqtt_route, bbl_mqtt_client
+
+_mqtt_esp_url = 'http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp'
+
+def mqtt_register():
+    mqtt_route.register_topic_rt("esp/#", _mqtt_esp_url)
+
+def publish(msg, topic = 'esp'):
+    bbl_mqtt_client.publish(topic, msg)
+# mqtt_register()
+
+# mqtt 接收数据api
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp
+@frappe.whitelist(allow_guest=True)
+def esp(*args, **kwargs):
+    rt = f"mqtt esp 控制器, { str(kwargs) }"
+    print_cyan(rt)
+    obj = frappe._dict(kwargs)
+    # print_red(obj.payload)
+    # send_str_to_admin(rt)
+    return "mqtt in esp rev ok"
+
+# mqtt 发送数据api
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pub01?msg=abc123def&topic=esp
+@frappe.whitelist(allow_guest=True)
+def pub01(*args, **kwargs):
+    """
+    通过 API 发送 mqtt 到 指定 topic
+
+    :param topic: 
+    :param from: 
+    :param to: 
+    :type msg: dict | None | str
+    """
+    msg = kwargs.get("msg", "shan上下五千年ok123abc")
+    topic = kwargs.get("topic", "esp")
+    publish(msg, topic)
+    rt = f"发送完成：{topic}: {msg}"
+    print_green(rt)
+    return rt
+
+    
+
+# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.delTemp
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.delTemp?days=-20
+@frappe.whitelist(allow_guest=True)
+def delTemp(*args, **kwargs):
+    last_date = add_to_date(today(), days=int(kwargs.get('days', -30)))
+    print(last_date)
+    frappe.db.delete('Rcl Water Temp', {
+        "modified": ("<=", last_date)}
+        )
+    frappe.db.commit()
+    msg = f"delete Rcl Water Temp <= { last_date } date, ok"
+    send_str_to_admin(msg)
+    bbl_mqtt_client.publish('testtopic/2', "help me")
+    return msg
 
 
 # endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas2&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
+# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas2&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 @frappe.whitelist(allow_guest=True)
 def upStat(*args, **kwargs):
     # print("\n------------Iot up status")
@@ -13,7 +76,8 @@ def upStat(*args, **kwargs):
     return "Iot up status ok"
 
 
-# endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upData
+# endpoint: 
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upData?deviceId=espGas&deviceName=a32&deviceType=a3&tempFloat=33&queryCnt=44&queryFailed=55&updateCnt=66&updateFailed=77
 @frappe.whitelist(allow_guest=True)
 def upData(*args, **kwargs):
     # print("\n------------Iot upData")
@@ -23,6 +87,9 @@ def upData(*args, **kwargs):
 
 def add_new_ip_info(**kwargs):
     doc = frappe.new_doc("IP Info")
+    # 获取此信息设备的相关信息
+    devDoc = frappe.get_doc("Iot Device", kwargs.get("espId"))
+    # print(f"new devDoc:{devDoc}")
     doc.update(
          {
             "ap_name": kwargs.get("wifiSsid"),
@@ -39,15 +106,17 @@ def add_new_ip_info(**kwargs):
     )
     doc.insert(ignore_permissions=True)
     frappe.db.commit()
-    # print(f"new doc2:{doc}")
 
 
 def add_new_rcl_water_temp(**kwargs):
+    devDoc = frappe.get_doc("Iot Device", {"iot_name": kwargs.get("deviceId")})
+    # print(f"new devDoc:{devDoc}")
     doc = frappe.new_doc("Rcl Water Temp")
     doc.update(
          {
 			"esp_name": kwargs.get("deviceId"),
-			"dev_name": kwargs.get("deviceName"),
+			# "dev_name": devDoc.get("deviceName"),
+			"dev_name": devDoc.get_title(),
 			"dev_type":kwargs.get("deviceType"),
 			"temperature": kwargs.get("tempFloat"),
 			"query_count": kwargs.get("queryCnt"),
@@ -59,7 +128,6 @@ def add_new_rcl_water_temp(**kwargs):
     )
     doc.insert(ignore_permissions=True)
     frappe.db.commit()
-    # print(f"new water doc:{doc}")
 
 """ 调试测试用，还没有用 """
 def test(**kwargs):

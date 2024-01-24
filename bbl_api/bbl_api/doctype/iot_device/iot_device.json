@@ -74,7 +74,7 @@
   {
    "fieldname": "category_tow",
    "fieldtype": "Data",
-   "label": "Category Tow"
+   "label": "Category Two"
   },
   {
    "fieldname": "value_one",
@@ -84,7 +84,7 @@
   {
    "fieldname": "value_tow",
    "fieldtype": "Data",
-   "label": "Value Tow"
+   "label": "Value Two"
   },
   {
    "fieldname": "alarm_info_section",
@@ -115,7 +115,7 @@
   {
    "fieldname": "alarm_val_tow",
    "fieldtype": "Float",
-   "label": "Alarm Val Tow"
+   "label": "Alarm Val Two"
   },
   {
    "fieldname": "section_break_xrasn",
@@ -125,7 +125,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-04 17:43:00.237539",
+ "modified": "2023-12-27 17:22:01.646808",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Iot Device",

@@ -2,8 +2,9 @@ About,关于,
 Alarm Info,报警信息,
 Alarm Type,报警类型,
 Alarm Val One,报警值1,
+Alarm Val Two,报警值2,
 Category One,设备分类1,
-Category Tow,设备分类2,
+Category Two,设备分类2,
 Device Id,设备ID,
 Device Info,设备信息,
 Device Name,设备名称,
@@ -39,24 +40,24 @@ Toggle Full Width,切换全宽,
 Toggle Theme,切换界面样式,
 User Forum,用户论坛,
 Value One,设备值1,
-Value Tow,设备值2,
+Value Two,设备值2,
 View Website,查看网站,
 
-Mac Address,网卡MAC
-Dev Name,设备名称
-Cn Name,中文名称
-Info Type,信息类型
-Ip address,IP地址
-Ap Name,路由器
-Information,信息
-Wifi Rssi,信号强度
+Mac Address,网卡MAC,
+Dev Name,设备名称,
+Cn Name,中文名称,
+Info Type,信息类型,
+Ip address,IP地址,
+Ap Name,路由器,
+Information,信息,
+Wifi Rssi,信号强度,
 
-Rcl Water Temp,调质水温
-Temperature,温度
-Dev Type,设备类型
-Esp Name,EspID
-Query Count,采集次数
-Query Failed,采集失败
-Update Count,上传次数
-Update Failed,上传失败
-Start Long,上电时长
+Rcl Water Temp,调质水温,
+Temperature,温度,
+Dev Type,设备类型,
+Esp Name,EspID,
+Query Count,采集次数,
+Query Failed,采集失败,
+Update Count,上传次数,
+Update Failed,上传失败,
+Start Long,上电时长,
