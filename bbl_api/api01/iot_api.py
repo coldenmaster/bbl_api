@@ -68,6 +68,7 @@ def delTemp(*args, **kwargs):
 
 # endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas2&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
+# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas2&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 @frappe.whitelist(allow_guest=True)
 def upStat(*args, **kwargs):
@@ -88,7 +89,7 @@ def upData(*args, **kwargs):
 def add_new_ip_info(**kwargs):
     doc = frappe.new_doc("IP Info")
     # 获取此信息设备的相关信息
-    devDoc = frappe.get_doc("Iot Device", kwargs.get("espId"))
+    devDoc = frappe.get_doc("Iot Device", kwargs.get("espId", "espNew"))
     # print(f"new devDoc:{devDoc}")
     doc.update(
          {
@@ -109,14 +110,16 @@ def add_new_ip_info(**kwargs):
 
 
 def add_new_rcl_water_temp(**kwargs):
-    devDoc = frappe.get_doc("Iot Device", {"iot_name": kwargs.get("deviceId")})
+    # devDoc = frappe.get_doc("Iot Device", {"iot_name": kwargs.get("deviceId")})
+    devDoc = frappe.get_doc("Iot Device", kwargs.get("deviceId", "espNew"))
+
     # print(f"new devDoc:{devDoc}")
     doc = frappe.new_doc("Rcl Water Temp")
     doc.update(
          {
 			"esp_name": kwargs.get("deviceId"),
 			# "dev_name": devDoc.get("deviceName"),
-			"dev_name": devDoc.get_title(),
+			"dev_name": devDoc.device_name,
 			"dev_type":kwargs.get("deviceType"),
 			"temperature": kwargs.get("tempFloat"),
 			"query_count": kwargs.get("queryCnt"),

@@ -24,6 +24,7 @@ def action1(*args, **kwargs):
 
 
 # endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.api1.api1
+# endpoint: http://erp15.hbbbl.top:82//api/method/bbl_api.api01.api1.api1
 @frappe.whitelist(allow_guest=True)
 def api1(*args, **kwargs):
     print("")

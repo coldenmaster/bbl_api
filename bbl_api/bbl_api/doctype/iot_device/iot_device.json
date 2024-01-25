@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{device_name}",
+ "autoname": "format:{iot_name}",
  "creation": "2023-12-04 17:34:36.153661",
  "default_view": "List",
  "doctype": "DocType",
@@ -125,7 +125,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-27 17:22:01.646808",
+ "modified": "2024-01-25 13:57:25.070036",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Iot Device",

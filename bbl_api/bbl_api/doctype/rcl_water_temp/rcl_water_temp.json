@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "autoname": "format:{##########}",
  "creation": "2023-12-19 11:34:39.347346",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -72,12 +73,12 @@
    "label": "Query Failed"
   }
  ],
- "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-19 16:52:37.158309",
+ "modified": "2024-01-25 14:23:46.750361",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Rcl Water Temp",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -89,6 +90,30 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manufacturing User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manufacturing Manager",
    "share": 1,
    "write": 1
   }
