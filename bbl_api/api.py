@@ -1,5 +1,6 @@
 import frappe
 
+
 # 准备在此api下接收旧的esp上传数据，进行测试。
 # endpoint: http://127.0.0.1:8000/api/method/bbl_api.api.t1
 wtCnt = 0

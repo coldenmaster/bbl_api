@@ -49,3 +49,6 @@ def print_blue(msg):
 
 def print_green(msg):
     print(f"{Color.GREEN}{msg}{Color.RESET}")
+    
+def print_clear(msg):
+    pass

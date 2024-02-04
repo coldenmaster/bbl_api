@@ -1,13 +1,14 @@
 import json
 import frappe
 from frappe.utils import today, add_to_date
-from frappe.utils.data import now
-import requests
 
 from wechat_work.utils import send_str_to_admin
 from bbl_api.utils import *
 
 from mqtt.mqtt_rt import mqtt_route, bbl_mqtt_client
+
+# frappe.utils.logger.set_log_level('DEBUG')
+logger = frappe.logger("iot")
 
 _mqtt_esp_url = 'http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp'
 
@@ -60,36 +61,58 @@ def delTemp(*args, **kwargs):
         "modified": ("<=", last_date)}
         )
     frappe.db.commit()
-    msg = f"delete Rcl Water Temp <= { last_date } date, ok"
+    msg = f"delete Rcl Water Temp <= { last_date } days, ok"
     send_str_to_admin(msg)
-    bbl_mqtt_client.publish('testtopic/2', "help me")
+    bbl_mqtt_client.publish('testtopic/2', msg)
     return msg
 
 
-# endpoint: http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat
-# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas2&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
+# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.delIpInfo
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.delIpInfo?days=-20
+@frappe.whitelist(allow_guest=True)
+def delIpInfo(*args, **kwargs):
+    last_date = add_to_date(today(), days=int(kwargs.get('days', -30)))
+    print(last_date)
+    frappe.db.delete('IP Info', {
+        "modified": ("<=", last_date)}
+        )
+    frappe.db.commit()
+    msg = f"delete IP Info Records <= { last_date } days, ok"
+    send_str_to_admin(msg)
+    return msg
+
+
+# endpoint: 
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat
-# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas2&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
+# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 @frappe.whitelist(allow_guest=True)
 def upStat(*args, **kwargs):
     # print("\n------------Iot up status")
-    add_new_ip_info(**kwargs)
-    return "Iot up status ok"
+    return add_new_ip_info(**kwargs)
 
 
 # endpoint: 
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upData?deviceId=espGas&deviceName=a32&deviceType=a3&tempFloat=33&queryCnt=44&queryFailed=55&updateCnt=66&updateFailed=77
 @frappe.whitelist(allow_guest=True)
 def upData(*args, **kwargs):
-    # print("\n------------Iot upData")
+    # user = frappe.session.user
+    # logger.info(f"{user} access upDate" )  # Guess
     add_new_rcl_water_temp(**kwargs)
     return "Iot update ok"
 
 
 def add_new_ip_info(**kwargs):
+    logger.error(f"add_new_ip_info: kwargs:{ kwargs}")
+    try:
+        if (not kwargs.get("espId")):
+            return "add_new_ip_info: no espId"
+        devDoc = frappe.get_doc("Iot Device", kwargs.get("espId", "espNew"))
+    except:
+        devDoc = frappe.new_doc("Iot Device")
     doc = frappe.new_doc("IP Info")
     # 获取此信息设备的相关信息
-    devDoc = frappe.get_doc("Iot Device", kwargs.get("espId", "espNew"))
     # print(f"new devDoc:{devDoc}")
     doc.update(
          {
@@ -97,6 +120,7 @@ def add_new_ip_info(**kwargs):
             "info_type": kwargs.get("opType"),
             "information": kwargs.get("content"),
             "iot_name": kwargs.get("espId"),
+            "cn_name": devDoc.device_name,
             "ip_address": kwargs.get("espIp"),
             "mac_address": kwargs.get("mac"),
             # "name": "espGas-01",
@@ -107,6 +131,8 @@ def add_new_ip_info(**kwargs):
     )
     doc.insert(ignore_permissions=True)
     frappe.db.commit()
+    return "Iot up status ok"
+    
 
 
 def add_new_rcl_water_temp(**kwargs):
