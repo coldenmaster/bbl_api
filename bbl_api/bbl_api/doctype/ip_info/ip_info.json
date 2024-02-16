@@ -38,10 +38,11 @@
   },
   {
    "fieldname": "iot_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Iot Name"
+   "label": "Iot Name",
+   "options": "Iot Device"
   },
   {
    "fieldname": "dev_name",
@@ -112,7 +113,7 @@
  ],
  "icon": "fa fa-map-marker",
  "links": [],
- "modified": "2023-12-16 16:13:26.382028",
+ "modified": "2024-02-16 10:14:28.502289",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "IP Info",

@@ -46,6 +46,9 @@ def print_yellow(msg):
 
 def print_blue(msg):
     print(f"{Color.BLUE}{msg}{Color.RESET}")
+    
+def print_blue_kv(key, msg):
+    print(f"{Color.BLUE}{key}{Color.RESET}{msg}")
 
 def print_green(msg):
     print(f"{Color.GREEN}{msg}{Color.RESET}")

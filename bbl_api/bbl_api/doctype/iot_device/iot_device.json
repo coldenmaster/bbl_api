@@ -18,12 +18,12 @@
   "category_one",
   "category_tow",
   "value_one",
-  "value_tow",
+  "value_two",
   "alarm_info_section",
   "alarm_type",
   "column_break_eikgw",
   "alarm_val_one",
-  "alarm_val_tow",
+  "alarm_val_two",
   "section_break_xrasn",
   "ip_info"
  ],
@@ -82,11 +82,6 @@
    "label": "Value One"
   },
   {
-   "fieldname": "value_tow",
-   "fieldtype": "Data",
-   "label": "Value Two"
-  },
-  {
    "fieldname": "alarm_info_section",
    "fieldtype": "Section Break",
    "label": "Alarm Info"
@@ -99,9 +94,8 @@
   },
   {
    "fieldname": "ip_info",
-   "fieldtype": "Link",
-   "label": "Ip Info",
-   "options": "IP Info"
+   "fieldtype": "Data",
+   "label": "Ip Info"
   },
   {
    "fieldname": "column_break_eikgw",
@@ -110,22 +104,29 @@
   {
    "fieldname": "alarm_val_one",
    "fieldtype": "Float",
-   "label": "Alarm Val One"
-  },
-  {
-   "fieldname": "alarm_val_tow",
-   "fieldtype": "Float",
-   "label": "Alarm Val Two"
+   "label": "Alarm Val One",
+   "precision": "1"
   },
   {
    "fieldname": "section_break_xrasn",
    "fieldtype": "Section Break",
    "label": "IP Info"
+  },
+  {
+   "fieldname": "value_two",
+   "fieldtype": "Data",
+   "label": "Value Two"
+  },
+  {
+   "fieldname": "alarm_val_two",
+   "fieldtype": "Float",
+   "label": "Alarm Val Two",
+   "precision": "1"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-25 13:57:25.070036",
+ "modified": "2024-02-16 13:57:59.195147",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Iot Device",
