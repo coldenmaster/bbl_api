@@ -27,26 +27,36 @@ def publish(msg, topic = 'esp/in'):
 @frappe.whitelist(allow_guest=True)
 def esp(*args, **kwargs):
     # print_cyan( f"from mqtt esp/out rev:, { str(kwargs) }")
-    # pprint(kwargs)
+    # print_green_pp(kwargs)
     obj = frappe._dict(kwargs)
     espWho = obj.clientid.split('-')[0] or "espNew"
     timeUtc = obj.publish_received_at
-    jsonPayload = json.loads(obj.payload)
+    try:
+        jsonPayload = json.loads(obj.payload)
+    except:
+        jsonPayload = {
+            "content": obj.payload,
+        }
     jsonPayload['espWho'] = espWho
     jsonPayload['timeUtc'] = timeUtc / 1000
     # jsonPayload['msgType'] = obj.topic
-    jsonPayload['msgType'] = 'esp_rcl_water_temp'
+    # jsonPayload['opType'] = 'esp_rcl_water_temp'
     # print(jsonPayload)
     
     add_new_ip_info(**jsonPayload)
     
-    match jsonPayload['msgType']:
-        case 'esp_rcl_water_temp':
+    if jsonPayload.get('opType') == 'WATER_TEMP':
             add_new_rcl_water_temp(**jsonPayload)
-        case _:
-            print_red("no match mqtt route.")
+    # else:
+    #     print_red("no match mqtt route.")
+    
+    # match jsonPayload['msgType']:
+    #     case 'esp_rcl_water_temp':
+    #         add_new_rcl_water_temp(**jsonPayload)
+    #     case _:
+    #         print_red("no match mqtt route.")
     # send_str_to_admin(rt)
-    frappe.db.commit()
+    
     return "mqtt rev ok"
 
 
@@ -66,7 +76,13 @@ def add_new_rcl_water_temp(**kwargs):
     # print_yellow(f'deviceName:{deviceName}')
     
     if deviceName != "espNew":
-        compare_alarm_info(obj.tempHigh, obj.tempLow, devDoc.alarm_val_one, devDoc.alarm_val_two)
+        if compare_alarm_info(obj.tempHigh, obj.tempLow, devDoc.alarm_val_one, devDoc.alarm_val_two):
+            """ 这里把esp卡上的设置温度保存到数据库，为了和esp上设置简单的同步
+                todo 这样会造成服务器上设置不失效，应该改为esp卡上修改报警温度时发送mqtt信息
+            """
+            devDoc.db_set('alarm_val_one', obj.tempHigh)
+            devDoc.db_set('alarm_val_two', obj.tempLow)
+            print_red('保存esp上传的温度报警')
     
     newDoc = frappe.get_doc(
         {
@@ -86,22 +102,22 @@ def add_new_rcl_water_temp(**kwargs):
         }
     )
     newDoc.insert(ignore_permissions=True)
-    # frappe.db.commit()
-    # print_cyan(f"new doc:{vars(newDoc)}")
+    frappe.db.commit()
 
 def add_new_ip_info(**kwargs):
-    # logger.error(f"add_new_ip_info: kwargs:{ kwargs}")
+    # print_blue(f"add_new_ip_info: kwargs:{ kwargs }")
     obj = frappe._dict(kwargs)
     devDoc = {}
     try:
         devDoc = frappe.get_doc("Iot Device", obj.espWho)
     except:
         devDoc = frappe.new_doc("Iot Device")
-    ip_info = obj.espIp + "@" + obj.wifiSsid
+        devDoc.save(ignore_permissions=True)
+    ip_info = "" + str(obj.espIp) + "@" + str(obj.wifiSsid)
     if (devDoc.ip_info != ip_info):
         devDoc.db_set('ip_info', ip_info)
     if (devDoc.value_one != obj.tempFloat):
-        devDoc.db_set('value_one', obj.tempFloat,  update_modified=False)
+        devDoc.db_set('value_one', obj.tempFloat, update_modified=False)
     # devDoc.save(ignore_permissions=True)
     newDoc = frappe.get_doc(
          {
@@ -120,8 +136,7 @@ def add_new_ip_info(**kwargs):
         }
     )
     newDoc.insert(ignore_permissions=True)
-    # frappe.db.commit()
-    return "Iot up status ok"
+    frappe.db.commit()
     
 
 def compare_alarm_info(upHigh, upLow, savHigh, savLow):
@@ -131,6 +146,8 @@ def compare_alarm_info(upHigh, upLow, savHigh, savLow):
         # frappe.log_error("温度设定不成功", msg)
         # logger.error(msg)
         print_yellow(msg)
+        return True
+    return False
 
 # mqtt 发送数据api
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pub01?msg=abc123def&topic=esp/in
@@ -148,7 +165,7 @@ def pub01(*args, **kwargs):
     return rt
 
     
-
+# todo 服务器上准备删除(在frappe系统内日志设定中自动删除)
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.delTemp
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.delTemp?days=-20
 @frappe.whitelist(allow_guest=True)
@@ -165,6 +182,7 @@ def delTemp(*args, **kwargs):
     return msg
 
 
+# todo 服务器上准备删除(在frappe系统内日志设定中自动删除)
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.delIpInfo
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.delIpInfo?days=-20
 @frappe.whitelist(allow_guest=True)
@@ -180,6 +198,7 @@ def delIpInfo(*args, **kwargs):
     return msg
 
 
+# todo 服务器上准备删除
 # endpoint: 
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
@@ -187,7 +206,12 @@ def delIpInfo(*args, **kwargs):
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 @frappe.whitelist(allow_guest=True)
 def upStat(*args, **kwargs):
-    # print("\n------------Iot up status")
+    print_blue("\n esp http 上传状态")
+    # obj = frappe._dict(kwargs)
+    kwargs['espWho'] = kwargs.get('espId', 'espNew')
+    
+    print_blue(f'kw: {str(kwargs)}')
+    # print_blue(f'obj: {str(obj)}')
     return add_new_ip_info(**kwargs)
 
 
@@ -196,8 +220,13 @@ def upStat(*args, **kwargs):
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upData?deviceId=espGas&deviceName=a32&deviceType=a3&tempFloat=33&queryCnt=44&queryFailed=55&updateCnt=66&updateFailed=77
 @frappe.whitelist(allow_guest=True)
 def upData(*args, **kwargs):
-    # user = frappe.session.user
+    print_blue("\n esp http 上传app数据")
+        # user = frappe.session.user
     # logger.info(f"{user} access upDate" )  # Guess
+    # obj = frappe._dict(kwargs)
+    kwargs['espWho'] = kwargs.get('deviceId', 'espNew')
+    print_blue(f'kw: {str(kwargs)}')
+    # print_blue(f'obj: {str(obj)}')
     add_new_rcl_water_temp(**kwargs)
     return "Iot update ok"
 

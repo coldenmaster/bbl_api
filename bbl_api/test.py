@@ -51,8 +51,8 @@ def t2():
     # importlib.reload(bbl_api.test)
     # print_blue(importlib.reload(bbl_api))
     print(importlib.reload(bbl_api.test))
-    
     t5()
+    
     
 def t3():
     print_red('t3() start')
@@ -108,6 +108,30 @@ def t5():
     print_blue('t5() end')
     
 def doc_change(**kw):
-    # old_doc = self.get_doc_before_save
+    
+    print_blue_pp(kw)
+    print_green_pp(kw)
     
     pass
+
+
+kw = {
+    "username": "undefined",
+    "topic": "esp/out",
+    "timestamp": 1707965681208,
+    "qos": 0,
+    "publish_received_at": 1707965681208,
+    "pub_props": {
+        "User-Property": {}
+    },
+    "peerhost": "117.153.11.255",
+    "payload": '{"espId":"espTzxWater3","deviceId":"espTzxWater3","mac":"D8:BF:C0:FA:B7:F2","wifiSsid":"HIKbs","wifiRssi":"-38dBm","espIp":"192.168.0.200","temperature":4062,"tempFloat":40.625,"queryCnt":35044,"queryFailed":15,"updateCnt":5091,"updateFailed":27,"timestamp":48300,"tempHigh":35,"tempLow":15}',
+    "node": "emqx@172.18.0.5",
+    "metadata": {
+        "rule_id": "frappe-esp-temp_WH_D"
+    },
+    "id": "00061162BFB78D3D6EF103000835003C",
+    "event": "message.publish",
+    "clientid": "espTzxWater3-18",
+    "cmd": "bbl_api.api01.iot_api.esp"
+}

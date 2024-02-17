@@ -55,3 +55,14 @@ def print_green(msg):
     
 def print_clear(msg):
     pass
+
+from pprint import pprint, pformat
+
+def print_blue_pp(msg):
+    msg = str(pformat(msg))
+    # print(f"{Color.BLUE}{pformat(msg)}{Color.RESET}")
+    print(f"{Color.BLUE}{msg}{Color.RESET}")
+
+def print_green_pp(msg):
+    print(f"{Color.GREEN}{str(pformat(msg))}\n{Color.RESET}")
+    
