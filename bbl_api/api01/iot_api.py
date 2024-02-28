@@ -204,15 +204,15 @@ def delIpInfo(*args, **kwargs):
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
-@frappe.whitelist(allow_guest=True)
-def upStat(*args, **kwargs):
-    print_blue("\n esp http 上传状态")
-    # obj = frappe._dict(kwargs)
-    kwargs['espWho'] = kwargs.get('espId', 'espNew')
+# @frappe.whitelist(allow_guest=True)
+# def upStat(*args, **kwargs):
+#     print_blue("\n esp http 上传状态")
+#     # obj = frappe._dict(kwargs)
+#     kwargs['espWho'] = kwargs.get('espId', 'espNew')
     
-    print_blue(f'kw: {str(kwargs)}')
-    # print_blue(f'obj: {str(obj)}')
-    return add_new_ip_info(**kwargs)
+#     print_blue(f'kw: {str(kwargs)}')
+#     # print_blue(f'obj: {str(obj)}')
+#     return add_new_ip_info(**kwargs)
 
 
 # todo 服务器上准备删除

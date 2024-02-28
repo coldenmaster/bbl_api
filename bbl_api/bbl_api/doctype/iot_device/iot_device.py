@@ -24,7 +24,8 @@ class IotDevice(Document):
             print_red(f'has permission: {frappe.has_permission("Iot Device", "write")}')
             return True
         old_doc = self.get_doc_before_save()
-        
+        if (old_doc == None):
+            return
         # print_blue(f'self: {vars(self)}')
         # print_green(f'old: {vars(old_doc)}')
         if self.alarm_val_one != old_doc.alarm_val_one \
