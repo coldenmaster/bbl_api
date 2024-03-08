@@ -1,53 +1,52 @@
 {
  "actions": [],
- "creation": "2023-11-29 09:01:18.336652",
- "default_view": "List",
+ "allow_rename": 1,
+ "creation": "2024-03-08 15:21:00.114445",
  "doctype": "DocType",
- "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "em_address",
   "em_name",
   "em_type",
+  "report_period",
   "et",
   "et1",
   "et2",
   "et3",
   "et4",
-  "column_break_lazj",
+  "column_break_hzwj",
+  "et_sub",
+  "et1_sub",
+  "et2_sub",
+  "et3_sub",
+  "et4_sub",
+  "column_break_dguv",
   "pt",
   "pa",
   "pc",
   "ua",
-  "uc",
   "ia",
-  "ic",
-  "column_break_cuba",
-  "pf",
-  "pfa",
-  "pfc"
+  "pf"
  ],
  "fields": [
   {
    "fieldname": "em_name",
    "fieldtype": "Data",
-   "in_filter": 1,
    "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Em Name"
-  },
-  {
-   "fieldname": "em_address",
-   "fieldtype": "Data",
-   "label": "Em Address"
+   "label": "Em Name",
+   "reqd": 1
   },
   {
    "fieldname": "em_type",
    "fieldtype": "Data",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Em Type"
+  },
+  {
+   "fieldname": "report_period",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Report Period",
+   "options": "Report Period",
+   "reqd": 1
   },
   {
    "fieldname": "et",
@@ -81,6 +80,45 @@
    "precision": "2"
   },
   {
+   "fieldname": "column_break_hzwj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "et_sub",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Et Sub",
+   "precision": "2"
+  },
+  {
+   "fieldname": "et1_sub",
+   "fieldtype": "Float",
+   "label": "Et1 Sub",
+   "precision": "2"
+  },
+  {
+   "fieldname": "et2_sub",
+   "fieldtype": "Float",
+   "label": "Et2 Sub",
+   "precision": "2"
+  },
+  {
+   "fieldname": "et3_sub",
+   "fieldtype": "Float",
+   "label": "Et3 Sub",
+   "precision": "2"
+  },
+  {
+   "fieldname": "et4_sub",
+   "fieldtype": "Float",
+   "label": "Et4 Sub",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_dguv",
+   "fieldtype": "Column Break"
+  },
+  {
    "fieldname": "pt",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -100,10 +138,6 @@
    "precision": "1"
   },
   {
-   "fieldname": "column_break_cuba",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "ua",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -111,22 +145,11 @@
    "precision": "1"
   },
   {
-   "fieldname": "uc",
-   "fieldtype": "Float",
-   "label": "Voltagec",
-   "precision": "1"
-  },
-  {
    "fieldname": "ia",
    "fieldtype": "Float",
+   "in_list_view": 1,
    "label": "Currenta",
-   "precision": "2"
-  },
-  {
-   "fieldname": "ic",
-   "fieldtype": "Float",
-   "label": "Currentc",
-   "precision": "2"
+   "precision": "1"
   },
   {
    "fieldname": "pf",
@@ -134,30 +157,15 @@
    "in_list_view": 1,
    "label": "Power Factor",
    "precision": "2"
-  },
-  {
-   "fieldname": "pfa",
-   "fieldtype": "Float",
-   "label": "Power Factora",
-   "precision": "2"
-  },
-  {
-   "fieldname": "pfc",
-   "fieldtype": "Float",
-   "label": "Power Factorc",
-   "precision": "2"
-  },
-  {
-   "fieldname": "column_break_lazj",
-   "fieldtype": "Column Break"
   }
  ],
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-08 17:22:21.269749",
+ "modified": "2024-03-08 17:23:22.508173",
  "modified_by": "Administrator",
  "module": "Bbl Api",
- "name": "Elec Meter RT",
+ "name": "Elec Meter Report",
  "owner": "Administrator",
  "permissions": [
   {
@@ -169,30 +177,6 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Manufacturing User",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Manufacturing Manager",
    "share": 1,
    "write": 1
   }

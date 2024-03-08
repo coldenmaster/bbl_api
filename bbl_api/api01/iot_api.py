@@ -3,6 +3,7 @@ import frappe
 from frappe.utils import today, add_to_date
 
 from wechat_work.utils import send_str_to_admin
+from bbl_api.api01.em_parse import correct_em_data, parse_em_mqtt_str
 from bbl_api.utils import *
 
 # from mqtt.mqtt_rt import mqtt_route, bbl_mqtt_client
@@ -21,32 +22,43 @@ def publish(msg, topic = 'esp/in'):
     bbl_mqtt_client.publish(topic, msg)
 
 
+
+""" 
+    esp8266通过mqtt发送上来的数据，都转发到这里，进行分类处理：
+    1.通过deviceType（上传的）进行分类
+    2.新设备找不到总数包ex，需要提前处理。
+
+"""
+
+
 # 已经取消了on_message向这里转发，使用mqtt服务器向这里进行转发
 # mqtt 接收数据api 
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp
 @frappe.whitelist(allow_guest=True)
 def esp(*args, **kwargs):
-    # print_cyan( f"from mqtt esp/out rev:, { str(kwargs) }")
+    print_cyan( f"from mqtt esp/out rev:, { str(kwargs) }")
     # print_green_pp(kwargs)
     obj = frappe._dict(kwargs)
-    espWho = obj.clientid.split('-')[0] or "espNew"
+    # espWho = obj.clientid.split('-')[0] or "espNew"
     timeUtc = obj.publish_received_at
     try:
         jsonPayload = json.loads(obj.payload)
     except:
         jsonPayload = {
-            "content": obj.payload,
+            "content": obj.payload,  # payload是单字符串的处理
         }
-    jsonPayload['espWho'] = espWho
+    jsonPayload['espWho'] = jsonPayload.get('espId')
     jsonPayload['timeUtc'] = timeUtc / 1000
     # jsonPayload['msgType'] = obj.topic
     # jsonPayload['opType'] = 'esp_rcl_water_temp'
-    # print(jsonPayload)
+    # print_green_pp(jsonPayload)
     
     add_new_ip_info(**jsonPayload)
     
-    if jsonPayload.get('opType') == 'WATER_TEMP':
-            add_new_rcl_water_temp(**jsonPayload)
+    if jsonPayload.get('opType', '') == 'WATER_TEMP':
+        add_new_rcl_water_temp(**jsonPayload)
+    if jsonPayload.get('deviceType', '') == 'EM':
+        parse_em_data(**jsonPayload)
     # else:
     #     print_red("no match mqtt route.")
     
@@ -59,7 +71,44 @@ def esp(*args, **kwargs):
     
     return "mqtt rev ok"
 
+def parse_em_data(**kwargs):
+    if kwargs.get('opType', '') != 'EM_DATA':
+        return
+    em_dict = parse_em_mqtt_str(**kwargs)
+    em_obj = frappe._dict(em_dict)
+    print_green(em_obj)
+    # 找到是哪个电表，获取电表名称
+    em_addr = em_obj.get('em_id', '9527')
+    dev_doc = {}
+    try:
+        dev_doc = frappe.get_doc("Iot Device", em_addr)
+    except:
+        # 新建设备信息
+        dev_doc = frappe.new_doc("Iot Device")
+        dev_doc.iot_name = em_addr
+        dev_doc.device_name = '未知电表'
+        dev_doc.save(ignore_permissions=True)
+        frappe.db.commit()
+    
+    # 取得电压比，电流比
+    tv = int(dev_doc.value_one) if dev_doc.value_one.isdigit() else 1
+    tc = int(dev_doc.value_two) if dev_doc.value_two.isdigit() else 1
+    print("tv, tc", tv, tc)
+    correct_em_data(em_obj, tv, tc)
+    
+    # 新建电表记录
+    em_obj.doctype = 'Elec Meter RT'
+    em_obj.em_address = em_addr
+    em_obj.em_name = dev_doc.device_name
+    em_obj.em_type = dev_doc.device_type
+    new_em_doc = frappe.get_doc(em_obj)
+    # print_blue_pp(new_em_doc)
+    new_em_doc.insert(ignore_permissions=True)
+    frappe.db.commit()
+    
 
+    
+    
 def add_new_rcl_water_temp(**kwargs):
     obj = frappe._dict(kwargs)
     # print_red(f'obj:{obj}')
@@ -113,9 +162,12 @@ def add_new_ip_info(**kwargs):
     except:
         devDoc = frappe.new_doc("Iot Device")
         devDoc.save(ignore_permissions=True)
+        frappe.db.commit()
     ip_info = "" + str(obj.espIp) + "@" + str(obj.wifiSsid)
     if (devDoc.ip_info != ip_info):
         devDoc.db_set('ip_info', ip_info)
+    # todo 这里根据设备类型，过滤掉存储温度
+    # todo 这里根据modified时间，处理10min内的存储ip记录
     if (devDoc.value_one != obj.tempFloat):
         devDoc.db_set('value_one', obj.tempFloat, update_modified=False)
     # devDoc.save(ignore_permissions=True)

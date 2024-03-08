@@ -1,8 +1,11 @@
+import datetime
 import json
 import frappe
 # from frappe.utils import get_fullname
 import frappe.utils
 from pprint import pprint
+from frappe.utils.data import add_to_date
+import wechat_work
 
 from wechat_work.utils import send_str_to_admin
 
@@ -15,7 +18,7 @@ logger = frappe.logger("iot")
 
 
 def test1():
-    print_blue('bbl_api.test1.t1')
+    print_blue('bbl_api.test1.test1')
 
 def test2(arg1, arg2):
     frappe.enqueue('myapp.mymodule.long_job', arg1=arg1, arg2=arg2)
@@ -31,13 +34,16 @@ def enqueue_long_job(arg1, arg2):
     
     
 def t1():
-    print_blue('bbl_api.test.t1')
+    print_purple('bbl_api.test.t1')
+    send_str_to_admin('bbl_api.test.t1')
     
     
     '''
 import importlib
 # from bbl_api import test
 import bbl_api.test
+test = bbl_api.test
+test.t2()
 importlib.reload(bbl_api.test) # module需要相同
 # console时间长以后local报错，需要从新运行(X), 时importlib.reload(frappe)后报错,可能是丢失local指向
 In [11]: importlib.reload(frappe.email.doctype.email_queue.email_queue)
@@ -103,35 +109,97 @@ def t4():
     print_red('t4 over')
     
 def t5():
-    print_blue('t5() start')
-    doc_change(**kw)
-    print_blue('t5() end')
+    print('t5() start')
+    t7()
+    print('t5() end')
     
-def doc_change(**kw):
-    
-    print_blue_pp(kw)
-    print_green_pp(kw)
-    
+def t6():
+    # li = frappe.db.get_list('User', filters={'name': 'Administrator'}, fields=['name', 'email', 'full_name'])
+    # li = frappe.db.get_list('User', fields=['name', 'email', 'full_name'])
+    # li = frappe.db.get_list('Employee',  fields=['name', 'first_name',] )
+    # li = frappe.db.get_list('Employee', pluck = 'first_name')
+    li = frappe.db.get_list('Employee',
+                            filters =  {
+                                'first_name': ['like', '%王%'],
+                            },
+                            order_by='modified asc',
+                            # start = 5,
+                            # page_length = 3,
+                            # fields=['name', 'first_name',],
+                            # distinct = True,
+                            # as_list = True,
+                            pluck = 'first_name'
+                            )
+    print_blue_pp(li)
+    print_green(f'list cnt: {len(li)}')
+    t7()
     pass
 
+def t7():
+    em_perday()
 
-kw = {
-    "username": "undefined",
-    "topic": "esp/out",
-    "timestamp": 1707965681208,
-    "qos": 0,
-    "publish_received_at": 1707965681208,
-    "pub_props": {
-        "User-Property": {}
-    },
-    "peerhost": "117.153.11.255",
-    "payload": '{"espId":"espTzxWater3","deviceId":"espTzxWater3","mac":"D8:BF:C0:FA:B7:F2","wifiSsid":"HIKbs","wifiRssi":"-38dBm","espIp":"192.168.0.200","temperature":4062,"tempFloat":40.625,"queryCnt":35044,"queryFailed":15,"updateCnt":5091,"updateFailed":27,"timestamp":48300,"tempHigh":35,"tempLow":15}',
-    "node": "emqx@172.18.0.5",
-    "metadata": {
-        "rule_id": "frappe-esp-temp_WH_D"
-    },
-    "id": "00061162BFB78D3D6EF103000835003C",
-    "event": "message.publish",
-    "clientid": "espTzxWater3-18",
-    "cmd": "bbl_api.api01.iot_api.esp"
-}
+
+def em_perday():
+    # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
+    now = datetime.datetime.now()
+    end_time = now.replace(hour=0, minute=0, second=0, microsecond=0)
+    start_time = end_time + datetime.timedelta(days=-1)
+    # start_time = start_time.replace(hour=18)
+    start_mon = add_to_date(end_time, months=-1)
+    print_red(f"time1: {start_time}")
+    print_red(f"time2: {end_time}")
+    print_red(f"time3: {start_mon}")
+    # 获取电表列表
+    li = frappe.db.get_list('Elec Meter RT', 
+                        filters =  {
+                            'modified': ('between', [start_time, end_time]),
+                        },
+                        pluck = 'em_name',
+                        distinct = True,
+                        ignore_ifnull = True)
+    print_blue_pp(li)
+    
+    for em_name in li:
+        em_calc(em_name, start_time, end_time)
+
+def em_calc(em_name, start_time, end_time):
+    li = frappe.db.get_list('Elec Meter RT', 
+                            filters =  {
+                                'em_name': em_name,
+                                'modified': ('between', [start_time, end_time]),
+                            },
+                            # fields=['em_name', 'modified' ,'et', 'name'],
+                            fields=['*'],
+                            order_by='modified asc',
+                            )
+    # print_blue_pp(li)
+    print_red(f'{em_name} list cnt: {len(li)}')
+    if not li:
+        return
+    doc_first = li[0]
+    doc_last = li[-1]
+    # print_blue_pp(doc_first)
+    # print_blue_pp(doc_last)
+    em_et_sub(doc_last, doc_first)
+    doc_last.pt = max(em.pt for em in li)
+    doc_last.pa = max(em.pa for em in li)
+    doc_last.pc = max(em.pc for em in li)
+    doc_last.pf = min(em.pf for em in li)
+    print_green_pp(doc_last)
+    doc_last.doctype = 'Elec Meter Report'
+    doc_last.report_period = '日报'
+    new_em_report = frappe.get_doc(doc_last)
+    new_em_report.insert(ignore_permissions=True)
+    frappe.db.commit()
+    
+
+def em_et_sub(last, first):
+    last.et_sub = last.et - first.et
+    last.et1_sub = last.et1 - first.et1
+    last.et2_sub = last.et2 - first.et2
+    last.et3_sub = last.et3 - first.et3
+    last.et4_sub = last.et4 - first.et4
+    
+
+def mk_em_result():
+    pass
