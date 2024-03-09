@@ -7,17 +7,17 @@ from frappe.utils import now
 
 def all():
     msg = f"scheduler: {now()} All"
-    send_wechat_msg_here(msg)
+    # send_wechat_msg_here(msg)
     
     
 def hourly():
     msg = f"scheduler: {now()} hourly"
-    send_str_to_admin(msg)
+    # send_str_to_admin(msg)
     
 def daily():
     em_perday()
     msg = f"scheduler: {now()} daily"
-    send_wechat_msg_here(msg)
+    # send_wechat_msg_here(msg)
     
 def weekly():
     msg = f"scheduler: {now()} weekly"
@@ -27,8 +27,16 @@ def monthly():
     msg = f"scheduler: {now()} monthly"
     send_wechat_msg_here(msg)
     
-def minute_5():
-    msg = f"scheduler: {now()} minute_5"
+def minute_per5():
+    msg = f"scheduler: {now()} minute_per5"
+    send_wechat_msg_here(msg)
+        
+def minute_per30():
+    msg = f"scheduler: {now()} minute_per30"
+    send_wechat_msg_here(msg)
+            
+def minute_30():
+    msg = f"scheduler: {now()} minute_30"
     send_wechat_msg_here(msg)
     
 def annual():
