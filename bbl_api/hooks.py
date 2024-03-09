@@ -1,4 +1,3 @@
-# from bbl_api.api01.iot_api import mqtt_register
 from . import __version__ as app_version
 
 app_name = "bbl_api"
@@ -11,7 +10,7 @@ app_license = "MIT"
 # from mqtt.mqtt_rt import bbl_mqtt_client
 # bbl_mqtt_client.message_callback_add('testtopic/#', mqtt_testtopic_message)
 
-print("我是 bbl_api hooks")
+# print("我是 bbl_api hooks")
 # mqtt_register()
 
 # Includes in <head>
