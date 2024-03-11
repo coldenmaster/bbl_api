@@ -8,6 +8,7 @@
   "em_name",
   "em_type",
   "report_period",
+  "for_date",
   "et",
   "et1",
   "et2",
@@ -157,12 +158,20 @@
    "in_list_view": 1,
    "label": "Power Factor",
    "precision": "2"
+  },
+  {
+   "columns": 3,
+   "fieldname": "for_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "For Date",
+   "reqd": 1
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-08 17:23:22.508173",
+ "modified": "2024-03-11 10:23:14.017204",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Elec Meter Report",
