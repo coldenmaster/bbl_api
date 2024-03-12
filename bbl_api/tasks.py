@@ -1,4 +1,5 @@
 
+import frappe
 import wechat_work
 from wechat_work.utils import send_str_to_admin
 from bbl_api.test import em_perday, em_permonth
@@ -18,8 +19,8 @@ def hourly():
     
 def daily():
     em_perday()
-    # msg = f"scheduler: {now()} daily"
-    # send_wechat_msg_here(msg)
+    msg = f"scheduler: {now()} daily"
+    send_wechat_msg_here(msg)
     
 def weekly():
     msg = f"scheduler: {now()} weekly"
@@ -49,6 +50,7 @@ def annual():
     send_wechat_msg_here(msg)
 
 def send_wechat_msg_here(msg):
+    msg = f'[{frappe.local.site}] - {msg}'
     wechat_work.utils.send_str_to_admin(msg)
     pass
 

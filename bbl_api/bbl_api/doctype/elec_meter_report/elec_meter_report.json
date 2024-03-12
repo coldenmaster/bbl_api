@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "creation": "2024-03-08 15:21:00.114445",
  "doctype": "DocType",
@@ -160,18 +161,19 @@
    "precision": "2"
   },
   {
-   "columns": 3,
+   "columns": 5,
    "fieldname": "for_date",
    "fieldtype": "Datetime",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "For Date",
-   "reqd": 1
+   "reqd": 1,
+   "width": "120"
   }
  ],
  "in_create": 1,
- "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-11 10:23:14.017204",
+ "modified": "2024-03-12 08:58:57.494581",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Elec Meter Report",
@@ -186,6 +188,30 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manufacturing User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Manufacturing Manager",
    "share": 1,
    "write": 1
   }

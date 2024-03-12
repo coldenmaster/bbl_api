@@ -57,6 +57,7 @@ def t2():
     # importlib.reload(bbl_api.test)
     # print_blue(importlib.reload(bbl_api))
     print(importlib.reload(bbl_api.test))
+    print(importlib.reload(bbl_api.tasks))
     t5()
     
     
@@ -111,6 +112,8 @@ def t4():
 def t5():
     print('t5() start')
     t7()
+    t8()
+    
     print('t5() end')
     
 def t6():
@@ -118,27 +121,35 @@ def t6():
     # li = frappe.db.get_list('User', fields=['name', 'email', 'full_name'])
     # li = frappe.db.get_list('Employee',  fields=['name', 'first_name',] )
     # li = frappe.db.get_list('Employee', pluck = 'first_name')
-    li = frappe.db.get_list('Employee',
-                            filters =  {
-                                'first_name': ['like', '%王%'],
-                            },
-                            order_by='modified asc',
-                            # start = 5,
-                            # page_length = 3,
-                            # fields=['name', 'first_name',],
-                            # distinct = True,
-                            # as_list = True,
-                            pluck = 'first_name'
-                            )
-    print_blue_pp(li)
-    print_green(f'list cnt: {len(li)}')
-    t7()
+    # li = frappe.db.get_list('Employee',
+    #                         filters =  {
+    #                             'first_name': ['like', '%王%'],
+    #                         },
+    #                         order_by='modified asc',
+    #                         # start = 5,
+    #                         # page_length = 3,
+    #                         # fields=['name', 'first_name',],
+    #                         # distinct = True,
+    #                         # as_list = True,
+    #                         pluck = 'first_name'
+    #                         )
+    # print_blue_pp(li)
+    # print_green(f'list cnt: {len(li)}')
+    # t7()
     pass
 
 def t7():
     em_perday()
     em_permonth()
+
+def t8():
+    #test
+    print(frappe.get_site_path())
+    print(dir(frappe.local))
+    print(frappe.local.site)
+    print(frappe.get_conf)
     
+    pass
 
 
 def em_perday():
