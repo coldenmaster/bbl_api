@@ -68,6 +68,7 @@ em_id,电表ID,T
 Em Name,电表名称,
 Em Type,电表类型,
 Em Address,电表地址,
+Em Time,采集时间,
 Elec Total,总读数/千度,
 Elec Total1,谷读数/千度,
 Elec Total2,平读数/千度,

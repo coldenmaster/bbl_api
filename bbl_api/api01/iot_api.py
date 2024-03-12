@@ -1,6 +1,7 @@
 import json
 import frappe
 from frappe.utils import today, add_to_date
+from frappe.utils.data import now
 
 from wechat_work.utils import send_str_to_admin
 from bbl_api.api01.em_parse import correct_em_data, parse_em_mqtt_str
@@ -101,6 +102,7 @@ def parse_em_data(**kwargs):
     em_obj.em_address = em_addr
     em_obj.em_name = dev_doc.device_name
     em_obj.em_type = dev_doc.device_type
+    em_obj.em_time = now()
     new_em_doc = frappe.get_doc(em_obj)
     # print_blue_pp(new_em_doc)
     new_em_doc.insert(ignore_permissions=True)

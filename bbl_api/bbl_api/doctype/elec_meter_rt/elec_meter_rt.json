@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "creation": "2023-11-29 09:01:18.336652",
  "default_view": "List",
  "doctype": "DocType",
@@ -25,7 +26,8 @@
   "column_break_cuba",
   "pf",
   "pfa",
-  "pfc"
+  "pfc",
+  "for_date"
  ],
  "fields": [
   {
@@ -150,11 +152,16 @@
   {
    "fieldname": "column_break_lazj",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "for_date",
+   "fieldtype": "Datetime",
+   "label": "For Date"
   }
  ],
  "in_create": 1,
  "links": [],
- "modified": "2024-03-12 08:58:42.367714",
+ "modified": "2024-03-12 13:51:28.311323",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Elec Meter RT",
