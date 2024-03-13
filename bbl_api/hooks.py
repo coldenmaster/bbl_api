@@ -165,7 +165,7 @@ scheduler_events = {
 		"bbl_api.tasks.monthly"
 	],
  
-    "annually": [
+    "annual": [
         "bbl_api.tasks.annual"
     ],
 	"cron": {
