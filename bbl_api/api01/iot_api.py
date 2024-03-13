@@ -37,7 +37,7 @@ def publish(msg, topic = 'esp/in'):
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp
 @frappe.whitelist(allow_guest=True)
 def esp(*args, **kwargs):
-    print_cyan( f"from mqtt esp/out rev:, { str(kwargs) }")
+    # print_cyan( f"from mqtt esp/out rev:, { str(kwargs) }")
     # print_green_pp(kwargs)
     obj = frappe._dict(kwargs)
     # espWho = obj.clientid.split('-')[0] or "espNew"
@@ -77,7 +77,7 @@ def parse_em_data(**kwargs):
         return
     em_dict = parse_em_mqtt_str(**kwargs)
     em_obj = frappe._dict(em_dict)
-    print_green(em_obj)
+    # print_green(em_obj)
     # 找到是哪个电表，获取电表名称
     em_addr = em_obj.get('em_id', '9527')
     dev_doc = {}
@@ -94,7 +94,7 @@ def parse_em_data(**kwargs):
     # 取得电压比，电流比
     tv = int(dev_doc.value_one) if dev_doc.value_one.isdigit() else 1
     tc = int(dev_doc.value_two) if dev_doc.value_two.isdigit() else 1
-    print("tv, tc", tv, tc)
+    # print("tv, tc", tv, tc)
     correct_em_data(em_obj, tv, tc)
     
     # 新建电表记录
@@ -133,7 +133,7 @@ def add_new_rcl_water_temp(**kwargs):
             """
             devDoc.db_set('alarm_val_one', obj.tempHigh)
             devDoc.db_set('alarm_val_two', obj.tempLow)
-            print_red('保存esp上传的温度报警')
+            # print_red('保存esp上传的温度报警')
     
     newDoc = frappe.get_doc(
         {
@@ -199,7 +199,7 @@ def compare_alarm_info(upHigh, upLow, savHigh, savLow):
         # send_str_to_admin(msg)
         # frappe.log_error("温度设定不成功", msg)
         # logger.error(msg)
-        print_yellow(msg)
+        # print_yellow(msg)
         return True
     return False
 
@@ -215,7 +215,7 @@ def pub01(*args, **kwargs):
     topic = kwargs.get("topic", "esp/in")
     publish(msg, topic)
     rt = f"发送完成：{topic}: {msg}"
-    print_green(rt)
+    # print_green(rt)
     return rt
 
     
@@ -225,7 +225,7 @@ def pub01(*args, **kwargs):
 @frappe.whitelist(allow_guest=True)
 def delTemp(*args, **kwargs):
     last_date = add_to_date(today(), days=int(kwargs.get('days', -30)))
-    print(last_date)
+    # print(last_date)
     frappe.db.delete('Rcl Water Temp', {
         "modified": ("<=", last_date)}
         )
@@ -242,7 +242,7 @@ def delTemp(*args, **kwargs):
 @frappe.whitelist(allow_guest=True)
 def delIpInfo(*args, **kwargs):
     last_date = add_to_date(today(), days=int(kwargs.get('days', -30)))
-    print(last_date)
+    # print(last_date)
     frappe.db.delete('IP Info', {
         "modified": ("<=", last_date)}
         )
@@ -279,7 +279,7 @@ def upData(*args, **kwargs):
     # logger.info(f"{user} access upDate" )  # Guess
     # obj = frappe._dict(kwargs)
     kwargs['espWho'] = kwargs.get('deviceId', 'espNew')
-    print_blue(f'kw: {str(kwargs)}')
+    # print_blue(f'kw: {str(kwargs)}')
     # print_blue(f'obj: {str(obj)}')
     add_new_rcl_water_temp(**kwargs)
     return "Iot update ok"
