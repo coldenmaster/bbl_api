@@ -164,10 +164,9 @@ scheduler_events = {
 	"monthly": [
 		"bbl_api.tasks.monthly"
 	],
- 
-    # "annual": [
-    #     "bbl_api.tasks.annual"
-    # ],
+	# "monthly long": [
+	# 	"bbl_api.tasks.monthly"
+	# ],
 	"cron": {
 		# "0/15 * * * *": [
 		# 	"erpnext.manufacturing.doctype.bom_update_log.bom_update_log.resume_bom_cost_update_jobs",
@@ -184,11 +183,14 @@ scheduler_events = {
 		"30 * * * *": [
             "bbl_api.tasks.minute_30"
 		],
+  
 		# # Daily but offset by 30 minutes
-		"10 1 * * *": [
+		"10 0 * * *": [
             "bbl_api.tasks.daily_00_10m"
 		],
-  
+        "annual": [
+            "bbl_api.tasks.annual"
+        ],
 	},
 }
 
