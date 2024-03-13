@@ -1,4 +1,5 @@
 
+import datetime
 import frappe
 from bbl_api.test import em_perday, em_permonth
 from bbl_api.utils import send_wechat_msg_here
@@ -18,6 +19,14 @@ def hourly():
 def daily():
     em_perday()
     msg = f"scheduler: {now()} daily"
+    send_wechat_msg_here(msg)
+    
+def daily_00_10m():
+    em_perday()
+    now1 = datetime.datetime.now()
+    now2 = now()
+    msg = f"daily_00_10m: {now1}, {now2}"
+    print(msg)
     send_wechat_msg_here(msg)
     
 def weekly():
