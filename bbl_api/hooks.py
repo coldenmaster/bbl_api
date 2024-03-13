@@ -165,7 +165,7 @@ scheduler_events = {
 		"bbl_api.tasks.monthly"
 	],
  
-    "annual": [
+    "annually": [
         "bbl_api.tasks.annual"
     ],
 	"cron": {
@@ -184,9 +184,8 @@ scheduler_events = {
 		"30 * * * *": [
             "bbl_api.tasks.minute_30"
 		],
-  
 		# # Daily but offset by 30 minutes
-		"10 0 * * *": [
+		"10 1 * * *": [
             "bbl_api.tasks.daily_00_10m"
 		],
 	},
