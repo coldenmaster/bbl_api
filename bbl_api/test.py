@@ -180,10 +180,17 @@ def em_perday():
     # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
     report_type = '日报'
     now = datetime.datetime.now()
+    msg = f"now() is: {now}"
+    print_red(msg)
+    send_wechat_msg_here(msg)
+    
     end_time = now.replace(hour=0, minute=0, second=0, microsecond=0)
     start_time = end_time + datetime.timedelta(days=-1)
     print_red(f"perday start_time: {start_time}")
     print_red(f"perday end_time: {end_time}")
+    msg = f"perday start_time: {start_time} -> end_time: {end_time}"
+    send_wechat_msg_here(msg)
+    
     # 获取电表列表
     doc = 'Elec Meter RT'
     li = em_list(doc, start_time, end_time)
@@ -198,6 +205,8 @@ def em_permonth():
     start_time = add_to_date(end_time, months=-1)
     print_red(f"permonth start_time: {start_time}")
     print_red(f"permonth end_time: {end_time}")
+    msg = f"perday start_time: {start_time} -> end_time: {end_time}"
+    send_wechat_msg_here(msg)
     doc = 'Elec Meter Report'
     li = em_list(doc, start_time, end_time)
     for em_name in li:

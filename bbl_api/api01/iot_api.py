@@ -102,7 +102,7 @@ def parse_em_data(**kwargs):
     em_obj.em_address = em_addr
     em_obj.em_name = dev_doc.device_name
     em_obj.em_type = dev_doc.device_type
-    em_obj.em_time = now()
+    em_obj.for_date = now()
     new_em_doc = frappe.get_doc(em_obj)
     # print_blue_pp(new_em_doc)
     new_em_doc.insert(ignore_permissions=True)

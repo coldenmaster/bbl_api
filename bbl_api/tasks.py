@@ -1,9 +1,7 @@
 
 import frappe
-import wechat_work
-from wechat_work.utils import send_str_to_admin
 from bbl_api.test import em_perday, em_permonth
-from bbl_api.utils import print_purple
+from bbl_api.utils import send_wechat_msg_here
 from frappe.utils import now
 
 def all():
@@ -49,9 +47,5 @@ def annual():
     msg = f"scheduler: {now()} annual"
     send_wechat_msg_here(msg)
 
-def send_wechat_msg_here(msg):
-    msg = f'[{frappe.local.site}] - {msg}'
-    wechat_work.utils.send_str_to_admin(msg)
-    pass
 
     

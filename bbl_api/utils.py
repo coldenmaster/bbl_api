@@ -1,6 +1,9 @@
 
 
 import time
+
+import frappe
+import wechat_work
 def timer(func):
     def func_in():
         startTime = time.time()
@@ -66,3 +69,7 @@ def print_blue_pp(msg):
 def print_green_pp(msg):
     print(f"{Color.GREEN}{str(pformat(msg))}\n{Color.RESET}")
     
+def send_wechat_msg_here(msg):
+    msg = f'[{frappe.local.site}] - {msg}'
+    wechat_work.utils.send_str_to_admin(msg)
+    pass
