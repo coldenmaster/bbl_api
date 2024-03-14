@@ -152,26 +152,38 @@ scheduler_events = {
 	"all": [ 
 		"bbl_api.tasks.all"
 	],
+	"hourly": [
+		"bbl_api.tasks.hourly"
+	],
 	"daily": [
 		"bbl_api.tasks.daily"
 	],
-	"hourly": [
-		"bbl_api.tasks.hourly"
+	"daily long": [
+		"bbl_api.tasks.daily_long"
 	],
 	"weekly": [
 		"bbl_api.tasks.weekly"
 	],
+	"weekly long": [
+		"bbl_api.tasks.weekly_long"
+	],
 	"monthly": [
 		"bbl_api.tasks.monthly"
 	],
-	# "monthly long": [
-	# 	"bbl_api.tasks.monthly"
-	# ],
+	"monthly long": [
+		"bbl_api.tasks.monthly_long"
+	],
+	"yearly": [
+		"bbl_api.tasks.yearly"
+	],
 	"cron": {
 		# "0/15 * * * *": [
 		# 	"erpnext.manufacturing.doctype.bom_update_log.bom_update_log.resume_bom_cost_update_jobs",
 		# 	"erpnext.accounts.doctype.process_payment_reconciliation.process_payment_reconciliation.trigger_reconciliation_for_queued_docs",
 		# ],
+		"* * * * *": [
+            "bbl_api.tasks.minutely"
+		],
 		"0/30 * * * *": [
             "bbl_api.tasks.minute_per30"
 		],
@@ -188,9 +200,9 @@ scheduler_events = {
 		"10 0 * * *": [
             "bbl_api.tasks.daily_00_10m"
 		],
-        "annual": [
-            "bbl_api.tasks.annual"
-        ],
+        # "annual": [
+        #     "bbl_api.tasks.annual"
+        # ],
 	},
 }
 

@@ -15,27 +15,44 @@ def hourly():
     # msg = f"scheduler: {now()} hourly"
     # send_str_to_admin(msg)
     pass
+        
+def hourly_long():
+    # msg = f"scheduler: {now()} hourly"
+    # send_str_to_admin(msg)
+    pass
     
 def daily():
+    # msg = f"scheduler: {now()} daily"
+    # send_wechat_msg_here(msg)
+    pass
+        
+def daily_long():
     em_perday()
-    msg = f"scheduler: {now()} daily"
+    msg = f"scheduler daily_long: {now()}"
     send_wechat_msg_here(msg)
     
 def daily_00_10m():
-    em_perday()
-    now1 = datetime.datetime.now()
     now2 = now()
-    msg = f"daily_00_10m: {now1}, {now2}"
+    msg = f"daily_00_10m: {now2}"
     print(msg)
     send_wechat_msg_here(msg)
     
 def weekly():
-    msg = f"scheduler: {now()} weekly"
+    msg = f"scheduler weekly: {now()}"
+    send_wechat_msg_here(msg)
+    
+def weekly_long():
+    msg = f"scheduler weekly: {now()}"
     send_wechat_msg_here(msg)
     
 def monthly():
+    # em_permonth()
+    msg = f"scheduler monthly: {now()} "
+    send_wechat_msg_here(msg)
+        
+def monthly_long():
     em_permonth()
-    msg = f"scheduler: {now()} monthly"
+    msg = f"scheduler long: {now()} "
     send_wechat_msg_here(msg)
     
 def minute_per5():
@@ -52,8 +69,17 @@ def minute_30():
     msg = f"scheduler: {now()} minute_30"
     send_wechat_msg_here(msg)
     
+def minutely():
+    # msg = f"scheduler minutely: {now()}"
+    # send_wechat_msg_here(msg)
+    pass
+    
 def annual():
-    msg = f"scheduler: {now()} annual"
+    msg = f"scheduler annual: {now()} "
+    send_wechat_msg_here(msg)
+
+def yearly():
+    msg = f"scheduler: {now()}"
     send_wechat_msg_here(msg)
 
 
