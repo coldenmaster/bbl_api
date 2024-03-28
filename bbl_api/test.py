@@ -4,7 +4,7 @@ import frappe
 # from frappe.utils import get_fullname
 import frappe.utils
 from pprint import pprint
-from frappe.utils.data import add_to_date, now
+from frappe.utils.data import add_to_date, now, now_datetime
 import wechat_work
 
 from wechat_work.utils import send_str_to_admin
@@ -179,7 +179,7 @@ def t8():
 def em_perday():
     # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
     report_type = '日报'
-    now_time = now()
+    now_time = now_datetime()
     end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
     start_time = end_time + datetime.timedelta(days=-1)
     msg = f"perday start_time: {start_time} -> end_time: {end_time}"
@@ -194,7 +194,7 @@ def em_perday():
 
 def em_permonth():
     report_type = '月报'
-    now = now()
+    now = now_datetime()
     end_time = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     start_time = add_to_date(end_time, months=-1)
     print_red(f"permonth start_time: {start_time}")

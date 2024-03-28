@@ -174,19 +174,24 @@ def msg_ok(msg):
     return True
 
 def correct_em_data(em_obj, tv, tc):
-    pw = tv * tc
-    em_obj.et = em_obj.et * pw / 1000
-    em_obj.et1 = em_obj.et1 * pw / 1000
-    em_obj.et2 = em_obj.et2 * pw / 1000
-    em_obj.et3 = em_obj.et3 * pw / 1000
-    em_obj.et4 = em_obj.et4 * pw / 1000
-    em_obj.pt = em_obj.pt * pw 
-    em_obj.pa = em_obj.pa * pw
-    em_obj.pc = em_obj.pc * pw
-    em_obj.ua = em_obj.ua * tv
-    em_obj.uc = em_obj.uc * tv
-    em_obj.ia = em_obj.ia * tc
-    em_obj.ic = em_obj.ic * tc
+    try:
+        pw = tv * tc
+        em_obj.et = em_obj.et * pw / 1000
+        em_obj.et1 = em_obj.et1 * pw / 1000
+        em_obj.et2 = em_obj.et2 * pw / 1000
+        em_obj.et3 = em_obj.et3 * pw / 1000
+        em_obj.et4 = em_obj.et4 * pw / 1000
+        em_obj.pt = em_obj.pt * pw 
+        em_obj.pa = em_obj.pa * pw
+        em_obj.pc = em_obj.pc * pw
+        em_obj.ua = em_obj.ua * tv
+        em_obj.uc = em_obj.uc * tv
+        em_obj.ia = em_obj.ia * tc
+        em_obj.ic = em_obj.ic * tc
+        return True
+    except:
+        print_red(f"Error in correct_em_data: {em_obj}")
+        return False
     
     
  # report period

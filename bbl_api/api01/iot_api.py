@@ -96,6 +96,7 @@ def parse_em_data(**kwargs):
     tc = int(dev_doc.value_two) if dev_doc.value_two.isdigit() else 1
     # print("tv, tc", tv, tc)
     correct_em_data(em_obj, tv, tc)
+
     
     # 新建电表记录
     em_obj.doctype = 'Elec Meter RT'
@@ -105,6 +106,7 @@ def parse_em_data(**kwargs):
     em_obj.for_date = now()
     new_em_doc = frappe.get_doc(em_obj)
     # print_blue_pp(new_em_doc)
+    # print_blue(em_obj)
     new_em_doc.insert(ignore_permissions=True)
     frappe.db.commit()
     
@@ -252,93 +254,44 @@ def delIpInfo(*args, **kwargs):
     return msg
 
 
-# todo 服务器上准备删除
+# 接收esp直径连接的api，接收各种状态汇报
 # endpoint: 
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat
 # http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.upStat?espId=espGas&wifiSsid=HIKbs3&mac=F4:CF:A2:F7:5D:4C&wifiRssi=-43dBm&espIp=192.168.0.198&opType=7&content=startUp1132
-# @frappe.whitelist(allow_guest=True)
-# def upStat(*args, **kwargs):
-#     print_blue("\n esp http 上传状态")
-#     # obj = frappe._dict(kwargs)
-#     kwargs['espWho'] = kwargs.get('espId', 'espNew')
-    
-#     print_blue(f'kw: {str(kwargs)}')
-#     # print_blue(f'obj: {str(obj)}')
-#     return add_new_ip_info(**kwargs)
+@frappe.whitelist(allow_guest=True)
+def upStat(*args, **kwargs):
+    # print_cyan( f"esp http upStat 上传状态:, { str(kwargs) }")
+    espId = kwargs.get('espId', 'no espId')
+    upType = kwargs.get('opType', 'no opType')
+    up_msg = kwargs.get('content', 'no msg')
+    # print_blue( f"esp http upStat 上传状态: id:{ espId }, type:{ upType }, content:{ up_msg }")
+    if upType == 'GET_LOST':
+        # frappe.local.response.http_status_code = 416
+        return 'get_lost_ok'
+    if upType == 'HEART_BEAT':
+        return 'heart_beat_ok'
+   
+    return 'upStat OK'
 
 
-# todo 服务器上准备删除
+# 接收esp直径连接的api，接收各种数据使用（现在还没有esp使用此接口）
 # endpoint: 
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.upData?deviceId=espGas&deviceName=a32&deviceType=a3&tempFloat=33&queryCnt=44&queryFailed=55&updateCnt=66&updateFailed=77
 @frappe.whitelist(allow_guest=True)
 def upData(*args, **kwargs):
-    print_blue("\n esp http 上传app数据")
-        # user = frappe.session.user
+    print_cyan( f"esp http upData 上传app数据: { str(kwargs) }")
+    
+     # user = frappe.session.user
     # logger.info(f"{user} access upDate" )  # Guess
     # obj = frappe._dict(kwargs)
     kwargs['espWho'] = kwargs.get('deviceId', 'espNew')
     # print_blue(f'kw: {str(kwargs)}')
     # print_blue(f'obj: {str(obj)}')
-    add_new_rcl_water_temp(**kwargs)
+    # add_new_rcl_water_temp(**kwargs)
     return "Iot update ok"
 
-
-# def add_new_ip_info(**kwargs):
-#     logger.error(f"add_new_ip_info: kwargs:{ kwargs}")
-#     try:
-#         if (not kwargs.get("espId")):
-#             return "add_new_ip_info: no espId"
-#         devDoc = frappe.get_doc("Iot Device", kwargs.get("espId", "espNew"))
-#     except:
-#         devDoc = frappe.new_doc("Iot Device")
-#     doc = frappe.new_doc("IP Info")
-#     # 获取此信息设备的相关信息
-#     # print(f"new devDoc:{devDoc}")
-#     doc.update(
-#          {
-#             "ap_name": kwargs.get("wifiSsid"),
-#             "info_type": kwargs.get("opType"),
-#             "information": kwargs.get("content"),
-#             "iot_name": kwargs.get("espId"),
-#             "cn_name": devDoc.device_name,
-#             "ip_address": kwargs.get("espIp"),
-#             "mac_address": kwargs.get("mac"),
-#             # "name": "espGas-01",
-#             "online": 1,
-#             # "state": kwargs.get(state),
-#             "wifi_rssi": kwargs.get("wifiRssi")
-#         }
-#     )
-#     doc.insert(ignore_permissions=True)
-#     frappe.db.commit()
-#     return "Iot up status ok"
-    
-
-
-# def add_new_rcl_water_temp(**kwargs):
-#     # devDoc = frappe.get_doc("Iot Device", {"iot_name": kwargs.get("deviceId")})
-#     devDoc = frappe.get_doc("Iot Device", kwargs.get("deviceId", "espNew"))
-
-#     # print(f"new devDoc:{devDoc}")
-#     doc = frappe.new_doc("Rcl Water Temp")
-#     doc.update(
-#          {
-# 			"esp_name": kwargs.get("deviceId"),
-# 			# "dev_name": devDoc.get("deviceName"),
-# 			"dev_name": devDoc.device_name,
-# 			"dev_type":kwargs.get("deviceType"),
-# 			"temperature": kwargs.get("tempFloat"),
-# 			"query_count": kwargs.get("queryCnt"),
-# 			"query_failed": kwargs.get("queryFailed"),
-# 			"update_count": kwargs.get("updateCnt"),
-# 			"update_failed": kwargs.get("updateFailed"),
-#             "start_long": kwargs.get("timestamp")
-# 		 }
-#     )
-#     doc.insert(ignore_permissions=True)
-#     frappe.db.commit()
 
 """ 调试测试用，还没有用 """
 def test(**kwargs):
