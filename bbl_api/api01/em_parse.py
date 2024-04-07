@@ -3,43 +3,9 @@ import datetime
 import json
 
 import frappe
-from frappe.utils.data import add_to_date
+from frappe.utils.data import add_to_date, now_datetime
 from bbl_api.utils import *
 
-
-up_kwargs = {
-    "username": "undefined", 
-    "topic": "esp/s/d", 
-    "timestamp": 1709632574840, 
-    "qos": 0, 
-    "publish_received_at": 1709632574840, 
-    "pub_props": {"User-Property": {}}, 
-    "peerhost": "117.153.11.255", 
-    "payload": '''{
-        "espId":"espEmGy",
-        "deviceType":"EM",
-        "mac":"30:83:98:92:10:FA",
-        "wifiSsid":"HIKbs",
-        "wifiRssi":"-34dBm",
-        "espIp":"192.168.0.194",
-        "opType":"EM_DATA",
-        "timestamp":3323,
-        "msg":",687098580000906891183332333367443333333333334c333333a5353333753b3333,\
-            6870985800009068911033323635333333333333333333333333,\
-            6870985800009068910a33323435333333333333,\
-            6870985800009068910d33323535333333333333333333,\
-            6870985800009068910c333239353343334333333343"
-        }''',
-    "node": "emqx@172.18.0.7",
-    "metadata": {"rule_id": "dev_esp_frappe_WH_D"},
-    "id": "000612E6DA51DDA3618C22002CA5014B", 
-    "event": "message.publish", 
-    "clientid": "espEmGy-69", 
-    "cmd": "bbl_api.api01.iot_api.esp"
-}
-
-# class ElecMeter:
-#     pass
 
 
 def parse_em_mqtt_str(**kwargs):
@@ -195,8 +161,140 @@ def correct_em_data(em_obj, tv, tc):
     
     
  # report period
- 
+def em_perday():
+    # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
+    report_type = '日报'
+    now_time = now_datetime()
+    end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
+    start_time = end_time + datetime.timedelta(days=-1)
+    msg = f"perday start_time: {start_time} -> end_time: {end_time}"
+    send_wechat_msg_here(msg)
+    
+    # 获取电表列表
+    doc = 'Elec Meter RT'
+    li = em_list(doc, start_time, end_time)
+    
+    for em_name in li:
+        em_calc(doc, report_type, em_name, start_time, end_time)
 
-if __name__ == "__main__":
-    parse_em_mqtt_str(**up_kwargs)
+def em_permonth():
+    report_type = '月报'
+    now = now_datetime()
+    end_time = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    start_time = add_to_date(end_time, months=-1)
+    print_red(f"permonth start_time: {start_time}")
+    print_red(f"permonth end_time: {end_time}")
+    msg = f"perday start_time: {start_time} -> end_time: {end_time}"
+    send_wechat_msg_here(msg)
+    doc = 'Elec Meter Report'
+    li = em_list(doc, start_time, end_time)
+    for em_name in li:
+        em_calc_mon(report_type, em_name, start_time, end_time)
+
+
+def em_list(doc, start_time, end_time):
+    li = frappe.db.get_list(doc, 
+                    filters =  {
+                        'for_date': ('between', [start_time, end_time]),
+                    },
+                    pluck = 'em_name',
+                    distinct = True,
+                    ignore_ifnull = True)
+    print_blue_pp(li)
+    return li
+
+def em_calc(doc, report_type, em_name, start_time, end_time):
+    li = frappe.db.get_list(doc, 
+                            filters =  {
+                                'em_name': em_name,
+                                'for_date': ('between', [start_time, end_time]),
+                            },
+                            # fields=['em_name', 'modified' ,'et', 'name'],
+                            fields=['*'],
+                            order_by='for_date asc',
+                            )
+    em_mk_report(em_name, report_type, li)
+    
+    
+def em_calc_mon(report_type, em_name, start_time, end_time):
+    li = frappe.db.get_list('Elec Meter Report', 
+                            filters =  {
+                                'em_name': em_name,
+                                'report_period': '日报',
+                                'for_date': ('between', [start_time, end_time]),
+                            },
+                            # fields=['em_name', 'modified' ,'et', 'name'],
+                            fields=['*'],
+                            order_by='for_date asc',
+                            )
+    em_mk_report(em_name, report_type, li)
+    
+def em_mk_report(em_name, report_type, li):
+    # print_blue_pp(li)
+    print_red(f'{em_name} list cnt: {len(li)}')
+    if not li:
+        return
+    doc_first = li[0]
+    doc_last = li[-1]
+    # print_blue_pp(doc_first)
+    # print_blue_pp(doc_last)
+    em_et_sub(doc_last, doc_first)
+    doc_last.pt = max(em.pt for em in li)
+    doc_last.pa = max(em.pa for em in li)
+    doc_last.pc = max(em.pc for em in li)
+    doc_last.pf = min(em.pf for em in li)
+    # print_green_pp(doc_last)
+    doc_last.doctype = 'Elec Meter Report'
+    doc_last.report_period = report_type
+    # doc_last.for_date = doc_last.modified
+    new_em_report = frappe.get_doc(doc_last)
+    new_em_report.insert(ignore_permissions=True)
+    frappe.db.commit()
+
+def em_et_sub(last, first):
+    last.et_sub = last.et - first.et
+    last.et1_sub = last.et1 - first.et1
+    last.et2_sub = last.et2 - first.et2
+    last.et3_sub = last.et3 - first.et3
+    last.et4_sub = last.et4 - first.et4
+    
+
+
+# if __name__ == "__main__":
+
+# up_kwargs = {
+#     "username": "undefined", 
+#     "topic": "esp/s/d", 
+#     "timestamp": 1709632574840, 
+#     "qos": 0, 
+#     "publish_received_at": 1709632574840, 
+#     "pub_props": {"User-Property": {}}, 
+#     "peerhost": "117.153.11.255", 
+#     "payload": '''{
+#         "espId":"espEmGy",
+#         "deviceType":"EM",
+#         "mac":"30:83:98:92:10:FA",
+#         "wifiSsid":"HIKbs",
+#         "wifiRssi":"-34dBm",
+#         "espIp":"192.168.0.194",
+#         "opType":"EM_DATA",
+#         "timestamp":3323,
+#         "msg":",687098580000906891183332333367443333333333334c333333a5353333753b3333,\
+#             6870985800009068911033323635333333333333333333333333,\
+#             6870985800009068910a33323435333333333333,\
+#             6870985800009068910d33323535333333333333333333,\
+#             6870985800009068910c333239353343334333333343"
+#         }''',
+#     "node": "emqx@172.18.0.7",
+#     "metadata": {"rule_id": "dev_esp_frappe_WH_D"},
+#     "id": "000612E6DA51DDA3618C22002CA5014B", 
+#     "event": "message.publish", 
+#     "clientid": "espEmGy-69", 
+#     "cmd": "bbl_api.api01.iot_api.esp"
+# }
+
+# class ElecMeter:
+#     pass
+
+#     parse_em_mqtt_str(**up_kwargs)
 

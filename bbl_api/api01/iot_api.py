@@ -1,7 +1,7 @@
 import json
 import frappe
 from frappe.utils import today, add_to_date
-from frappe.utils.data import now
+from frappe.utils.data import get_timestamp, now, now_datetime
 
 from wechat_work.utils import send_str_to_admin
 from bbl_api.api01.em_parse import correct_em_data, parse_em_mqtt_str
@@ -41,24 +41,31 @@ def esp(*args, **kwargs):
     # print_green_pp(kwargs)
     obj = frappe._dict(kwargs)
     # espWho = obj.clientid.split('-')[0] or "espNew"
-    timeUtc = obj.publish_received_at
+    timeUtc = obj.publish_received_at or get_timestamp(now_datetime())
     try:
         jsonPayload = json.loads(obj.payload)
     except:
         jsonPayload = {
             "content": obj.payload,  # payload是单字符串的处理
         }
-    jsonPayload['espWho'] = jsonPayload.get('espId')
+    jsonPayload['espWho'] = jsonPayload.get('espId') or "espNew"
     jsonPayload['timeUtc'] = timeUtc / 1000
     # jsonPayload['msgType'] = obj.topic
     # jsonPayload['opType'] = 'esp_rcl_water_temp'
     # print_green_pp(jsonPayload)
-    
+
+    devDoc = frappe.get_doc("Iot Device",jsonPayload.get('espWho'))
+    # jsonPayload['dev_type_db'] = devDoc.device_type
+    # jsonPayload['dev_name_db'] = devDoc.device_name
+    jsonPayload['dev_doc'] = devDoc
+
     add_new_ip_info(**jsonPayload)
-    
-    if jsonPayload.get('opType', '') == 'WATER_TEMP':
+
+    if '中频炉测温' == devDoc.device_type:
+        add_esp_adc_base(**jsonPayload)
+    elif jsonPayload.get('opType', '') == 'WATER_TEMP':
         add_new_rcl_water_temp(**jsonPayload)
-    if jsonPayload.get('deviceType', '') == 'EM':
+    elif jsonPayload.get('deviceType', '') == 'EM':  # 注意这个判断放在前面，会拦截了别的处理
         parse_em_data(**jsonPayload)
     # else:
     #     print_red("no match mqtt route.")
@@ -110,8 +117,6 @@ def parse_em_data(**kwargs):
     new_em_doc.insert(ignore_permissions=True)
     frappe.db.commit()
     
-
-    
     
 def add_new_rcl_water_temp(**kwargs):
     obj = frappe._dict(kwargs)
@@ -156,6 +161,38 @@ def add_new_rcl_water_temp(**kwargs):
     )
     newDoc.insert(ignore_permissions=True)
     frappe.db.commit()
+   
+    
+def add_esp_adc_base(**kwargs):
+    obj = frappe._dict(kwargs)
+    print_red(f"进入中频炉测温处理 {obj.get('espWho')=}")
+    # print_green_pp(obj)
+    # 查询设备信息，对比报警信息
+    dev_doc = obj.dev_doc
+    deviceName = dev_doc.device_name or "espNew"
+    deviceType = dev_doc.device_type or "espType"
+    print_yellow(f'deviceName:{deviceName}')
+    
+    newDoc = frappe.get_doc(
+        {
+            "doctype": "Esp Adc Base",
+            "esp_name": obj.deviceId,
+            "dev_name": deviceName,
+            "dev_type": deviceType,
+            "op_type": obj.opType,
+            "poweron_duration": obj.timestamp,
+            "query_count": obj.queryCnt,
+            "update_count": obj.updateCnt,
+            "adc_value": obj.adcValue,
+            "target_value": obj.targetValue,
+            "display_value": obj.targetValue_f,
+            "target_top": obj.tempTop,
+            "target_count": obj.tempCnt,
+            "target_bottom": obj.tempIdx,
+        }
+    )
+    newDoc.insert(ignore_permissions=True)
+    frappe.db.commit()
 
 def add_new_ip_info(**kwargs):
     # print_blue(f"add_new_ip_info: kwargs:{ kwargs }")
@@ -165,6 +202,8 @@ def add_new_ip_info(**kwargs):
         devDoc = frappe.get_doc("Iot Device", obj.espWho)
     except:
         devDoc = frappe.new_doc("Iot Device")
+        devDoc.iot_name = obj.espWho
+        devDoc.device_name = '未知设备'
         devDoc.save(ignore_permissions=True)
         frappe.db.commit()
     ip_info = "" + str(obj.espIp) + "@" + str(obj.wifiSsid)

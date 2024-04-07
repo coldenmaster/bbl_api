@@ -1,28 +1,26 @@
 {
  "actions": [],
- "autoname": "format:{##########}",
- "creation": "2023-12-19 11:34:39.347346",
+ "creation": "2024-03-29 12:34:18.125263",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "base_info_section",
   "esp_name",
   "dev_name",
   "dev_type",
-  "column_break_piyd",
-  "temperature",
+  "op_type",
+  "column_break_bjxq",
+  "poweron_duration",
   "query_count",
-  "query_failed",
   "update_count",
-  "update_failed",
-  "start_long"
+  "column_break_zogj",
+  "adc_value",
+  "target_value",
+  "display_value",
+  "target_top",
+  "target_bottom",
+  "target_count"
  ],
  "fields": [
-  {
-   "fieldname": "base_info_section",
-   "fieldtype": "Section Break",
-   "label": "Base Info"
-  },
   {
    "fieldname": "esp_name",
    "fieldtype": "Data",
@@ -37,54 +35,88 @@
   {
    "fieldname": "dev_type",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Dev Type"
   },
   {
-   "fieldname": "column_break_piyd",
+   "fieldname": "op_type",
+   "fieldtype": "Data",
+   "label": "Op Type"
+  },
+  {
+   "fieldname": "column_break_bjxq",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "temperature",
-   "fieldtype": "Float",
+   "fieldname": "poweron_duration",
+   "fieldtype": "Duration",
    "in_list_view": 1,
-   "label": "Temperature"
+   "label": "Poweron Duration"
   },
   {
    "fieldname": "query_count",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Query Count"
+   "label": "Query Count",
+   "precision": "3"
   },
   {
    "fieldname": "update_count",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Update Count"
+   "label": "Update Count",
+   "precision": "3"
   },
   {
-   "fieldname": "update_failed",
-   "fieldtype": "Int",
-   "label": "Update Failed"
+   "fieldname": "column_break_zogj",
+   "fieldtype": "Column Break"
   },
   {
-   "fieldname": "start_long",
-   "fieldtype": "Duration",
-   "label": "Start Long"
-  },
-  {
-   "fieldname": "query_failed",
+   "fieldname": "adc_value",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Query Failed"
+   "label": "Adc Value",
+   "precision": "3"
+  },
+  {
+   "fieldname": "target_value",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Target Value",
+   "precision": "3"
+  },
+  {
+   "fieldname": "display_value",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Display Value",
+   "precision": "3"
+  },
+  {
+   "fieldname": "target_top",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Target Top",
+   "precision": "3"
+  },
+  {
+   "fieldname": "target_bottom",
+   "fieldtype": "Int",
+   "label": "Target Bottom",
+   "precision": "3"
+  },
+  {
+   "fieldname": "target_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Target Count",
+   "precision": "3"
   }
  ],
  "links": [],
- "modified": "2024-03-29 12:54:31.662051",
+ "modified": "2024-03-29 12:55:57.761586",
  "modified_by": "Administrator",
  "module": "Bbl Api",
- "name": "Rcl Water Temp",
- "naming_rule": "Expression",
+ "name": "Esp Adc Base",
  "owner": "Administrator",
  "permissions": [
   {
@@ -126,5 +158,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "dev_name"
 }

@@ -149,7 +149,8 @@ def t7():
 
     
     # em_perday()
-    em_permonth()
+    # em_permonth()
+    pass
     
 
 def t8():
@@ -176,100 +177,3 @@ def t8():
 #     for em_name in li:
 #         em_calc(doc, report_type, em_name, start_time, end_time)
 
-def em_perday():
-    # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
-    report_type = '日报'
-    now_time = now_datetime()
-    end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
-    start_time = end_time + datetime.timedelta(days=-1)
-    msg = f"perday start_time: {start_time} -> end_time: {end_time}"
-    send_wechat_msg_here(msg)
-    
-    # 获取电表列表
-    doc = 'Elec Meter RT'
-    li = em_list(doc, start_time, end_time)
-    
-    for em_name in li:
-        em_calc(doc, report_type, em_name, start_time, end_time)
-
-def em_permonth():
-    report_type = '月报'
-    now = now_datetime()
-    end_time = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-    start_time = add_to_date(end_time, months=-1)
-    print_red(f"permonth start_time: {start_time}")
-    print_red(f"permonth end_time: {end_time}")
-    msg = f"perday start_time: {start_time} -> end_time: {end_time}"
-    send_wechat_msg_here(msg)
-    doc = 'Elec Meter Report'
-    li = em_list(doc, start_time, end_time)
-    for em_name in li:
-        em_calc_mon(report_type, em_name, start_time, end_time)
-
-
-def em_list(doc, start_time, end_time):
-    li = frappe.db.get_list(doc, 
-                    filters =  {
-                        'for_date': ('between', [start_time, end_time]),
-                    },
-                    pluck = 'em_name',
-                    distinct = True,
-                    ignore_ifnull = True)
-    print_blue_pp(li)
-    return li
-
-def em_calc(doc, report_type, em_name, start_time, end_time):
-    li = frappe.db.get_list(doc, 
-                            filters =  {
-                                'em_name': em_name,
-                                'for_date': ('between', [start_time, end_time]),
-                            },
-                            # fields=['em_name', 'modified' ,'et', 'name'],
-                            fields=['*'],
-                            order_by='for_date asc',
-                            )
-    em_mk_report(em_name, report_type, li)
-    
-    
-def em_calc_mon(report_type, em_name, start_time, end_time):
-    li = frappe.db.get_list('Elec Meter Report', 
-                            filters =  {
-                                'em_name': em_name,
-                                'report_period': '日报',
-                                'for_date': ('between', [start_time, end_time]),
-                            },
-                            # fields=['em_name', 'modified' ,'et', 'name'],
-                            fields=['*'],
-                            order_by='for_date asc',
-                            )
-    em_mk_report(em_name, report_type, li)
-    
-def em_mk_report(em_name, report_type, li):
-    # print_blue_pp(li)
-    print_red(f'{em_name} list cnt: {len(li)}')
-    if not li:
-        return
-    doc_first = li[0]
-    doc_last = li[-1]
-    # print_blue_pp(doc_first)
-    # print_blue_pp(doc_last)
-    em_et_sub(doc_last, doc_first)
-    doc_last.pt = max(em.pt for em in li)
-    doc_last.pa = max(em.pa for em in li)
-    doc_last.pc = max(em.pc for em in li)
-    doc_last.pf = min(em.pf for em in li)
-    # print_green_pp(doc_last)
-    doc_last.doctype = 'Elec Meter Report'
-    doc_last.report_period = report_type
-    # doc_last.for_date = doc_last.modified
-    new_em_report = frappe.get_doc(doc_last)
-    new_em_report.insert(ignore_permissions=True)
-    frappe.db.commit()
-
-def em_et_sub(last, first):
-    last.et_sub = last.et - first.et
-    last.et1_sub = last.et1 - first.et1
-    last.et2_sub = last.et2 - first.et2
-    last.et3_sub = last.et3 - first.et3
-    last.et4_sub = last.et4 - first.et4
-    
