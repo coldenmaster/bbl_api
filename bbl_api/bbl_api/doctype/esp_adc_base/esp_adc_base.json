@@ -10,8 +10,10 @@
   "op_type",
   "column_break_bjxq",
   "poweron_duration",
+  "out_interval",
   "query_count",
   "update_count",
+  "product_quantity",
   "column_break_zogj",
   "adc_value",
   "target_value",
@@ -23,8 +25,9 @@
  "fields": [
   {
    "fieldname": "esp_name",
-   "fieldtype": "Data",
-   "label": "Esp Name"
+   "fieldtype": "Link",
+   "label": "Esp Name",
+   "options": "Iot Device"
   },
   {
    "fieldname": "dev_name",
@@ -107,13 +110,25 @@
   {
    "fieldname": "target_count",
    "fieldtype": "Int",
-   "in_list_view": 1,
    "label": "Target Count",
+   "precision": "3"
+  },
+  {
+   "fieldname": "out_interval",
+   "fieldtype": "Duration",
+   "in_list_view": 1,
+   "label": "Out Interval"
+  },
+  {
+   "fieldname": "product_quantity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Product Quantity",
    "precision": "3"
   }
  ],
  "links": [],
- "modified": "2024-03-29 12:55:57.761586",
+ "modified": "2024-04-12 14:38:35.765496",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Esp Adc Base",

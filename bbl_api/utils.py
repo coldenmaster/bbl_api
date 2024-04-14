@@ -1,9 +1,12 @@
-
-
 import time
 
 import frappe
+from frappe.utils.data import now
 import wechat_work
+
+import bbl_api
+
+
 def timer(func):
     def func_in():
         startTime = time.time()
@@ -69,7 +72,19 @@ def print_blue_pp(msg):
 def print_green_pp(msg):
     print(f"{Color.GREEN}{str(pformat(msg))}\n{Color.RESET}")
     
-def send_wechat_msg_here(msg):
-    msg = f'[{frappe.local.site}] - {msg}'
+    
+# 微信发送信息相关
+def send_wechat_msg_admin_site(msg):
+    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
     wechat_work.utils.send_str_to_admin(msg)
-    pass
+
+def send_wechat_msg_temp_app(msg):
+    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    wechat_work.utils.send_str_to_wework(msg, app_name='TEMP_APP', tag_ids='2')
+
+def send_wechat_msg_admin_site_queue(msg):
+    frappe.enqueue(bbl_api.utils.send_wechat_msg_admin_site, queue='short', now=True, msg = msg)
+    
+def send_wechat_msg_temp_queue(msg):
+    frappe.enqueue(bbl_api.utils.send_wechat_msg_temp_app, queue='short', now=True, msg = msg)
+   

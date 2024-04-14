@@ -144,7 +144,8 @@ sounds = [
 #	}
 # }
 
-# Scheduled Tasks
+# Scheduled Tasks 
+# 需要 bench migrate --skip-search-index 后（存入数据库内）才能生效
 # ---------------
 
 scheduler_events = {
@@ -187,22 +188,18 @@ scheduler_events = {
 		"0/30 * * * *": [
             "bbl_api.tasks.minute_per30"
 		],
-		# # Hourly but offset by 30 minutes
 		"0/5 * * * *": [
             "bbl_api.tasks.minute_per5"
 		],
-		# # Daily but offset by 30 minutes
 		"30 * * * *": [
             "bbl_api.tasks.minute_30"
 		],
-  
-		# # Daily but offset by 30 minutes
 		"10 0 * * *": [
             "bbl_api.tasks.daily_00_10m"
 		],
-        # "annual": [
-        #     "bbl_api.tasks.annual"
-        # ],
+		"10 8 * * *": [
+            "bbl_api.tasks.daily_08_10m"
+		],
 	},
 }
 
