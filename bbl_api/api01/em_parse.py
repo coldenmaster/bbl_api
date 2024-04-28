@@ -164,8 +164,8 @@ def em_perday():
     now_time = now_datetime()
     end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
     start_time = end_time + datetime.timedelta(days=-1)
-    msg = f"电表日报\nstart_time: {start_time}\nend_time: {end_time}"
-    send_wechat_msg_admin_site(msg)
+    # msg = f"电表日报\nstart_time:{start_time}\n end_time: {end_time}"
+    # send_wechat_msg_admin_site(msg)
     
     # 获取电表列表
     doc = 'Elec Meter RT'
@@ -181,7 +181,7 @@ def em_permonth():
     start_time = add_to_date(end_time, months=-1)
     print_red(f"permonth start_time: {start_time}")
     print_red(f"permonth end_time: {end_time}")
-    msg = f"电表月报\nstart_time: {start_time}\nend_time: {end_time}"
+    msg = f"电表月报\nstart_time:{start_time}\n end_time: {end_time}"
     send_wechat_msg_admin_site(msg)
     doc = 'Elec Meter Report'
     li = em_list(doc, start_time, end_time)

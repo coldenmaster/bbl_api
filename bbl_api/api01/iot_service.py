@@ -88,6 +88,7 @@ def add_new_rcl_water_temp(**kwargs):
     newDoc.insert(ignore_permissions=True)
     frappe.db.commit()
     
+    
 def add_esp_adc_base(**kwargs):
     obj = frappe._dict(kwargs)
     # print_red(f"进入中频炉测温处理 {obj.get('espWho')=}")
@@ -121,9 +122,7 @@ def add_esp_adc_base(**kwargs):
     )
     newDoc.insert(ignore_permissions=True)
     frappe.db.commit()
-    if (obj.opType == 'POWER_ON'):
-        send_wechat_msg_admin_site_queue(f'{deviceName} 开机')
-
+    
 def get_dev_doc(dev_name):
     dev_doc = {}
     try:
@@ -167,6 +166,10 @@ def add_new_ip_info(**kwargs):
     )
     newDoc.insert(ignore_permissions=True)
     frappe.db.commit()
+    if (obj.opType == 'POWER_ON'):
+        msg = f'{newDoc.dev_name} 开机\n'
+        msg += f'{newDoc.ip_address}@{newDoc.ap_name}'
+        send_wechat_msg_admin_site_queue(msg)
     
 
 def compare_alarm_info(upHigh, upLow, savHigh, savLow):

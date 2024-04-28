@@ -1,7 +1,7 @@
 import frappe
 import datetime
-from frappe.utils.data import add_to_date, now_datetime
-from bbl_api.utils import print_blue, print_cyan, send_wechat_msg_admin_site, send_wechat_msg_admin_site_queue, send_wechat_msg_temp_queue
+from frappe.utils.data import now_datetime
+from bbl_api.utils import print_cyan, send_wechat_msg_temp_app
 
 #todo 设定统计截至每天8点的数据， 需要放在8点之后执行
 def zpl_perday():
@@ -23,7 +23,7 @@ def zpl_perday():
         rt_str += zpl_calc(doc, report_type, zpl_name, start_time, end_time)
     print_cyan(rt_str)
     # send_wechat_msg_admin_site_queue(rt_str)
-    send_wechat_msg_temp_queue(rt_str)
+    send_wechat_msg_temp_app(rt_str)
 
 
 def zpl_name_list(doc, start_time, end_time):

@@ -1,7 +1,7 @@
 import time
 
 import frappe
-from frappe.utils.data import now
+from frappe.utils.data import DATE_FORMAT, now, now_datetime
 import wechat_work
 
 import bbl_api
@@ -88,3 +88,11 @@ def send_wechat_msg_admin_site_queue(msg):
 def send_wechat_msg_temp_queue(msg):
     frappe.enqueue(bbl_api.utils.send_wechat_msg_temp_app, queue='short', now=True, msg = msg)
    
+
+# 其它工具
+
+_TIME_FORMAT = "%H:%M:%S"
+def bbl_now() -> str:
+    return now_datetime().strftime(DATE_FORMAT + _TIME_FORMAT)
+
+
