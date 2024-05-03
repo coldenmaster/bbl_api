@@ -1,18 +1,19 @@
 import frappe
 import datetime
 from frappe.utils.data import now_datetime
-from bbl_api.utils import print_cyan, send_wechat_msg_temp_app
+from bbl_api.utils import print_blue, print_cyan, send_wechat_msg_temp_app
 
 #todo 设定统计截至每天8点的数据， 需要放在8点之后执行
-def zpl_perday():
+def zpl_perday(delta:int = 0):
     report_type = '日报'
     rt_str = f'<< 中频炉测温-{report_type} >>\n'
     now_time = now_datetime()
+    now_time = now_time + datetime.timedelta(days=delta)
     end_time = now_time.replace(hour=8, minute=0, second=0, microsecond=0)
     start_time = end_time + datetime.timedelta(days=-1)
     # start_time = start_time.replace(hour=20, minute=0, second=0, microsecond=0)
     msg = f"中频炉日报\nstart_time: {start_time}\nend_time: {end_time}"
-    print_cyan(msg)
+    # print_cyan(msg)
     # send_wechat_msg_admin_site(msg)
     
     # 获取中频炉设备列表
@@ -35,7 +36,7 @@ def zpl_name_list(doc, start_time, end_time):
                     pluck = 'dev_name',
                     distinct = True,
                     ignore_ifnull = True)
-    # print_blue_pp(li)
+    print_blue(li)
     return li
 
 def zpl_record_list(doc, zpl_name, start_time, end_time):
@@ -63,13 +64,25 @@ def zpl_calc(doc, report_type, zpl_name, start_time, end_time):
     # 统计各区间温度
     temp_range = (800, 1000, 1130, 1180, 1230)
     temp_cnt_map = _zpl_range_count(li, temp_range)
-    rt_str += f'温度范围统计: \n{temp_cnt_map}\n'
+    rt_str += f'温度范围统计: \n{ _zpl_map_to_str(temp_cnt_map) }\n'
 
     # todo 数据是否应该存入数据库
     # em_mk_report(em_name, report_type, li)
     return rt_str
     
     
+def _zpl_map_to_str(zpl_map):
+    rt_str = ''
+    temp_list = list(zpl_map.keys())
+    for i in range(0, len(zpl_map)-1):
+        key = f'{temp_list[i]:>4}度'
+        i += 1
+        if i < len(zpl_map)-1:
+            key +=  f'-{temp_list[i]:>4}度:'
+        else:
+            key += f'-{" ":>2}以上:'
+        rt_str += f'{key} {zpl_map.get(temp_list[i-1]):>5} 根\n'
+    return rt_str
 
 def _zpl_range_count(li, rg_list):
     temp_cnt = {}

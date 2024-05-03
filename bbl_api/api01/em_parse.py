@@ -158,13 +158,15 @@ def correct_em_data(em_obj, tv, tc):
     
     
  # report period
-def em_perday():
+def em_perday(delta:int = 0):
     # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
     report_type = '日报'
     now_time = now_datetime()
+    now_time = now_time + datetime.timedelta(days=delta)
     end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
     start_time = end_time + datetime.timedelta(days=-1)
-    # msg = f"电表日报\nstart_time:{start_time}\n end_time: {end_time}"
+    msg = f"电表日报\nstart_time:{start_time}\n end_time: {end_time}"
+    print_blue(msg)
     # send_wechat_msg_admin_site(msg)
     
     # 获取电表列表
@@ -174,13 +176,12 @@ def em_perday():
     for em_name in li:
         em_calc(doc, report_type, em_name, start_time, end_time)
 
-def em_permonth():
+def em_permonth(delta:int = 0):
     report_type = '月报'
-    now = now_datetime()
-    end_time = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    now_time = now_datetime()
+    now_time = add_to_date(now_time, months=delta)
+    end_time = now_time.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
     start_time = add_to_date(end_time, months=-1)
-    print_red(f"permonth start_time: {start_time}")
-    print_red(f"permonth end_time: {end_time}")
     msg = f"电表月报\nstart_time:{start_time}\n end_time: {end_time}"
     send_wechat_msg_admin_site(msg)
     doc = 'Elec Meter Report'

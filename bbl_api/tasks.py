@@ -12,8 +12,8 @@ def all():
     
     
 def hourly():
-    # msg = f"scheduler: {now()} hourly"
-    # send_str_to_admin(msg)
+    msg = f"scheduler hourly(网站每小时tick):"
+    send_wechat_msg_admin_site(msg)
     pass
         
 def hourly_long():

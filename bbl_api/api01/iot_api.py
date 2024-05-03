@@ -4,7 +4,9 @@ from frappe.utils import today, add_to_date
 from frappe.utils.data import get_timestamp, now, now_datetime
 
 from wechat_work.utils import send_str_to_admin
+from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.iot_service import *
+from bbl_api.api01.zpl import zpl_perday
 from bbl_api.utils import *
 
 from mqtt.mqtt_rt import bbl_mqtt_client
@@ -80,9 +82,34 @@ def esp(*args, **kwargs):
 
     
     
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pad_em_day?delta=-1
+@frappe.whitelist(allow_guest=True)
+def pad_em_day(*args, **kwargs):
+    """
+    通过 API 部缺失的电表日报
+    """
+    delta = int(kwargs.get("delta", 0))
+    em_perday(delta)
+    rt = f"补填电表日报：{delta} 天"
+    return rt
+
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pad_em_mon?delta=-1
+@frappe.whitelist(allow_guest=True)
+def pad_em_mon(*args, **kwargs):
+    delta = int(kwargs.get("delta", 0))
+    em_permonth(delta)
+    rt = f"补填电表月报：{delta} 月"
+    return rt
+
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pad_zpl_day?delta=-1
+@frappe.whitelist(allow_guest=True)
+def pad_zpl_day(*args, **kwargs):
+    delta = int(kwargs.get("delta", 0))
+    zpl_perday(delta)
+    rt = f"补填中频炉日数据：{delta} 日"
+    return rt
 
 
-# mqtt 发送数据api
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pub01?msg=abc123def&topic=esp/in
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pub01?msg={"msg":"hello","deviceId":"espTzxWater3","tempHigh":49,"tempLow":18}
 @frappe.whitelist(allow_guest=True)
