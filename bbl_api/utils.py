@@ -82,11 +82,22 @@ def send_wechat_msg_temp_app(msg):
     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
     wechat_work.utils.send_str_to_wework(msg, app_name='TEMP_APP', tag_ids='2')
 
+def send_wechat_msg_em_app(msg):
+    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    wechat_work.utils.send_str_to_wework(msg, app_name='EM_APP', tag_ids='6')
+
+def send_wechat_msg_product_app(msg):
+    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    wechat_work.utils.send_str_to_wework(msg, app_name='PRODUCT_APP', tag_ids='6')
+
 def send_wechat_msg_admin_site_queue(msg):
     frappe.enqueue(bbl_api.utils.send_wechat_msg_admin_site, queue='short', now=True, msg = msg)
     
 def send_wechat_msg_temp_queue(msg):
     frappe.enqueue(bbl_api.utils.send_wechat_msg_temp_app, queue='short', now=True, msg = msg)
+      
+def send_wechat_msg_product_queue(msg):
+    frappe.enqueue(bbl_api.utils.send_wechat_msg_product_app, queue='short', now=True, msg = msg)
    
 
 # 其它工具
@@ -95,4 +106,8 @@ _TIME_FORMAT = "%H:%M:%S"
 def bbl_now() -> str:
     return now_datetime().strftime(DATE_FORMAT + _TIME_FORMAT)
 
-
+# frappe.utils 内已经有了(first_name + last_name), 我这个是直接取full_name
+def get_fullname(user_id:str = None):
+    if not user_id:
+        user_id = frappe.session.user
+    return frappe.db.get_value('User', user_id, ['full_name'])

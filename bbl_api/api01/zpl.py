@@ -12,7 +12,10 @@ def zpl_perday(delta:int = 0):
     end_time = now_time.replace(hour=8, minute=0, second=0, microsecond=0)
     start_time = end_time + datetime.timedelta(days=-1)
     # start_time = start_time.replace(hour=20, minute=0, second=0, microsecond=0)
-    msg = f"中频炉日报\nstart_time: {start_time}\nend_time: {end_time}"
+    
+    msg = f"开始: {start_time}\n截止: {end_time}\n"
+    rt_str += msg
+    # msg = f"中频炉日报\n"  + msg
     # print_cyan(msg)
     # send_wechat_msg_admin_site(msg)
     
@@ -22,7 +25,7 @@ def zpl_perday(delta:int = 0):
     
     for zpl_name in li:
         rt_str += zpl_calc(doc, report_type, zpl_name, start_time, end_time)
-    print_cyan(rt_str)
+    # print_cyan(rt_str)
     # send_wechat_msg_admin_site_queue(rt_str)
     send_wechat_msg_temp_app(rt_str)
 

@@ -173,8 +173,11 @@ def em_perday(delta:int = 0):
     doc = 'Elec Meter RT'
     li = em_list(doc, start_time, end_time)
     
+    wx_msg = f'<< 用电量报告-{report_type} >>\n'
     for em_name in li:
-        em_calc(doc, report_type, em_name, start_time, end_time)
+        wx_msg += em_calc(doc, report_type, em_name, start_time, end_time)
+    print_green_pp(wx_msg)
+    send_wechat_msg_em_app(wx_msg)
 
 def em_permonth(delta:int = 0):
     report_type = '月报'
@@ -186,9 +189,12 @@ def em_permonth(delta:int = 0):
     send_wechat_msg_admin_site(msg)
     doc = 'Elec Meter Report'
     li = em_list(doc, start_time, end_time)
+    
+    wx_msg = f'<< 用电量报告-{report_type} >>\n'
     for em_name in li:
-        em_calc_mon(report_type, em_name, start_time, end_time)
-
+        wx_msg += em_calc_mon(report_type, em_name, start_time, end_time)
+    print_green_pp(wx_msg)
+    send_wechat_msg_em_app(wx_msg)
 
 def em_list(doc, start_time, end_time):
     li = frappe.db.get_list(doc, 
@@ -211,7 +217,7 @@ def em_calc(doc, report_type, em_name, start_time, end_time):
                             fields=['*'],
                             order_by='for_date asc',
                             )
-    em_mk_report(em_name, report_type, li)
+    return em_mk_report(em_name, report_type, li)
     
     
 def em_calc_mon(report_type, em_name, start_time, end_time):
@@ -225,7 +231,7 @@ def em_calc_mon(report_type, em_name, start_time, end_time):
                             fields=['*'],
                             order_by='for_date asc',
                             )
-    em_mk_report(em_name, report_type, li)
+    return em_mk_report(em_name, report_type, li)
     
 def em_mk_report(em_name, report_type, li):
     # print_blue_pp(li)
@@ -241,13 +247,21 @@ def em_mk_report(em_name, report_type, li):
     doc_last.pa = max(em.pa for em in li)
     doc_last.pc = max(em.pc for em in li)
     doc_last.pf = min(em.pf for em in li)
-    # print_green_pp(doc_last)
     doc_last.doctype = 'Elec Meter Report'
     doc_last.report_period = report_type
     # doc_last.for_date = doc_last.modified
+    
+    wx_msg = f'------\n设备名称: {em_name}\n'
+    wx_msg += f'开始时间: {doc_first.for_date}\n'
+    wx_msg += f'结束时间: {doc_last.for_date}\n'
+    wx_msg += f'电表读数: {doc_last.et}\n'
+    wx_msg += f' 用电量 : {doc_last.et_sub:>.3f} 千度\n'
+    wx_msg += f'最大功率: {doc_last.pt} Kw\n'
+    
     new_em_report = frappe.get_doc(doc_last)
     new_em_report.insert(ignore_permissions=True)
     frappe.db.commit()
+    return wx_msg
 
 def em_et_sub(last, first):
     last.et_sub = last.et - first.et
