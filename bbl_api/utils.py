@@ -1,3 +1,4 @@
+from enum import Enum
 import time
 
 import frappe
@@ -74,6 +75,18 @@ def print_green_pp(msg):
     
     
 # 微信发送信息相关
+class WxcpGroupTag(Enum):
+    MAINTAIN = 1
+    TEMPRATURE = 2
+    NET_MANAGE = 5
+    ELEC_METER = 6
+    QUALITY = 7
+    RAW_MATERIAL = 8
+    TEST_TAG = 9
+    PRODUCT_QTY = 10
+    
+
+
 def send_wechat_msg_admin_site(msg):
     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
     wechat_work.utils.send_str_to_admin(msg)
@@ -88,7 +101,7 @@ def send_wechat_msg_em_app(msg):
 
 def send_wechat_msg_product_app(msg):
     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
-    wechat_work.utils.send_str_to_wework(msg, app_name='PRODUCT_APP', tag_ids='6')
+    wechat_work.utils.send_str_to_wework(msg, app_name='PRODUCT_APP', tag_ids=WxcpGroupTag.PRODUCT_QTY.value)
 
 def send_wechat_msg_admin_site_queue(msg):
     frappe.enqueue(bbl_api.utils.send_wechat_msg_admin_site, queue='short', now=True, msg = msg)
