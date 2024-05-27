@@ -60,6 +60,10 @@ def print_blue_kv(key, msg):
 def print_green(msg):
     print(f"{Color.GREEN}{msg}{Color.RESET}")
     
+def print_obj(obj):
+    # print_blue_pp(f"{obj=} \n {obj.__dict__}")
+    print_blue_pp(obj.__dict__)
+
 def print_clear(msg):
     pass
 
@@ -124,3 +128,34 @@ def get_fullname(user_id:str = None):
     if not user_id:
         user_id = frappe.session.user
     return frappe.db.get_value('User', user_id, ['full_name'])
+
+# todo 清除数据库中数据，进行干净清楚的测试
+def clear_db_for_dev():
+    print_red('clear_db_for_dev from <erp.v16> == ' + frappe.local.site)
+    frappe.only_for("System Manager")
+    if frappe.local.site != 'erp.v16':
+        return
+
+    try:
+        # todo <<注意不要删除需要的了>>
+        frappe.db.delete("Heat No")
+        frappe.db.delete("Batch")
+        frappe.db.delete("Serial and Batch Bundle")
+        frappe.db.delete("Serial and Batch Entry")
+        frappe.db.delete("Steel Batch")
+        frappe.db.delete("Purchase Receipt")
+        frappe.db.delete("Purchase Receipt Item")
+        frappe.db.delete("Stock Entry")
+        frappe.db.delete("Stock Ledger Entry")
+        frappe.db.delete("Batch")
+        
+        pass
+    except Exception:   
+        frappe.db.rollback()
+        frappe.log_error("Failed to clear_db")
+        frappe.throw(
+            ("Failed to clear_db data"),
+            title=("Could Not clear test db Data"),
+        )
+    frappe.db.commit()
+
