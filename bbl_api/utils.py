@@ -1,3 +1,10 @@
+
+""" 控制台测试方法
+import bbl_app.raw_material_manage.doctype.steel_batch.steel_batch as sb
+sb.make_out_entry(**sb.k3)
+docs = frappe.get_all("Steel Batch")
+"""
+
 from enum import Enum
 import time
 
@@ -70,13 +77,20 @@ def print_clear(msg):
 from pprint import pprint, pformat
 
 def print_blue_pp(msg):
+    if frappe.conf.wt_dev:
+        _print_blue_pp(msg)
+
+def _print_blue_pp(msg):
     msg = str(pformat(msg))
-    # print(f"{Color.BLUE}{pformat(msg)}{Color.RESET}")
     print(f"{Color.BLUE}{msg}{Color.RESET}")
 
 def print_green_pp(msg):
-    print(f"{Color.GREEN}{str(pformat(msg))}\n{Color.RESET}")
+    if frappe.conf.wt_dev:
+        print(f"{Color.GREEN}{str(pformat(msg))}\n{Color.RESET}")
     
+def _print_green_pp(msg):
+    print(f"{Color.GREEN}{str(pformat(msg))}\n{Color.RESET}")
+
     
 # 微信发送信息相关
 class WxcpGroupTag(Enum):
@@ -147,6 +161,8 @@ def clear_db_for_dev():
         frappe.db.delete("Purchase Receipt Item")
         frappe.db.delete("Stock Entry")
         frappe.db.delete("Stock Ledger Entry")
+        frappe.db.delete("Item", {"item_group": ["in", ["原材料", "短棒料"],]})
+        frappe.db.delete("Short Raw Bar")
         frappe.db.delete("Batch")
         
         pass
