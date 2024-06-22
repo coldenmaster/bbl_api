@@ -161,9 +161,10 @@ def clear_db_for_dev():
         frappe.db.delete("Purchase Receipt Item")
         frappe.db.delete("Stock Entry")
         frappe.db.delete("Stock Ledger Entry")
-        frappe.db.delete("Item", {"item_group": ["in", ["原材料", "短棒料"],]})
+        frappe.db.delete("Item", {"item_group": ["in", ["原材料", "短棒料", "长棒料", "长料头"],]})
         frappe.db.delete("Short Raw Bar")
-        frappe.db.delete("Batch")
+        # frappe.db.delete("GL Entry") # 总账条目
+        # frappe.db.delete("Batch")
         
         pass
     except Exception:   
