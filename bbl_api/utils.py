@@ -151,7 +151,7 @@ def clear_db_for_dev():
         return
 
     try:
-        # todo <<注意不要删除需要的了>>
+        # todo <<注意不要删除需要的了>> <<直接删除，非常危险>>
         frappe.db.delete("Heat No")
         frappe.db.delete("Batch")
         frappe.db.delete("Serial and Batch Bundle")
@@ -160,6 +160,8 @@ def clear_db_for_dev():
         frappe.db.delete("Purchase Receipt")
         frappe.db.delete("Purchase Receipt Item")
         frappe.db.delete("Stock Entry")
+        frappe.db.delete("Stock Entry Detail") # 删除不掉物料，因为此数据没有删除 
+        # 注意 手动删除数据库记录时，母表都要检查所带的子表，一并删除
         frappe.db.delete("Stock Ledger Entry")
         frappe.db.delete("Item", {"item_group": ["in", ["原材料", "短棒料", "长棒料", "长料头"],]})
         frappe.db.delete("Short Raw Bar")
