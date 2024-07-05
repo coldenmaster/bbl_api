@@ -10,6 +10,9 @@ app_license = "MIT"
 # from mqtt.mqtt_rt import bbl_mqtt_client
 # bbl_mqtt_client.message_callback_add('testtopic/#', mqtt_testtopic_message)
 
+# from bbl_api.socket_server.tcp_server import start_tcp_server
+# start_tcp_server(8002)
+
 # print("我是 bbl_api hooks")
 # mqtt_register()
 

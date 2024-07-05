@@ -1,3 +1,4 @@
+import datetime
 import time
 
 def timer(func):
@@ -66,6 +67,6 @@ def _print_green_pp(msg):
 
 
 
-_TIME_FORMAT = "%H:%M:%S"
 def bbl_now() -> str:
-    return now_datetime().strftime(DATE_FORMAT + _TIME_FORMAT)
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+

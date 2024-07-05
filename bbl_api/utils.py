@@ -1,12 +1,9 @@
 
-""" 控制台测试方法
-import bbl_app.raw_material_manage.doctype.steel_batch.steel_batch as sb
-sb.make_out_entry(**sb.k3)
-docs = frappe.get_all("Steel Batch")
-"""
+
 
 from enum import Enum
 import time
+from datetime import datetime
 
 import frappe
 from frappe.utils.data import DATE_FORMAT, now, now_datetime
@@ -135,46 +132,21 @@ def send_wechat_msg_product_queue(msg):
 
 _TIME_FORMAT = "%H:%M:%S"
 def bbl_now() -> str:
-    return now_datetime().strftime(DATE_FORMAT + _TIME_FORMAT)
+    # return now_datetime().strftime(DATE_FORMAT + _TIME_FORMAT)
+    return datetime.now().strftime("%Y-%m-%d %H:%M:%S") # 脱离 frappe
 
 # frappe.utils 内已经有了(first_name + last_name), 我这个是直接取full_name
-def get_fullname(user_id:str = None):
-    if not user_id:
-        user_id = frappe.session.user
-    return frappe.db.get_value('User', user_id, ['full_name'])
+# def get_fullname(user_id:str = None):
+#     if not user_id:
+#         user_id = frappe.session.user
+#     return frappe.db.get_value('User', user_id, ['full_name'])
 
-# todo 清除数据库中数据，进行干净清楚的测试
-def clear_db_for_dev():
-    print_red('clear_db_for_dev from <erp.v16> == ' + frappe.local.site)
-    frappe.only_for("System Manager")
-    if frappe.local.site != 'erp.v16':
-        return
 
-    try:
-        # todo <<注意不要删除需要的了>> <<直接删除，非常危险>>
-        frappe.db.delete("Heat No")
-        frappe.db.delete("Batch")
-        frappe.db.delete("Serial and Batch Bundle")
-        frappe.db.delete("Serial and Batch Entry")
-        frappe.db.delete("Steel Batch")
-        frappe.db.delete("Purchase Receipt")
-        frappe.db.delete("Purchase Receipt Item")
-        frappe.db.delete("Stock Entry")
-        frappe.db.delete("Stock Entry Detail") # 删除不掉物料，因为此数据没有删除 
-        # 注意 手动删除数据库记录时，母表都要检查所带的子表，一并删除
-        frappe.db.delete("Stock Ledger Entry")
-        frappe.db.delete("Item", {"item_group": ["in", ["原材料", "短棒料", "长棒料", "长料头"],]})
-        frappe.db.delete("Short Raw Bar")
-        # frappe.db.delete("GL Entry") # 总账条目
-        # frappe.db.delete("Batch")
-        
-        pass
-    except Exception:   
-        frappe.db.rollback()
-        frappe.log_error("Failed to clear_db")
-        frappe.throw(
-            ("Failed to clear_db data"),
-            title=("Could Not clear test db Data"),
-        )
-    frappe.db.commit()
 
+
+
+# """ 控制台测试方法
+# import bbl_app.utils as utils
+# sb.make_out_entry(**sb.k3)
+# docs = frappe.get_all("Steel Batch")
+# """
