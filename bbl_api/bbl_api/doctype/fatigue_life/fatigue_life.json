@@ -7,7 +7,7 @@
   "product_name",
   "customer",
   "semi_product",
-  "serial_number",
+  "series",
   "product_type",
   "for_date",
   "column_break_dfcx",
@@ -91,11 +91,6 @@
    "label": "Frequency"
   },
   {
-   "fieldname": "serial_number",
-   "fieldtype": "Data",
-   "label": "Serial Number"
-  },
-  {
    "fieldname": "data_cnt",
    "fieldtype": "Int",
    "label": "Data Cnt"
@@ -105,10 +100,15 @@
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Counter"
+  },
+  {
+   "fieldname": "series",
+   "fieldtype": "Data",
+   "label": "Series"
   }
  ],
  "links": [],
- "modified": "2024-07-05 16:37:15",
+ "modified": "2024-07-05 18:25:47",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Fatigue Life",

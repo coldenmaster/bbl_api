@@ -114,6 +114,10 @@ def send_wechat_msg_em_app(msg):
     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
     wechat_work.utils.send_str_to_wework(msg, app_name='EM_APP', tag_ids='6')
 
+# def send_wechat_msg_qc_app(msg):
+#     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+#     wechat_work.utils.send_str_to_wework(msg, app_name='EM_APP', tag_ids='6')
+
 def send_wechat_msg_product_app(msg):
     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
     wechat_work.utils.send_str_to_wework(msg, app_name='PRODUCT_APP', tag_ids=WxcpGroupTag.PRODUCT_QTY.value)
