@@ -136,10 +136,10 @@ def bbl_now() -> str:
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S") # 脱离 frappe
 
 # frappe.utils 内已经有了(first_name + last_name), 我这个是直接取full_name
-# def get_fullname(user_id:str = None):
-#     if not user_id:
-#         user_id = frappe.session.user
-#     return frappe.db.get_value('User', user_id, ['full_name'])
+def get_fullname(user_id:str = None):
+    if not user_id:
+        user_id = frappe.session.user
+    return frappe.db.get_value('User', user_id, ['full_name'])
 
 
 
