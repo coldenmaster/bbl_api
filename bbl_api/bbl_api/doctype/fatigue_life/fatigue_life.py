@@ -19,6 +19,7 @@ class FatigueLife(Document):
 # http://erp.v16:8000/api/method/bbl_api.bbl_api.doctype.fatigue_life.fatigue_life.send_fatigue_life?up_data=123
 # http://erp15.hbbbl.top:82/api/method/bbl_api.bbl_api.doctype.fatigue_life.fatigue_life.send_fatigue_life
 # import bbl_api.bbl_api.doctype.fatigue_life.fatigue_life as fl
+@frappe.whitelist(allow_guest=True)
 def send_fatigue_life(**data):
     data = frappe._dict(data)
     # print_green(f'{data=}')

@@ -96,6 +96,7 @@
    "label": "Data Cnt"
   },
   {
+   "default": "0",
    "fieldname": "counter",
    "fieldtype": "Int",
    "in_list_view": 1,
@@ -108,7 +109,7 @@
   }
  ],
  "links": [],
- "modified": "2024-07-06 09:08:56",
+ "modified": "2024-07-06 16:11:56",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Fatigue Life",
