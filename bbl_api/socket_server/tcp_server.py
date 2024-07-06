@@ -26,7 +26,6 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
             print_green(self.data)
             # just send back the same data, but upper-cased
             # self.request.sendall(self.data.upper())
-            # self.request.sendall(b"self.data")
             self.request.sendall(self.data)
         except Exception as e:
             print_purple("[{}] [{}:{}]连接超时:{}".format(dt, self.client_address[0], self.client_address[1],e))
@@ -61,7 +60,6 @@ def run_tcp_server(port):
     with socketserver.ThreadingTCPServer((HOST, PORT), MyTCPHandler) as server:
         # Activate the server; this will keep running until you
         # interrupt the program with Ctrl-C
-        # server.allow_reuse_address = True # 设置为True以允许重用地址
         server.serve_forever()
 
 def start_tcp_server(port):
@@ -75,7 +73,7 @@ def start_tcp_server(port):
     # p.start()
 
 
-""" 调试
+""" DEBUG
  # 查看端口占用情况
  sudo netstat -anp | grep 8002 
 

@@ -108,7 +108,7 @@
   }
  ],
  "links": [],
- "modified": "2024-07-05 18:25:47",
+ "modified": "2024-07-06 09:08:56",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Fatigue Life",
@@ -154,5 +154,5 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "product_name"
+ "title_field": "counter"
 }

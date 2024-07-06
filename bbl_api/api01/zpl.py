@@ -65,7 +65,7 @@ def zpl_calc(doc, report_type, zpl_name, start_time, end_time):
     temp_min = min(zpl.target_top for zpl in li)
     rt_str += f'最高温度: {temp_max}\n最低温度: {temp_min}\n'
     # 统计各区间温度
-    temp_range = (800, 1000, 1130, 1180, 1230)
+    temp_range = (800, 1000, 1130, 1180, 1230, 1300)
     temp_cnt_map = _zpl_range_count(li, temp_range)
     rt_str += f'温度范围统计: \n{ _zpl_map_to_str(temp_cnt_map) }\n'
 
@@ -73,20 +73,6 @@ def zpl_calc(doc, report_type, zpl_name, start_time, end_time):
     # em_mk_report(em_name, report_type, li)
     return rt_str
     
-    
-def _zpl_map_to_str(zpl_map):
-    rt_str = ''
-    temp_list = list(zpl_map.keys())
-    for i in range(0, len(zpl_map)-1):
-        key = f'{temp_list[i]:>4}度'
-        i += 1
-        if i < len(zpl_map)-1:
-            key +=  f'-{temp_list[i]:>4}度:'
-        else:
-            key += f'-{" ":>2}以上:'
-        rt_str += f'{key} {zpl_map.get(temp_list[i-1]):>5} 根\n'
-    return rt_str
-
 def _zpl_range_count(li, rg_list):
     temp_cnt = {}
     for rg in rg_list:
@@ -99,6 +85,23 @@ def _zpl_range_count(li, rg_list):
                 break
     # print_blue_pp(temp_cnt)
     return temp_cnt
+    
+def _zpl_map_to_str(zpl_map):
+    rt_str = ''
+    temp_list = list(zpl_map.keys())
+    # for i in range(0, len(zpl_map)-1):
+    for i in range(0, len(zpl_map)):
+        key = f'{temp_list[i]:>4}度'
+        i += 1
+        # if i < len(zpl_map)-1:
+        if i < len(zpl_map):
+            key +=  f'-{temp_list[i]:>4}度:'
+        else:
+            key += f'-{" ":>2}以上:'
+        rt_str += f'{key} {zpl_map.get(temp_list[i-1]):>5} 根\n'
+    return rt_str
+
+
 
 
 #   <<温度记录统计日报表>>

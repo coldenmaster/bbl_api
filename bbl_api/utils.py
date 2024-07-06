@@ -8,6 +8,7 @@ from datetime import datetime
 import frappe
 from frappe.utils.data import DATE_FORMAT, now, now_datetime
 import wechat_work
+import wechat_work.utils
 
 import bbl_api
 
@@ -100,37 +101,83 @@ class WxcpGroupTag(Enum):
     TEST_TAG = 9
     PRODUCT_QTY = 10
     
+class WxcpApp(Enum):
+    ELEC_METER = 'EM_APP'
+    PRODUCT_APP = 'PRODUCT_APP'
+    TEMPRATURE = 'TEMP_APP'
+    QUALITY = 'TEMP_APP'
+    MAINTAIN = '维修APP'
+    BI = '数据可视化'
+    TEST = 'TEST_APP'
+    BBL_CLOUD = 'BBL云服务'
+    RAW_MATERIAL = '钢棒管理'
+    FORGE_APP = '锻造APP'
+    GAS_ALARM = '燃气报警'
+    # NET_MANAGE = 'NET_APP'
+    
+USERS_IDS = {
+    'fatigue_life': ['wangtao', 'mayanbing', 'cp', 'shijie','xingxing',],
+    'other': ['cp', 'shicong', '','',]
+}
 
+def msg_end():
+    site = frappe.local.site if frappe.local.site != 'frontend' else ''
+    return f'\n------\n{now()}\n{site}'
 
+# 送到 管理员
 def send_wechat_msg_admin_site(msg):
-    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    msg = msg + msg_end()
     wechat_work.utils.send_str_to_admin(msg)
 
+# 送到 TEMP_APP 中频测温
 def send_wechat_msg_temp_app(msg):
-    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    import wechat_work.utils
+    msg = msg + msg_end()
     wechat_work.utils.send_str_to_wework(msg, app_name='TEMP_APP', tag_ids='2')
 
+# 送到 EM_APP 电表数据
 def send_wechat_msg_em_app(msg):
-    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    import wechat_work.utils
+    msg = msg + msg_end()
     wechat_work.utils.send_str_to_wework(msg, app_name='EM_APP', tag_ids='6')
 
-# def send_wechat_msg_qc_app(msg):
-#     msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
-#     wechat_work.utils.send_str_to_wework(msg, app_name='EM_APP', tag_ids='6')
-
+# 送到 PRODUCT_APP 产品数量
 def send_wechat_msg_product_app(msg):
-    msg = f'[{frappe.local.site}]\n[{now()}]\n{msg}'
+    import wechat_work.utils
+    msg = msg + msg_end()
     wechat_work.utils.send_str_to_wework(msg, app_name='PRODUCT_APP', tag_ids=WxcpGroupTag.PRODUCT_QTY.value)
 
+
+# todo 队列发送 
 def send_wechat_msg_admin_site_queue(msg):
-    frappe.enqueue(bbl_api.utils.send_wechat_msg_admin_site, queue='short', now=True, msg = msg)
+    frappe.enqueue(bbl_api.utils.send_wechat_msg_admin_site, queue='short', msg = msg)
     
 def send_wechat_msg_temp_queue(msg):
-    frappe.enqueue(bbl_api.utils.send_wechat_msg_temp_app, queue='short', now=True, msg = msg)
+    # frappe.enqueue(bbl_api.utils.send_wechat_msg_temp_app, queue='short', now=True, msg = msg)
+    frappe.enqueue('bbl_api.utils.send_wechat_msg_temp_app', queue='short', now=False, msg = msg)
       
 def send_wechat_msg_product_queue(msg):
-    frappe.enqueue(bbl_api.utils.send_wechat_msg_product_app, queue='short', now=True, msg = msg)
-   
+    frappe.enqueue(bbl_api.utils.send_wechat_msg_product_app, queue='short', msg = msg)
+
+# todo 统一发送 API
+# def send_wx_msg_q(msg, now = False, app_name='TEST_APP', tag_ids=WxcpGroupTag.TEST_TAG.value, user_id='wangtao'):
+def send_wx_msg_q(msg, now=False, app_name='TEST_APP', tag_ids='', party_ids='', user_ids='wangtao'):
+    # print("统一发送 API")
+    msg = msg + msg_end()
+    frappe.enqueue(wechat_work.utils.send_str_to_wework, queue='short', now=now, msg = msg, 
+                   app_name=app_name, tag_ids=tag_ids, party_ids=party_ids, user_ids=user_ids)
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 其它工具
 
@@ -146,6 +193,24 @@ def get_fullname(user_id:str = None):
     return frappe.db.get_value('User', user_id, ['full_name'])
 
 
+
+
+
+
+
+
+
+
+
+# todo DEBUG
+@frappe.whitelist(allow_guest=True)
+@timer
+# http://127.0.0.1:8000/api/method/wechat_work.utils.t1&msg=sb250
+def t1(*args, **kwargs):
+    print("\n----------- wechat_work")
+    msg = f"t1: { kwargs.get('msg', '喵喵喵') }"
+    wechat_work.utils.send_str_to_wework(msg, "维修记录")
+    return msg
 
 
 
