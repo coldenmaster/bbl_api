@@ -1,17 +1,11 @@
-
-
-
 from enum import Enum
 import time
 from datetime import datetime
 
 import frappe
-from frappe.utils.data import DATE_FORMAT, now, now_datetime
+from frappe.utils.data import DATE_FORMAT, now
 import wechat_work
 import wechat_work.utils
-
-import bbl_api
-
 
 def timer(func):
     def func_in():
@@ -116,7 +110,7 @@ class WxcpApp(Enum):
     # NET_MANAGE = 'NET_APP'
     
 USERS_IDS = {
-    'fatigue_life': ['wangtao', 'mayanbing', 'cp', 'shijie','xingxing',],
+    'fatigue_life': ['wangtao', 'mayanbing', 'shijie','xingxing',],
     'other': ['cp', 'shicong', '','',]
 }
 
@@ -131,36 +125,31 @@ def send_wechat_msg_admin_site(msg):
 
 # 送到 TEMP_APP 中频测温
 def send_wechat_msg_temp_app(msg):
-    import wechat_work.utils
     msg = msg + msg_end()
     wechat_work.utils.send_str_to_wework(msg, app_name='TEMP_APP', tag_ids='2')
 
 # 送到 EM_APP 电表数据
 def send_wechat_msg_em_app(msg):
-    import wechat_work.utils
     msg = msg + msg_end()
     wechat_work.utils.send_str_to_wework(msg, app_name='EM_APP', tag_ids='6')
 
 # 送到 PRODUCT_APP 产品数量
 def send_wechat_msg_product_app(msg):
-    import wechat_work.utils
     msg = msg + msg_end()
     wechat_work.utils.send_str_to_wework(msg, app_name='PRODUCT_APP', tag_ids=WxcpGroupTag.PRODUCT_QTY.value)
 
 
-# todo 队列发送 
-def send_wechat_msg_admin_site_queue(msg):
-    frappe.enqueue(bbl_api.utils.send_wechat_msg_admin_site, queue='short', msg = msg)
+# # todo 队列发送 
+def send_wx_admin_q(msg):
+    send_wx_msg_q(msg)
     
 def send_wechat_msg_temp_queue(msg):
-    # frappe.enqueue(bbl_api.utils.send_wechat_msg_temp_app, queue='short', now=True, msg = msg)
-    frappe.enqueue('bbl_api.utils.send_wechat_msg_temp_app', queue='short', now=False, msg = msg)
+    send_wx_msg_q(msg, app_name='TEMP_APP', tag_ids='2')
       
 def send_wechat_msg_product_queue(msg):
-    frappe.enqueue(bbl_api.utils.send_wechat_msg_product_app, queue='short', msg = msg)
+    send_wx_msg_q(msg, app_name='PRODUCT_APP', tag_ids=WxcpGroupTag.PRODUCT_QTY.value)
 
 # todo 统一发送 API
-# def send_wx_msg_q(msg, now = False, app_name='TEST_APP', tag_ids=WxcpGroupTag.TEST_TAG.value, user_id='wangtao'):
 def send_wx_msg_q(msg, now=False, app_name='TEST_APP', tag_ids='', party_ids='', user_ids='wangtao'):
     # print("统一发送 API")
     msg = msg + msg_end()

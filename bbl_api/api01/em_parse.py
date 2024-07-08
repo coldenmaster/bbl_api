@@ -1,7 +1,8 @@
-import datetime
 import frappe
 from frappe.utils.data import add_to_date, now_datetime
-from bbl_api.utils import *
+
+from bbl_api.utils import print_blue, print_blue_pp, print_green_pp, print_red, send_wechat_msg_admin_site, send_wechat_msg_em_app
+# from bbl_api.utils import *
 
 
 
@@ -162,9 +163,9 @@ def em_perday(delta:int = 0):
     # 计算时间区间，可以使用此程序运行时间，或者使用固定时间
     report_type = '日报'
     now_time = now_datetime()
-    now_time = now_time + datetime.timedelta(days=delta)
+    now_time = add_to_date(now_time, days=delta)
     end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
-    start_time = end_time + datetime.timedelta(days=-1)
+    start_time = add_to_date(now_time, days=-1)
     msg = f"电表日报\nstart_time:{start_time}\n end_time: {end_time}"
     print_blue(msg)
     # send_wechat_msg_admin_site(msg)

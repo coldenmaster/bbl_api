@@ -1,20 +1,50 @@
 import frappe
 
-from bbl_api.utils import print_blue
+from bbl_api.utils import _print_blue_pp, _print_green_pp, print_blue, print_blue_pp
+from frappe.utils import *
 
 T1_BOS = ["B22421204/0223", "B22421204/0224"]
-def t1(batch_nos):
-    for batch_no in batch_nos:
-        frappe.db.set_value("Steel Batch", batch_no, "status", "草稿")
-    frappe.db.commit()
-        
-def t2():
+def t1():
 
-    t1(T1_BOS)
-    print_blue("ok")   
+    ss = get_formatted_email('gaoxuesong@hbbbl.top')
+    _print_blue_pp(ss)
+
+
+    ss = random_string(30)
+    _print_blue_pp(ss)
+        
+        
+
+    ss = get_gravatar_url('gaoxuesong@hbbbl.top')
+    _print_blue_pp(ss)
+        
+        
+    tt = 'sdf,sdf<dsadf125 5d2f5> ds'
+
+    ss = get_file_timestamp('.\apps')
+    _print_blue_pp(ss)
+        
+    ss = ''
+    _print_blue_pp(ss)
+        
+        
+
+    ss = get_site_info()
+    _print_blue_pp(ss)
+        
+        
+
+    ss = get_formatted_email('gaoxuesong@hbbbl.top')
+    _print_blue_pp(ss)
         
         
         
         
 if __name__ == "__main__":
-    t2()
+    t1()
+
+
+""" DEBUG
+import bbl_api.wt_test.t1 as test
+
+ """

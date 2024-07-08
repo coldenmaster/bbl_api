@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 
-from bbl_api.utils import USERS_IDS, WxcpApp, send_wechat_msg_temp_queue, send_wx_msg_q
+from bbl_api.utils import USERS_IDS, WxcpApp, send_wx_msg_q
 
 
 class FatigueLife(Document):
@@ -30,10 +30,10 @@ def send_fatigue_life(**data):
     new_doc.insert(ignore_permissions=True)
     frappe.db.commit()
 
-    msg = f'<<疲劳试验数据上传成功>>\n------\n产品名称：{new_doc.product_name}\
+    msg = f'<<疲劳试验数据>>\n------\n产品名称：{new_doc.product_name}\
         \n客户:{new_doc.customer}\n试验次数：{new_doc.counter}\n试验频率：{new_doc.frequency}\
         \n最大力：{new_doc.force_max}\n最小力：{new_doc.force_min}'
-    # send_wechat_msg_temp_queue(msg)
+    
     send_wx_msg_q(msg, app_name=WxcpApp.BI.value, user_ids=USERS_IDS.get('fatigue_life', ''))
 
     return new_doc.name

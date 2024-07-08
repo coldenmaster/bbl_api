@@ -26,7 +26,6 @@ def zpl_perday(delta:int = 0):
     for zpl_name in li:
         rt_str += zpl_calc(doc, report_type, zpl_name, start_time, end_time)
     # print_cyan(rt_str)
-    # send_wechat_msg_admin_site_queue(rt_str)
     send_wechat_msg_temp_app(rt_str)
 
 
