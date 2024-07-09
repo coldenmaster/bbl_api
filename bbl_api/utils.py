@@ -110,7 +110,7 @@ class WxcpApp(Enum):
     # NET_MANAGE = 'NET_APP'
     
 USERS_IDS = {
-    'fatigue_life': ['wangtao', 'mayanbing', 'shijie','xingxing',],
+    'fatigue_life': ['wangtao', 'mayanbing', 'shijie','xingxing', 'buyiyangdehuo',],
     'other': ['cp', 'shicong', '','',]
 }
 

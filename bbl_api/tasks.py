@@ -1,6 +1,7 @@
 
 from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.zpl import zpl_perday
+from bbl_api.bbl_api.doctype.fatigue_life.fatigue_life import alarm_demon
 from bbl_api.utils import send_wechat_msg_admin_site
 from frappe.utils import now
 
@@ -62,6 +63,7 @@ def monthly_long():
 def minute_per5():
     # msg = f"scheduler: {now()} minute_per5"
     # send_wechat_msg_admin_site(msg)
+    alarm_demon()
     pass
         
 def minute_per30():

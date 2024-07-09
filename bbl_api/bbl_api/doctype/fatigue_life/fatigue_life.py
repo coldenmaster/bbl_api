@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 
-from bbl_api.utils import USERS_IDS, WxcpApp, send_wx_msg_q
+from bbl_api.utils import USERS_IDS, WxcpApp, print_red, send_wx_msg_q
 
 
 class FatigueLife(Document):
@@ -37,3 +37,29 @@ def send_fatigue_life(**data):
     send_wx_msg_q(msg, app_name=WxcpApp.BI.value, user_ids=USERS_IDS.get('fatigue_life', ''))
 
     return new_doc.name
+
+
+def alarm_demon():
+    """ 定时任务，检查数据，超过一定时间未上传，报警 """
+
+    last_doc = frappe.get_last_doc('Fatigue Life')
+    last_minites = (frappe.utils.now_datetime() - last_doc.creation).total_seconds() / 60
+    if (last_minites > 205):
+        if not frappe.cache.get_value('fatigue_life_alarm_flag', False):
+            frappe.cache.set_value('fatigue_life_alarm_flag', True)
+            send_wx_msg_q(f'30分钟未收到数据，\n最后计数:{last_doc.counter}', app_name=WxcpApp.BI.value, user_ids=USERS_IDS.get('fatigue_life', ''))
+            # send_wx_msg_q(f'30分钟未收到数据，\n最后计数{last_doc.counter}', app_name=WxcpApp.BI.value)
+    else:
+        frappe.cache.set_value('fatigue_life_alarm_flag', False)
+    # print_red(f'{last_minites=}')
+    # print_red(f'{ frappe.cache.get_value("fatigue_life_alarm_flag") =}')
+
+
+def t1():
+    frappe.cache.set_value('fatigue_life_alarm_flag', False)
+
+
+def t2():
+    global _alarm_flag
+    print_red(f'{ frappe.cache.get_value("fatigue_life_alarm_flag", False) =}')
+     

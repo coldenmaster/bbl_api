@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "creation": "2024-07-09 10:32:11",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "product_name",
+  "for_date",
+  "product_length",
+  "error_length",
+  "total_production",
+  "batch_production",
+  "column_break_iutx",
+  "sample_length",
+  "standard_length",
+  "standard_error_minus",
+  "standard_error_plus"
+ ],
+ "fields": [
+  {
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Product Name"
+  },
+  {
+   "default": "now",
+   "fieldname": "for_date",
+   "fieldtype": "Datetime",
+   "label": "For Date"
+  },
+  {
+   "fieldname": "product_length",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Product Length",
+   "precision": "3"
+  },
+  {
+   "fieldname": "batch_production",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Batch Production"
+  },
+  {
+   "fieldname": "total_production",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Production"
+  },
+  {
+   "fieldname": "column_break_iutx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sample_length",
+   "fieldtype": "Float",
+   "label": "Sample Length"
+  },
+  {
+   "fieldname": "standard_length",
+   "fieldtype": "Float",
+   "label": "Standard Length"
+  },
+  {
+   "fieldname": "standard_error_minus",
+   "fieldtype": "Float",
+   "label": "Standard Error Minus"
+  },
+  {
+   "fieldname": "standard_error_plus",
+   "fieldtype": "Float",
+   "label": "Standard Error Plus"
+  },
+  {
+   "fieldname": "error_length",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Error Length",
+   "precision": "3"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-09 11:04:50",
+ "modified_by": "Administrator",
+ "module": "Bbl Api",
+ "name": "Product Length",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "product_name"
+}
