@@ -2,6 +2,7 @@
 from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.zpl import zpl_perday
 from bbl_api.bbl_api.doctype.fatigue_life.fatigue_life import alarm_demon
+from bbl_api.bbl_api.doctype.product_length.product_length import daily_statistics
 from bbl_api.utils import send_wechat_msg_admin_site
 from frappe.utils import now
 
@@ -32,6 +33,7 @@ def daily_long():
     msg = f"scheduler daily_long(处理每日例行任务):"
     send_wechat_msg_admin_site(msg)
     em_perday()
+    daily_statistics()
     
 def daily_00_10m():
     now2 = now()
