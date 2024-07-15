@@ -111,7 +111,7 @@ class WxcpApp(Enum):
     
 USERS_IDS = {
     'fatigue_life': ['wangtao', 'mayanbing', 'shijie','xingxing', 'buyiyangdehuo',],
-    'product_length': ['wangtao', 'mayanbing', 'shijie','yizhiyu',],
+    'product_length': ['wangtao', 'mayanbing', 'shijie','yizhiyu', 'weili',],
     'admins': ['wangtao', ],
     'other': ['cp', 'shicong', '','',]
 }
