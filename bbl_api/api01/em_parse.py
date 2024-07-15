@@ -165,7 +165,7 @@ def em_perday(delta:int = 0):
     now_time = now_datetime()
     now_time = add_to_date(now_time, days=delta)
     end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
-    start_time = add_to_date(now_time, days=-1)
+    start_time = add_to_date(end_time, days=-1)
     msg = f"电表日报\nstart_time:{start_time}\n end_time: {end_time}"
     print_blue(msg)
     # send_wechat_msg_admin_site(msg)

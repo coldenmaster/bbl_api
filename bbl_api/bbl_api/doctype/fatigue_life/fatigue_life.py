@@ -31,7 +31,8 @@ def send_fatigue_life(**data):
     frappe.db.commit()
 
     msg = f'<<疲劳试验数据>>\n------\n产品名称：{new_doc.product_name}\
-        \n客户:{new_doc.customer}\n试验次数：{new_doc.counter}\n试验频率：{new_doc.frequency}\
+        \n客户:{new_doc.customer}\n序列号:{new_doc.series}\
+        \n试验次数：{new_doc.counter}\n试验频率：{new_doc.frequency}\
         \n最大力：{new_doc.force_max}\n最小力：{new_doc.force_min}'
     
     send_wx_msg_q(msg, app_name=WxcpApp.BI.value, user_ids=USERS_IDS.get('fatigue_life', ''))
