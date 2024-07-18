@@ -46,6 +46,7 @@
    "fieldname": "report_period",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Report Period",
    "options": "Report Period",
    "reqd": 1
@@ -165,7 +166,6 @@
    "fieldname": "for_date",
    "fieldtype": "Datetime",
    "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "For Date",
    "reqd": 1,
    "width": "120"
@@ -173,7 +173,7 @@
  ],
  "in_create": 1,
  "links": [],
- "modified": "2024-03-12 09:32:40.912721",
+ "modified": "2024-07-17 07:49:21",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Elec Meter Report",

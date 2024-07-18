@@ -14,7 +14,6 @@ class ProductLength(Document):
 
 # http://erp.v16:8000/api/method/bbl_api.bbl_api.doctype.product_length.product_length.send_product_length?up_data=123
 # http://erp15.hbbbl.top:82/api/method/bbl_api.bbl_api.doctype.product_length.product_length.send_product_length
-# import bbl_api.bbl_api.doctype.product_length.product_length as pl
 @frappe.whitelist(allow_guest=True)
 def send_product_length(**data):
     data = frappe._dict(data)
@@ -71,12 +70,16 @@ def _get_list(start_time, end_time):
     product_name_set = set(product_names)
     # print_green(product_name_set)
     name_cnt = { name: product_names.count(name) for name in product_name_set}
+    name_cnt['合计'] = len(product_names)
     # _print_blue_pp(name_cnt)
     return name_cnt
 
 def _report_str(report):
-    rt_str = f'<<工件测长度日报>>\n------\n开始时间: {report.get("start_time")}\n结束时间: {report.get("end_time")}'
+    rt_str = f'<<工件测长度日报>>\n------\n开始时间: {report.get("start_time")}\n结束时间: {report.get("end_time")}\n------'
     for name, cnt in report.get("name_cnt").items():
         rt_str += f'\n{name}: {cnt} 根'
     # rt_str += '\n------'
     return rt_str
+
+
+# import bbl_api.bbl_api.doctype.product_length.product_length as pl

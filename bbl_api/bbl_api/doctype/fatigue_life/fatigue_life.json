@@ -9,6 +9,8 @@
   "semi_product",
   "series",
   "product_type",
+  "material",
+  "heat_no",
   "for_date",
   "column_break_dfcx",
   "data_cnt",
@@ -106,10 +108,20 @@
    "fieldname": "series",
    "fieldtype": "Data",
    "label": "Series"
+  },
+  {
+   "fieldname": "material",
+   "fieldtype": "Data",
+   "label": "Material"
+  },
+  {
+   "fieldname": "heat_no",
+   "fieldtype": "Data",
+   "label": "Heat No"
   }
  ],
  "links": [],
- "modified": "2024-07-06 16:11:56",
+ "modified": "2024-07-18 08:22:26",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Fatigue Life",
