@@ -66,6 +66,7 @@ def esp(*args, **kwargs):
         add_esp_adc_base(**jsonPayload)
     elif jsonPayload.get('opType', '') == 'WATER_TEMP':
         add_new_rcl_water_temp(**jsonPayload)
+    # todo 改为 espId 中
     elif jsonPayload.get('deviceType', '') == 'EM':  # 注意这个判断放在前面，会拦截了别的处理
         parse_em_data(**jsonPayload)
     # else:

@@ -7,7 +7,7 @@ import traceback
 
 import requests
 
-from bbl_api.utils import _print_green_pp, print_blue, print_green, print_purple
+from bbl_api.utils import _print_green_pp, print_blue, print_purple
  
 class MyTCPHandler(socketserver.StreamRequestHandler):
     """
@@ -47,7 +47,7 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
 def parse_data(data):
     """ 使用struct 解析 data"""
 
-    print_purple(f"parse_data:\n{data = }")
+    print_purple(f"tcp接收数据:\n{data = }")
     parse_product_length(data)
 
 
@@ -90,7 +90,7 @@ def parse_product_length(data):
 
 def send_product_length(data):
     # print_green(f"send_product_length:{data = }")
-    _print_green_pp(data)
+    # _print_green_pp(data)
     # url = "127.0.0.1:8000/api/method/bbl_api.api.socket_server.send_fatigue_life_data"
     # url = "http://127.0.0.1:8000/api/method/frappe.ping"
     # url = "http://erp.v16:8000/api/method/bbl_api.bbl_api.doctype.product_length.product_length.send_product_length"
@@ -99,7 +99,7 @@ def send_product_length(data):
     json_data = json.dumps(data)
     response = requests.post(url, data=json_data, headers={'Content-Type': 'application/json'})
     # print_blue(f"send_product_length:{response = }")
-    print_blue(f"send_product_length:{response.json() = }")
+    print_blue(f"send_product_length ok, response:{response.json() = }")
     
 
 def is_port_in_use(port):

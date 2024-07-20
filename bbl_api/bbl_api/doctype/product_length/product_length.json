@@ -26,7 +26,7 @@
    "label": "Product Name"
   },
   {
-   "default": "now",
+   "default": "Today",
    "fieldname": "for_date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -92,7 +92,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-16 13:56:33",
+ "modified": "2024-07-19 08:32:36",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Product Length",
