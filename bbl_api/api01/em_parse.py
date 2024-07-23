@@ -86,7 +86,7 @@ def get_dtid(cmd):
 
 def parse_one_data(data_str, fmt, mom_dict, data_name):
     if len(data_str) < 8 and data_str[0] == "8":
-        data_str = "-" + data_str
+        data_str = "-" + data_str[1:]
     data_num = float(data_str) * fmt
     mom_dict[data_name] = data_num
 

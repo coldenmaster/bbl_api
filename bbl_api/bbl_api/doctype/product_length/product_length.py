@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils.data import add_to_date, now_datetime
 
-from bbl_api.utils import USERS_IDS, WxcpApp, _print_blue_pp, print_blue, print_green, send_wechat_msg_admin_site, send_wx_msg_q
+from bbl_api.utils import USERS_IDS, WxcpApp, send_wx_msg_q
 
 
 class ProductLength(Document):
