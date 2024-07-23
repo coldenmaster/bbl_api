@@ -167,10 +167,13 @@ def add_new_ip_info(**kwargs):
     newDoc.insert(ignore_permissions=True)
     frappe.db.commit()
     if (obj.opType == 'POWER_ON'):
-        msg = f'{newDoc.dev_name} 开机\n'
-        msg += f'{newDoc.ip_address}@{newDoc.ap_name}'
-        send_wechat_msg_admin_site(msg)
-    
+        key = f"iot_id:{obj.dev_name}:{obj.opType}"
+        if not frappe.cache.get(key):
+            frappe.cache.set_value(key, True, expires_in_sec=300)
+            msg = f'{newDoc.dev_name} 开机\n'
+            msg += f'{newDoc.ip_address}@{newDoc.ap_name}'
+            send_wechat_msg_admin_site(msg)
+
 
 def compare_alarm_info(upHigh, upLow, savHigh, savLow):
     msg = f"报警温度设定不成功: upHigh:{upHigh} savHigh:{savHigh} | upLow:{upLow} savLow:{savLow}"

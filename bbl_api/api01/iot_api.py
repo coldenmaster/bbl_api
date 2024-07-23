@@ -3,7 +3,7 @@ import frappe
 from frappe.utils import today, add_to_date
 from frappe.utils.data import get_timestamp, now, now_datetime
 
-from wechat_work.utils import send_str_to_admin
+# from wechat_work.utils import send_str_to_admin
 from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.iot_service import *
 from bbl_api.api01.zpl import zpl_perday
@@ -138,7 +138,7 @@ def delTemp(*args, **kwargs):
         )
     frappe.db.commit()
     msg = f"delete Rcl Water Temp <= { last_date } days, ok"
-    send_str_to_admin(msg)
+    # send_str_to_admin(msg)
     bbl_mqtt_client.publish('testtopic/2', msg)
     return msg
 
@@ -155,7 +155,7 @@ def delIpInfo(*args, **kwargs):
         )
     frappe.db.commit()
     msg = f"delete IP Info Records <= { last_date } days, ok"
-    send_str_to_admin(msg)
+    # send_str_to_admin(msg)
     return msg
 
 
