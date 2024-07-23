@@ -33,7 +33,6 @@ def daily_long():
     msg = f"scheduler daily_long(处理每日例行任务):"
     send_wechat_msg_admin_site(msg)
     em_perday()
-    daily_statistics()
     
 def daily_00_10m():
     now2 = now()
@@ -43,6 +42,12 @@ def daily_08_10m():
     msg = f"daily_08_10m: {now2}"
     send_wechat_msg_admin_site(msg)
     zpl_perday()
+
+def daily_18_00m():
+    now2 = now()
+    msg = f"daily_08_10m: {now2}"
+    send_wechat_msg_admin_site(msg)
+    daily_statistics()
     
 def weekly():
     msg = f"scheduler weekly: {now()}"

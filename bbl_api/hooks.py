@@ -203,6 +203,9 @@ scheduler_events = {
 		"10 8 * * *": [
             "bbl_api.tasks.daily_08_10m"
 		],
+		"00 18 * * *": [
+            "bbl_api.tasks.daily_18_00m"
+		],
 	},
 }
 

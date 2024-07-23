@@ -42,7 +42,8 @@ def daily_statistics(delta:int = 0):
     report_period = '日报'
     now_time = now_datetime()
     now_time = add_to_date(now_time, days=delta)
-    end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
+    # end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
+    end_time = now_time
     start_time = add_to_date(end_time, days=-1)
     name_cnt = _get_list(start_time, end_time)
     report = {
