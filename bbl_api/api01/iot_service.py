@@ -168,7 +168,7 @@ def add_new_ip_info(**kwargs):
     frappe.db.commit()
     if (obj.opType == 'POWER_ON'):
         key = f"iot_id:{obj.dev_name}:{obj.opType}"
-        if not frappe.cache.get(key):
+        if not frappe.cache.get_value(key):
             frappe.cache.set_value(key, True, expires_in_sec=300)
             msg = f'{newDoc.dev_name} 开机\n'
             msg += f'{newDoc.ip_address}@{newDoc.ap_name}'
