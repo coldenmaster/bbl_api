@@ -1,4 +1,5 @@
 
+from bbl_app.machine_shop.doctype.product_scan.product_scan import product_qrcode_daily_statistics
 from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.zpl import zpl_perday
 from bbl_api.bbl_api.doctype.fatigue_life.fatigue_life import alarm_demon
@@ -27,27 +28,27 @@ def daily():
     # em_perday()
     # msg = f"scheduler daily: {now()} "
     # send_wechat_msg_admin_site(msg)
+    em_perday()
     pass
         
 def daily_long():
-    msg = f"scheduler daily_long(处理每日例行任务):"
-    send_wechat_msg_admin_site(msg)
-    em_perday()
+    # msg = f"scheduler daily_long(处理每日例行任务):"
+    # send_wechat_msg_admin_site(msg)
+    pass
     
 def daily_00_10m():
     now2 = now()
 
 def daily_08_10m():
-    now2 = now()
-    msg = f"daily_08_10m: {now2}"
+    msg = f"daily_08_10m: {now()}"
     send_wechat_msg_admin_site(msg)
     zpl_perday()
 
 def daily_18_00m():
-    now2 = now()
-    msg = f"daily_08_10m: {now2}"
+    msg = f"daily_08_10m: {now()}"
     send_wechat_msg_admin_site(msg)
     daily_statistics()
+    product_qrcode_daily_statistics()
     
 def weekly():
     msg = f"scheduler weekly: {now()}"
@@ -60,13 +61,17 @@ def weekly_long():
 def monthly():
     # em_permonth()
     msg = f"scheduler monthly: {now()} "
-    send_wechat_msg_admin_site(msg)
+    # send_wechat_msg_admin_site(msg)
         
 def monthly_long():
     msg = f"scheduler long: {now()} "
+    # send_wechat_msg_admin_site(msg)
+
+def monthly_1_00_30m():
+    msg = f"monthly_1_00_30m: {now()}"
     send_wechat_msg_admin_site(msg)
     em_permonth()
-    
+
 def minute_per5():
     # msg = f"scheduler: {now()} minute_per5"
     # send_wechat_msg_admin_site(msg)

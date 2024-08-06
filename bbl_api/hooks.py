@@ -21,11 +21,11 @@ app_license = "MIT"
 
 sounds = [
 	{"name": "email", "src": "/assets/frappe/sounds/email.mp3", "volume": 0.8},
-	{"name": "submit", "src": "/assets/frappe/sounds/submit.mp3", "volume": 0.8},
+	{"name": "submit", "src": "/assets/frappe/sounds/submit.mp3", "volume": 0.9},
 	{"name": "cancel", "src": "/assets/frappe/sounds/cancel.mp3", "volume": 0.8},
 	{"name": "delete", "src": "/assets/frappe/sounds/delete.mp3", "volume": 0.75},
 	{"name": "click", "src": "/assets/frappe/sounds/click.mp3", "volume": 0.75},
-	{"name": "error", "src": "/assets/frappe/sounds/error.mp3", "volume": 0.8},
+	{"name": "error", "src": "/assets/frappe/sounds/error.mp3", "volume": 1},
 	{"name": "alert", "src": "/assets/frappe/sounds/alert.mp3", "volume": 0.9},
 	# {"name": "chime", "src": "/assets/frappe/sounds/chime.mp3"},
 ]
@@ -206,6 +206,10 @@ scheduler_events = {
 		"00 18 * * *": [
             "bbl_api.tasks.daily_18_00m"
 		],
+        # 每月1号00:30
+		"30 0 1 * *": [
+            "bbl_api.tasks.monthly_1_00_30m"
+        ],
 	},
 }
 

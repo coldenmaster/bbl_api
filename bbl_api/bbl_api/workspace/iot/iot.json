@@ -1,0 +1,118 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"5RKDRJJG8R\",\"type\":\"header\",\"data\":{\"text\":\"<span style=\\\"font-size: 18px; letter-spacing: 0.18px;\\\"><b>\u6e29\u5ea6\u91c7\u96c6</b></span>\",\"col\":12}},{\"id\":\"tLEVa9RCK8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Rcl Water Temp\",\"col\":3}},{\"id\":\"NxE8QoBdr8\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Iot Device\",\"col\":3}},{\"id\":\"5s5wNl73MJ\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Ip Info\",\"col\":3}},{\"id\":\"lgw7ia64_I\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"knLNuzbfMf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u7535\u8868\u6570\u636e</b></span>\",\"col\":12}},{\"id\":\"GKdtxzC4t9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u7535\u8868\u5b9e\u65f6\u6570\u636e\",\"col\":3}},{\"id\":\"jK4Dmd250n\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u7535\u8868\u62a5\u544a\",\"col\":3}},{\"id\":\"-kRscEjVK3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"z9GnCBlHpS\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>ADC\u6a21\u62df\u91cf\u8f6c\u6362</b></span>\",\"col\":12}},{\"id\":\"yaFzSJ8uAF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Esp Adc Base\",\"col\":3}},{\"id\":\"lWBlOkl1Rm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"\u4e2d\u9891\u7089\u6d4b\u6e29\",\"col\":3}},{\"id\":\"bNiz0d9z78\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CpwdWL5wNQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u57fa\u7840\u6570\u636e</b></span>\",\"col\":12}},{\"id\":\"ejBNEMuq4Y\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Device Type\",\"col\":3}},{\"id\":\"j3R03XXMvV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Report Period\",\"col\":3}},{\"id\":\"hLqsqY2A7W\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"1oQQ2Wsh_W\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u5176\u5b83\u8bb0\u5f55</b></span>\",\"col\":12}},{\"id\":\"vr9zty7RQG\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bbl Location\",\"col\":3}},{\"id\":\"cbvv46zfvP\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bbl Location Point\",\"col\":3}}]",
+ "creation": "2024-01-19 16:29:50.777337",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "color-review-points",
+ "idx": 0,
+ "indicator_color": "",
+ "is_hidden": 0,
+ "label": "Iot",
+ "links": [],
+ "modified": "2024-08-01 22:17:38",
+ "modified_by": "Administrator",
+ "module": "Bbl Api",
+ "name": "Iot",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 46.0,
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Report Period",
+   "link_to": "Report Period",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Esp Adc Base",
+   "link_to": "Esp Adc Base",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Device Type",
+   "link_to": "Device Type",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Rcl Water Temp",
+   "link_to": "Rcl Water Temp",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "Report Builder",
+   "label": "\u7535\u8868\u62a5\u544a",
+   "link_to": "Elec Meter Report",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "\u4e2d\u9891\u7089\u6d4b\u6e29",
+   "link_to": "Esp Adc Base",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Bbl Location",
+   "link_to": "Bbl Location",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Bbl Location Point",
+   "link_to": "Bbl Location Point",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "Report Builder",
+   "label": "\u7535\u8868\u5b9e\u65f6\u6570\u636e",
+   "link_to": "Elec Meter RT",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Iot Device",
+   "link_to": "Iot Device",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Ip Info",
+   "link_to": "IP Info",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Iot"
+}

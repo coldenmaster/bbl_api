@@ -76,7 +76,7 @@ def _get_list(start_time, end_time):
     return name_cnt
 
 def _report_str(report):
-    rt_str = f'<<工件测长度日报>>\n------\n开始时间: {report.get("start_time")}\n结束时间: {report.get("end_time")}\n------'
+    rt_str = f'<<工件测长度日报>>\n------\n开始时间: {report.get("start_time").strftime("%Y-%m-%d %H:%M:%S")}\n结束时间: {report.get("end_time").strftime("%Y-%m-%d %H:%M:%S")}\n------'
     for name, cnt in report.get("name_cnt").items():
         rt_str += f'\n{name}: {cnt} 根'
     # rt_str += '\n------'
