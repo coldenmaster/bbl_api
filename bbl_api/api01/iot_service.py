@@ -1,6 +1,6 @@
 
 from frappe.utils import today, add_to_date
-from frappe.utils.data import get_timestamp, now, now_datetime
+from frappe.utils.data import cint, get_timestamp, now, now_datetime
 
 from bbl_api.api01.em_parse import correct_em_data, parse_em_mqtt_str
 from bbl_api.utils import *
@@ -26,8 +26,8 @@ def parse_em_data(**kwargs):
         frappe.db.commit()
     
     # 取得电压比，电流比
-    tv = int(dev_doc.value_one) if dev_doc.value_one.isdigit() else 1
-    tc = int(dev_doc.value_two) if dev_doc.value_two.isdigit() else 1
+    tv = cint(dev_doc.value_one) if cint(dev_doc.value_one) else 1
+    tc = cint(dev_doc.value_two) if cint(dev_doc.value_two) else 1
     # print("tv, tc", tv, tc)
     correct_em_data(em_obj, tv, tc)
 

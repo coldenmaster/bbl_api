@@ -140,21 +140,23 @@ def msg_ok(msg):
 def correct_em_data(em_obj, tv, tc):
     try:
         pw = tv * tc
-        em_obj.et = em_obj.et * pw / 1000
-        em_obj.et1 = em_obj.et1 * pw / 1000
-        em_obj.et2 = em_obj.et2 * pw / 1000
-        em_obj.et3 = em_obj.et3 * pw / 1000
-        em_obj.et4 = em_obj.et4 * pw / 1000
-        em_obj.pt = em_obj.pt * pw 
-        em_obj.pa = em_obj.pa * pw
-        em_obj.pc = em_obj.pc * pw
-        em_obj.ua = em_obj.ua * tv
-        em_obj.uc = em_obj.uc * tv
-        em_obj.ia = em_obj.ia * tc
-        em_obj.ic = em_obj.ic * tc
+        em_obj.et = em_obj.get("et", 0) * pw / 1000
+        em_obj.et1 = em_obj.get("et1", 0) * pw / 1000
+        em_obj.et2 = em_obj.get("et2", 0) * pw / 1000
+        em_obj.et3 = em_obj.get("et3", 0) * pw / 1000
+        em_obj.et4 = em_obj.get("et4", 0) * pw / 1000
+        em_obj.pt = em_obj.get("pt", 0) * pw 
+        em_obj.pa = em_obj.get("pa", 0) * pw
+        em_obj.pc = em_obj.get("pc", 0) * pw
+        em_obj.ua = em_obj.get("ua", 0) * tv
+        em_obj.uc = em_obj.get("uc", 0) * tv
+        em_obj.ia = em_obj.get("ia", 0) * tc
+        em_obj.ic = em_obj.get("ic", 0) * tc
         return True
-    except:
+    except Exception as e:
         print_red(f"Error in correct_em_data: {em_obj}")
+        print_red(f"Exception: {e}")
+        # frappe.traceback()
         return False
     
     
