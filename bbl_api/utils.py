@@ -94,6 +94,7 @@ class WxcpGroupTag(Enum):
     RAW_MATERIAL = 8
     TEST_TAG = 9
     PRODUCT_QTY = 10
+    SEMI_PRODUCT_OPERATE = 11
     
 class WxcpApp(Enum):
     ELEC_METER = 'EM_APP'
@@ -113,6 +114,10 @@ USERS_IDS = {
     'fatigue_life': ['wangtao', 'mayanbing', 'shijie','xingxing', 'buyiyangdehuo',],
     'product_length': ['wangtao', 'mayanbing', 'shijie','yizhiyu', 'weili',],
     'product_scan_code': ['wangtao', 'mayanbing', 'shijie', 'cp'],
+    'semi_product_operate': ['wangtao', 'mayanbing', 'shijie', 'cp',
+                             'LiuQiQi', 'HongTaiLang', 'yujinping',
+                             'xiezequan','XiaBeiZiDeChengNuo', 'ai-nian19'],
+                            #  'xiezequan','XiaBeiZiDeChengNuo', 'ai-nian19', 'zhanggui'],
     'admins': ['wangtao', ],
     'other': ['cp', 'shicong', '','',]
 }
