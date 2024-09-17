@@ -3,6 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils.data import cint
 
 from bbl_api.utils import USERS_IDS, WxcpApp, send_wx_msg_q
 
@@ -19,6 +20,7 @@ class FatigueLife(Document):
 # http://erp.v16:8000/api/method/bbl_api.bbl_api.doctype.fatigue_life.fatigue_life.send_fatigue_life?up_data=123
 # http://erp15.hbbbl.top:82/api/method/bbl_api.bbl_api.doctype.fatigue_life.fatigue_life.send_fatigue_life
 # import bbl_api.bbl_api.doctype.fatigue_life.fatigue_life as fl
+# fl.send_fatigue_life(**fl.data)
 @frappe.whitelist(allow_guest=True)
 def send_fatigue_life(**data):
     data = frappe._dict(data)
@@ -30,11 +32,11 @@ def send_fatigue_life(**data):
     })
     new_doc = frappe.get_doc(data)
     last_doc = frappe.get_last_doc('Fatigue Life')
-    if last_doc and last_doc.counter == new_doc.counter:
+    if last_doc and last_doc.counter == cint(new_doc.counter):
         if not frappe.cache.get_value('fatigue_life_alarm_flag', False):
             frappe.cache.set_value('fatigue_life_alarm_flag', True)
             send_wx_msg_q(f'试验停止，\n最后计数:{last_doc.counter}', app_name=WxcpApp.BI.value, user_ids=USERS_IDS.get('fatigue_life', ''))
-            return
+        return
     
     frappe.cache.set_value('fatigue_life_alarm_flag', False)
     new_doc.insert(ignore_permissions=True)

@@ -20,7 +20,7 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
     
     def handle(self):
         time_out = 30
-        print(f"MyTCPHandler handle: set {time_out = }s")
+        print(f"\nMyTCPHandler handle: set {time_out = }s")
         self.request.settimeout(time_out)
         # self.request is the TCP socket connected to the client
         dt = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -31,8 +31,8 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
             parse_data(self.data)
             # just send back the same data, but upper-cased
             # self.request.sendall(self.data.upper())
-            self.request.sendall(self.data)
-            # self.request.sendall(b'tcp recv ok!')
+            # self.request.sendall(self.data)
+            self.request.sendall(b'tcp recv ok!')
         except Exception as e:
             print_purple("[{}] [{}:{}]连接超时:{}".format(dt, self.client_address[0], self.client_address[1],e))
             self.finish()
@@ -47,12 +47,12 @@ class MyTCPHandler(socketserver.StreamRequestHandler):
 def parse_data(data):
     """ 使用struct 解析 data"""
 
-    print_purple(f"tcp接收数据:\n{data = }")
+    # print_purple(f"tcp接收数据:\n{data = }")
     parse_product_length(data)
 
 
 def parse_product_length(data):
-    print_blue(f'{len(data) = }, if len < 100, return')
+    # print_blue(f'{len(data) = }, if len < 100, return')
     if len(data) < 100:
         return
     try:
