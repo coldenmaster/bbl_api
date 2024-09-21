@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 import frappe
-from frappe.utils.data import DATE_FORMAT, now
+# from frappe.utils.data import DATE_FORMAT
 import wechat_work
 import wechat_work.utils
 
@@ -124,7 +124,7 @@ USERS_IDS = {
 
 def msg_end():
     site = frappe.local.site if frappe.local.site != 'frontend' else ''
-    return f'\n------\n{now()}\n{site}'
+    return f'\n------\n{bbl_now()}\n{site}'
 
 # 送到 管理员
 def send_wechat_msg_admin_site(msg):
