@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils.data import add_to_date, now_datetime
 
-from bbl_api.utils import print_blue, print_blue_pp, print_green_pp, print_red, send_wechat_msg_admin_site, send_wechat_msg_em_app
+from bbl_api.utils import WT_DATETIME_FORMAT, print_blue, print_blue_pp, print_green_pp, print_red, send_wechat_msg_admin_site, send_wechat_msg_em_app
 # from bbl_api.utils import *
 
 
@@ -155,7 +155,6 @@ def correct_em_data(em_obj, tv, tc):
         return True
     except Exception as e:
         print_red(f"Error in correct_em_data: {em_obj}")
-        print_red(f"Exception: {e}")
         # frappe.traceback()
         return False
     
@@ -169,7 +168,7 @@ def em_perday(delta:int = 0):
     end_time = now_time.replace(hour=0, minute=0, second=0, microsecond=0)
     start_time = add_to_date(end_time, days=-1)
     msg = f"电表日报\nstart_time:{start_time}\n end_time: {end_time}"
-    print_blue(msg)
+    # print_blue(msg)
     # send_wechat_msg_admin_site(msg)
     
     # 获取电表列表
@@ -179,7 +178,7 @@ def em_perday(delta:int = 0):
     wx_msg = f'<< 用电量报告-{report_type} >>\n'
     for em_name in li:
         wx_msg += em_calc(doc, report_type, em_name, start_time, end_time)
-    print_green_pp(wx_msg)
+    # print_green_pp(wx_msg)
     send_wechat_msg_em_app(wx_msg)
 
 def em_permonth(delta:int = 0):
@@ -196,7 +195,7 @@ def em_permonth(delta:int = 0):
     wx_msg = f'<< 用电量报告-{report_type} >>\n'
     for em_name in li:
         wx_msg += em_calc_mon(report_type, em_name, start_time, end_time)
-    print_green_pp(wx_msg)
+    # print_green_pp(wx_msg)
     send_wechat_msg_em_app(wx_msg)
 
 def em_list(doc, start_time, end_time):
@@ -207,7 +206,7 @@ def em_list(doc, start_time, end_time):
                     pluck = 'em_name',
                     distinct = True,
                     ignore_ifnull = True)
-    print_blue_pp(li)
+    # print_blue_pp(li)
     return li
 
 def em_calc(doc, report_type, em_name, start_time, end_time):
@@ -238,13 +237,11 @@ def em_calc_mon(report_type, em_name, start_time, end_time):
     
 def em_mk_report(em_name, report_type, li):
     # print_blue_pp(li)
-    print_red(f'{em_name} list cnt: {len(li)}')
+    # print_red(f'{em_name} list cnt: {len(li)}')
     if not li:
         return
     doc_first = li[0]
     doc_last = li[-1]
-    # print_blue_pp(doc_first)
-    # print_blue_pp(doc_last)
     em_et_sub(doc_last, doc_first)
     doc_last.pt = max(em.pt for em in li)
     doc_last.pa = max(em.pa for em in li)
@@ -255,8 +252,8 @@ def em_mk_report(em_name, report_type, li):
     # doc_last.for_date = doc_last.modified
     
     wx_msg = f'------\n设备名称: {em_name}\n'
-    wx_msg += f'开始时间: {doc_first.for_date}\n'
-    wx_msg += f'结束时间: {doc_last.for_date}\n'
+    wx_msg += f'开始时间: {doc_first.for_date.strftime(WT_DATETIME_FORMAT)}\n'
+    wx_msg += f'结束时间: {doc_last.for_date.strftime(WT_DATETIME_FORMAT)}\n'
     wx_msg += f'电表读数: {doc_last.et}\n'
     wx_msg += f' 用电量 : {doc_last.et_sub:>.3f} 千度\n'
     wx_msg += f'最大功率: {doc_last.pt} Kw\n'

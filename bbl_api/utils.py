@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 
 import frappe
-# from frappe.utils.data import DATE_FORMAT
+from frappe.utils.data import now_datetime, DATE_FORMAT
 import wechat_work
 import wechat_work.utils
 
@@ -176,12 +176,15 @@ def send_wx_msg_q(msg, now=False, app_name='TEST_APP', tag_ids='', party_ids='',
 
 
 
-# 其它工具
+""" 其它工具 """
 
-_TIME_FORMAT = "%H:%M:%S"
+WT_TIME_FORMAT = '%H:%M:%S'
+WT_DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
 def bbl_now() -> str:
     # return now_datetime().strftime(DATE_FORMAT + _TIME_FORMAT)
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S") # 脱离 frappe
+    # return datetime.now().strftime("%Y-%m-%d %H:%M:%S") # 脱离 frappe, 得到格林威治时间
+    return now_datetime().strftime(WT_DATETIME_FORMAT)
 
 # frappe.utils 内已经有了(first_name + last_name), 我这个是直接取full_name
 def get_fullname(user_id:str = None):

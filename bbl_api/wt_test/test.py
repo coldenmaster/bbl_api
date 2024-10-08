@@ -177,3 +177,17 @@ def t8():
 #     for em_name in li:
 #         em_calc(doc, report_type, em_name, start_time, end_time)
 
+
+def t9():
+    print_red('t9() start')
+    last_doc = frappe.get_last_doc('Elec Meter RT')
+    print_blue_kv('last_doc: ', f'{last_doc}')
+    print(last_doc.for_date)
+    print(type(last_doc.for_date))
+    print(last_doc.for_date.strftime(WT_DATETIME_FORMAT))
+    print_red('t9() end')
+
+""" 
+from bbl_api.wt_test.test import t9
+
+ """
