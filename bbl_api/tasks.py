@@ -15,11 +15,12 @@ def all():
     
     
 def hourly():
-    msg = f"scheduler hourly(网站每小时tick):"
+    # msg = f"scheduler hourly(网站每小时tick):"
     send_wechat_msg_admin_site(msg)
     pass
         
 def hourly_long():
+    # no this
     # msg = f"scheduler: {now()} hourly"
     # send_str_to_admin(msg)
     pass
@@ -101,6 +102,8 @@ def yearly():
     msg = f"scheduler yearly: {now()}"
     send_wechat_msg_admin_site(msg)
 
+""" debug
+import bbl_api.tasks as tasks
 
-# import bbl_api.tasks as tasks
+ """
     

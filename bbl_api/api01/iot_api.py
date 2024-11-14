@@ -84,6 +84,7 @@ def esp(*args, **kwargs):
     
     
 # http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.pad_em_day?delta=-1
+# http://erp15.hbbbl.top:82/api/method/bbl_api.api01.iot_api.pad_em_day?delta=-1
 @frappe.whitelist(allow_guest=True)
 def pad_em_day(*args, **kwargs):
     """

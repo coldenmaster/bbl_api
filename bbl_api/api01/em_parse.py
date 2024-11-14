@@ -1,7 +1,7 @@
 import frappe
 from frappe.utils.data import add_to_date, now_datetime
 
-from bbl_api.utils import WT_DATETIME_FORMAT, print_blue, print_blue_pp, print_green_pp, print_red, send_wechat_msg_admin_site, send_wechat_msg_em_app
+from bbl_api.utils import WT_DATETIME_FORMAT, print_red, send_wechat_msg_admin_site, send_wechat_msg_em_app
 # from bbl_api.utils import *
 
 
