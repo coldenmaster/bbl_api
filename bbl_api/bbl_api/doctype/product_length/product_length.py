@@ -18,6 +18,12 @@ class ProductLength(Document):
 def send_product_length(**data):
     data = frappe._dict(data)
     # print_green(f'{data=}')
+    error_length = data.get('error_length')
+    # 转成数字，并且取绝对值
+    error_length = abs(float(error_length))
+    if error_length > 50:
+        return '长度误差大于50mm,不记录'
+    
     data.update({
         'doctype': 'Product Length',
     })

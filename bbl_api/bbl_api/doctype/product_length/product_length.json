@@ -15,7 +15,8 @@
   "sample_length",
   "standard_length",
   "standard_error_minus",
-  "standard_error_plus"
+  "standard_error_plus",
+  "is_used"
  ],
  "fields": [
   {
@@ -38,7 +39,7 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Product Length",
-   "precision": "3"
+   "precision": "1"
   },
   {
    "fieldname": "batch_production",
@@ -59,40 +60,51 @@
   {
    "fieldname": "sample_length",
    "fieldtype": "Float",
-   "label": "Sample Length"
+   "label": "Sample Length",
+   "precision": "1"
   },
   {
    "fieldname": "standard_length",
    "fieldtype": "Float",
-   "label": "Standard Length"
+   "label": "Standard Length",
+   "precision": "1"
   },
   {
    "fieldname": "standard_error_minus",
    "fieldtype": "Float",
-   "label": "Standard Error Minus"
+   "label": "Standard Error Minus",
+   "precision": "1"
   },
   {
    "fieldname": "standard_error_plus",
    "fieldtype": "Float",
-   "label": "Standard Error Plus"
+   "label": "Standard Error Plus",
+   "precision": "1"
   },
   {
    "fieldname": "error_length",
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Error Length",
-   "precision": "3"
+   "precision": "1"
   },
   {
    "default": "now",
    "fieldname": "for_datetime",
    "fieldtype": "Datetime",
    "label": "For Datetime"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_used",
+   "fieldtype": "Check",
+   "label": "Is Used",
+   "no_copy": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-19 08:32:36",
+ "modified": "2025-01-26 15:01:03.582544",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Product Length",
