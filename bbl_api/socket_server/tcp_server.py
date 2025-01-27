@@ -75,8 +75,8 @@ def parse_product_length(data):
 
         send_product_length({
             "product_name": product_name,
-            "sample_length": data_li[0]/1000,
-            "standard_length": data_li[1]/1000,
+            "standard_length": data_li[0]/1000,
+            "sample_length": data_li[1]/1000,
             "standard_error_plus": data_li[2]/1000,
             "standard_error_minus": data_li[3]/1000,
             "product_length": data_li[4]/1000,

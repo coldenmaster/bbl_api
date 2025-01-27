@@ -1,5 +1,7 @@
 
+from bbl_app.bbl_app.doctype.employee_yield.employee_yield import save_fpm_yield_for_date
 from bbl_app.machine_shop.doctype.product_scan.product_scan import product_qrcode_daily_statistics
+from bbl_app.raw_material_manage.doctype.raw_balance.raw_balance import make_raw_material_balance
 from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.zpl import zpl_perday
 from bbl_api.bbl_api.doctype.fatigue_life.fatigue_life import alarm_demon
@@ -44,6 +46,8 @@ def daily_08_10m():
     msg = f"daily_08_10m: {now()}"
     send_wechat_msg_admin_site(msg)
     zpl_perday()
+    save_fpm_yield_for_date()
+
 
 def daily_18_00m():
     msg = f"daily_08_10m: {now()}"
@@ -66,6 +70,7 @@ def monthly():
         
 def monthly_long():
     msg = f"scheduler long: {now()} "
+    make_raw_material_balance()
     # send_wechat_msg_admin_site(msg)
 
 def monthly_1_00_30m():
