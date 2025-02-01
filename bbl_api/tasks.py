@@ -1,5 +1,4 @@
 
-from bbl_app.bbl_app.doctype.employee_yield.employee_yield import save_fpm_yield_for_date
 from bbl_app.machine_shop.doctype.product_scan.product_scan import product_qrcode_daily_statistics
 from bbl_app.raw_material_manage.doctype.raw_balance.raw_balance import make_raw_material_balance
 from bbl_api.api01.em_parse import em_perday, em_permonth
@@ -18,7 +17,7 @@ def all():
     
 def hourly():
     # msg = f"scheduler hourly(网站每小时tick):"
-    send_wechat_msg_admin_site(msg)
+    # send_wechat_msg_admin_site(msg)
     pass
         
 def hourly_long():
@@ -46,7 +45,6 @@ def daily_08_10m():
     msg = f"daily_08_10m: {now()}"
     send_wechat_msg_admin_site(msg)
     zpl_perday()
-    save_fpm_yield_for_date()
 
 
 def daily_18_00m():
