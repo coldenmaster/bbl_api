@@ -12,7 +12,8 @@ Device Type,设备类型,
 Documentation,在线文档,
 
 Frappe Support,Frappe支持,
-IP Info,IP 信息,
+IP Info,IP 信息 info,
+Iot Info,物联网信息,
 Iot Device,物联网设备,
 Iot Id,物联网ID,
 Iot Name,物联网名称,
@@ -107,6 +108,11 @@ Target Top,最高值,
 Target Bottom,最低值,
 Target Count,处理次数,
 Out Interval,出料间隔,
+
+
+
+
+
 
 
 X Field,X轴字段
@@ -17852,5 +17858,4 @@ Next,下一个
 Close,关闭
 Let's take you back to onboarding,返回模块初始化
 Graph,图表
-Graph2,图表2
 Update Settings,更新设置,
