@@ -1,6 +1,6 @@
 
 from frappe.utils import today, add_to_date
-from frappe.utils.data import cint, get_timestamp, now, now_datetime
+from frappe.utils.data import cint, now
 
 from bbl_api.api01.em_parse import correct_em_data, parse_em_mqtt_str
 from bbl_api.utils import *
@@ -59,36 +59,59 @@ def add_new_rcl_water_temp(**kwargs):
     deviceName = devDoc.device_name or "espNew"
     # print_yellow(f'deviceName:{deviceName}')
     
+    # 处理空气压力检测
     if deviceName != "espNew":
-        if compare_alarm_info(obj.tempHigh, obj.tempLow, devDoc.alarm_val_one, devDoc.alarm_val_two):
+        alarm_high = obj.tempHigh or obj.valueHigh or 0
+        alarm_low = obj.tempLow or obj.valueLow or 0
+        if compare_alarm_info(alarm_high, alarm_low, devDoc.alarm_val_one, devDoc.alarm_val_two):
             """ 这里把esp卡上的设置温度保存到数据库，为了和esp上设置简单的同步
                 todo 这样会造成服务器上设置不失效，应该改为esp卡上修改报警温度时发送mqtt信息
             """
-            devDoc.db_set('alarm_val_one', obj.tempHigh)
-            devDoc.db_set('alarm_val_two', obj.tempLow)
+            devDoc.db_set('alarm_val_one', alarm_high)
+            devDoc.db_set('alarm_val_two', alarm_low)
             # print_red('保存esp上传的温度报警')
-    
-    newDoc = frappe.get_doc(
-        {
-            "doctype": "Rcl Water Temp",
-            "esp_name": obj.deviceId,
-            "dev_name": deviceName,
-            # "dev_type": obj.deviceType,
-            "temperature": obj.tempFloat,
-            "query_count": obj.queryCnt,
-            "query_failed": obj.queryFailed,
-            "update_count": obj.updateCnt,
-            "update_failed": obj.updateFailed,
-            "start_long": obj.timestamp,
-            # 插入数据库时会被更改
-            # "creation": time.strftime("%Y-%m-%d %H:%M:%S", timeArray),
-            # "modified": time.strftime("%Y-%m-%d %H:%M:%S", timeArray),
-        }
-    )
+    if obj.deviceType == 'CompAir': 
+        newDoc = process_comp_air(obj, deviceName)
+    # 处理水温检测
+    else:
+        newDoc = frappe.get_doc(
+            {
+                "doctype": "Rcl Water Temp",
+                "esp_name": obj.deviceId or obj.espId,
+                "dev_name": deviceName,
+                # "dev_type": obj.deviceType,
+                "temperature": obj.tempFloat,
+                "query_count": obj.queryCnt,
+                "query_failed": obj.queryFailed,
+                "update_count": obj.updateCnt,
+                "update_failed": obj.updateFailed,
+                "start_long": obj.timestamp,
+                # 插入数据库时会被更改
+                # "creation": time.strftime("%Y-%m-%d %H:%M:%S", timeArray),
+                # "modified": time.strftime("%Y-%m-%d %H:%M:%S", timeArray),
+            }
+        )
     newDoc.insert(ignore_permissions=True)
     frappe.db.commit()
-    
-    
+
+def process_comp_air(obj, deviceName="未知CompAirDev"):
+    new_doc = frappe.get_doc({
+        "doctype": "Rcl Water Temp",
+        "esp_name": obj.deviceId or obj.espId,
+        "dev_name": deviceName,
+        "dev_type": obj.deviceType,
+        "temperature": obj.pressure,
+        "query_count": obj.queryCnt,
+        "query_failed": obj.queryFailed,
+        "update_count": obj.updateCnt,
+        "update_failed": obj.updateFailed,
+        "start_long": obj.timestamp,
+        # 插入数据库时会被更改
+        # "creation": time.strftime("%Y-%m-%d %H:%M:%S", timeArray),
+        # "modified": time.strftime("%Y-%m-%d %H:%M:%S", timeArray),
+    })
+    return new_doc
+
 def add_esp_adc_base(**kwargs):
     obj = frappe._dict(kwargs)
     # print_red(f"进入中频炉测温处理 {obj.get('espWho')=}")
@@ -185,3 +208,8 @@ def compare_alarm_info(upHigh, upLow, savHigh, savLow):
         return True
     return False
     
+""" 
+导入此模块
+import bbl_api.api01.iot_service as iot_service
+import bbl_api.api01.iot_api as iot_api
+ """

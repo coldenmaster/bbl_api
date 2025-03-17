@@ -17,6 +17,11 @@ app_license = "MIT"
 # mqtt_register()
 
 # Includes in <head>
+
+# on_session_creation = "bbl_api.startup.boot.on_session_creation"
+extend_bootinfo = "bbl_api.startup.boot.boot_session"
+# boot_session = "bbl_api.startup.boot.login_boot_session"
+# get_translated_dict = "bbl_api.startup.boot.get_translated_dict"
 # ------------------
 
 sounds = [

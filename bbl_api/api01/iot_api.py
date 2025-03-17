@@ -8,8 +8,12 @@ from bbl_api.api01.em_parse import em_perday, em_permonth
 from bbl_api.api01.iot_service import *
 from bbl_api.api01.zpl import zpl_perday
 from bbl_api.utils import *
+from bbl_api.utils_pure import _print_green_pp
 
 from mqtt.mqtt_rt import bbl_mqtt_client
+
+
+
 
 # frappe.utils.logger.set_log_level('DEBUG')
 logger = frappe.logger("iot")
@@ -23,6 +27,47 @@ _mqtt_esp_url = 'http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp'
 def publish(msg, topic = 'esp/in'):
     bbl_mqtt_client.publish(topic, msg)
 
+
+# http://127.0.0.1:8000/api/method/bbl_api.api01.iot_api.esp_test?p=32&i=ca01
+@frappe.whitelist(allow_guest=True)
+def esp_test(p=72, i=''):
+    topic = 'esp/r/d'
+    # topic = 'esp/in'
+    msg = {
+        "deviceType": 'CompAir',
+        "deviceId": i,
+        "pressure": cint(p),
+    }
+    bbl_mqtt_client.publish(topic, json.dumps(msg))
+    return f"esp_test mqtt send {p} ok"
+
+temp_int = 76
+add_num = 1
+def esp_test_task_5s():
+    global temp_int, add_num
+    topic = 'esp/r/d'
+    # topic = 'esp/in'
+    temp_int += add_num
+    if temp_int > 100:
+        add_num = -1
+    elif temp_int < 40:
+        add_num = 1
+    msg = {
+        "deviceType": 'CompAir',
+        "deviceId": "",
+        "pressure": temp_int,
+    }
+    bbl_mqtt_client.publish(topic, json.dumps(msg))
+    # print_blue(f"esp_test_task_5s {temp_int}")
+
+def esp_test_cycle():
+    while(True):
+        esp_test_task_5s()
+        time.sleep(1)
+""" 
+import bbl_api.api01.iot_api as api
+iot.esp_test_cycle()
+ """
 
 
 """ 
@@ -53,7 +98,7 @@ def esp(*args, **kwargs):
     jsonPayload['timeUtc'] = timeUtc / 1000
     # jsonPayload['msgType'] = obj.topic
     # jsonPayload['opType'] = 'esp_rcl_water_temp'
-    # print_green_pp(jsonPayload)
+    # _print_green_pp(jsonPayload)
 
     devDoc = get_dev_doc(jsonPayload.get('espWho'))
     # jsonPayload['dev_type_db'] = devDoc.device_type
@@ -69,8 +114,13 @@ def esp(*args, **kwargs):
     # todo 改为 espId 中
     elif jsonPayload.get('deviceType', '') == 'EM':  # 注意这个判断放在前面，会拦截了别的处理
         parse_em_data(**jsonPayload)
-    # else:
-    #     print_red("no match mqtt route.")
+    elif jsonPayload.get('deviceType', '') == 'CompAir':  
+        # 暂时存入热处理水温同一个表中
+        add_new_rcl_water_temp(**jsonPayload)
+    else:
+        # print_red("no match mqtt route.需要打印mqtt数据帮助调试")
+        # _print_green_pp(jsonPayload)
+        pass
     
     # match jsonPayload['msgType']:
     #     case 'esp_rcl_water_temp':
@@ -210,6 +260,9 @@ def test(**kwargs):
 class IotError(Exception):
 	http_status_code = 419
 
+
+from bbl_api.startup.task import run_thread_task
+run_thread_task()
 
 
 """ addUser 示例 """

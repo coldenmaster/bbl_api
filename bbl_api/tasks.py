@@ -2,6 +2,7 @@
 from bbl_app.machine_shop.doctype.product_scan.product_scan import product_qrcode_daily_statistics
 from bbl_app.raw_material_manage.doctype.raw_balance.raw_balance import make_raw_material_balance
 from bbl_api.api01.em_parse import em_perday, em_permonth
+from bbl_api.api01.iot_api import esp_test_task_5s
 from bbl_api.api01.zpl import zpl_perday
 from bbl_api.bbl_api.doctype.fatigue_life.fatigue_life import alarm_demon
 from bbl_api.bbl_api.doctype.product_length.product_length import daily_statistics
@@ -12,6 +13,7 @@ from frappe.utils import now
 def all():
     # msg = f"scheduler: {now()} All"
     # send_wechat_msg_admin_site(msg)
+    # esp_test_task_5s()
     pass
     
     
@@ -76,6 +78,13 @@ def monthly_1_00_30m():
     send_wechat_msg_admin_site(msg)
     em_permonth()
 
+    
+def minutely():
+    # msg = f"scheduler minutely: {now()}"
+    # send_wechat_msg_admin_site(msg)
+    esp_test_task_5s()
+    pass
+    
 def minute_per5():
     # msg = f"scheduler: {now()} minute_per5"
     # send_wechat_msg_admin_site(msg)
@@ -91,12 +100,7 @@ def minute_30():
     # msg = f"scheduler: {now()} minute_30"
     # send_wechat_msg_admin_site(msg)
     pass
-    
-def minutely():
-    # msg = f"scheduler minutely: {now()}"
-    # send_wechat_msg_admin_site(msg)
-    pass
-    
+
 def annual():
     msg = f"scheduler annual: {now()} "
     send_wechat_msg_admin_site(msg)
@@ -105,8 +109,12 @@ def yearly():
     msg = f"scheduler yearly: {now()}"
     send_wechat_msg_admin_site(msg)
 
+
+
+
 """ debug
 import bbl_api.tasks as tasks
+tasks.sec_cycle()
 
  """
     

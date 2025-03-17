@@ -103,6 +103,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "alarm_val_one",
    "fieldtype": "Float",
    "label": "Alarm Val One",
@@ -119,6 +120,7 @@
    "label": "Value Two"
   },
   {
+   "default": "0",
    "fieldname": "alarm_val_two",
    "fieldtype": "Float",
    "label": "Alarm Val Two",
@@ -126,7 +128,7 @@
   }
  ],
  "links": [],
- "modified": "2024-06-05 10:23:28",
+ "modified": "2025-02-22 11:09:13.306142",
  "modified_by": "Administrator",
  "module": "Bbl Api",
  "name": "Iot Device",
